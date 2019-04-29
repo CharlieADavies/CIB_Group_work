@@ -51,7 +51,7 @@ class LoginScreen(tk.Frame):
         username_entry = tk.Entry(self).grid(column=2, row=2)
 
         password_label = tk.Label(self, text="Password: ", font=controller.label_font).grid(column=1, row=3)
-        password_entry = tk.Entry(self).grid(column=2, row=3)
+        password_entry = tk.Entry(self, show="*").grid(column=2, row=3)
 
         login_button = tk.Button(self, text="Login", font=controller.label_font).grid(column=2, row=4)
 

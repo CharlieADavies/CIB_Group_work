@@ -28,4 +28,4 @@ def load_db(file_path="../secrets.json"):
                    host=creds['host'])
 
 
-print(load_db())
+

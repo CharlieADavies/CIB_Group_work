@@ -20,7 +20,7 @@ class Application(tk.Tk):
         window_manager.grid_columnconfigure(0, weight=1)
 
         self.frames = {}
-        for pages in (LoginScreen, ):
+        for pages in (LoginScreen, RegistrationForm):
             page_name = pages.__name__
             frame = pages(parent=window_manager, controller=self)
             self.frames[page_name] = frame
@@ -54,6 +54,44 @@ class LoginScreen(tk.Frame):
         password_entry = tk.Entry(self, show="*").grid(column=2, row=3)
 
         login_button = tk.Button(self, text="Login", font=controller.label_font).grid(column=2, row=4)
+
+        register_button = tk.Button(self, text="Registration", command=lambda: controller.switch_frame("RegistrationForm"), font=controller.title_font).grid(column=2, row=5)
+
+
+class RegistrationForm(tk.Frame):
+    def __init__(self, parent, controller):
+        tk.Frame.__init__(self, parent)
+        self.controller = controller
+
+        title = tk.Label(self, text="Registration Form", font=controller.title_font).grid(column=3, row=1)
+
+        username_label = tk.Label(self, text="Username(Email Address): ", font=controller.label_font).grid(column=1, row=2)
+        username_entry = tk.Entry(self).grid(column=2, row=2)
+
+        password_label = tk.Label(self, text="Password: ", font=controller.label_font).grid(column=3, row=2)
+        password_entry = tk.Entry(self).grid(column=4, row=2)
+
+        first_name_label = tk.Label(self, text="First Name: ", font=controller.label_font).grid(column=1, row=3)
+        first_name_entry = tk.Entry(self).grid(column=2, row=3)
+
+        last_name_label = tk.Label(self, text="Last Name: ", font=controller.label_font).grid(column=3, row=3)
+        last_name_entry = tk.Entry(self).grid(column=4, row=3)
+
+        phone_number_label = tk.Label(self, text="Phone Number: ", font=controller.label_font).grid(column=1, row=4)
+
+        #address
+
+        #postcode
+
+        #role
+
+        #employee number
+
+        #blue badge
+
+
+
+
 
 
 if __name__ == "__main__":

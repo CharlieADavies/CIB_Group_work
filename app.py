@@ -10,7 +10,7 @@ def login():
     print("Logging user in")
     username = request.form['username']
     password = request.form['password']
-    print(username,password)
+    print(username, password)
     if not check_user(username, password):
         print("Invalid login")
         return redirect(url_for("login_page"))

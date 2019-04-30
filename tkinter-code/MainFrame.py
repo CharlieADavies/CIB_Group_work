@@ -87,10 +87,12 @@ class RegistrationForm(tk.Frame):
         password_label = tk.Label(self, text="Password: ", font=controller.label_font).grid(column=3, row=2)
         password_entry = tk.Entry(self, show="*").grid(column=4, row=2)
 
+        # TODO add confirm password field
+
         first_name_label = tk.Label(self, text="First Name: ", font=controller.label_font).grid(column=1, row=3)
         first_name_entry = tk.Entry(self).grid(column=2, row=3)
 
-        last_name_label = tk.Label(self, text="Last Name: ", font=controller.label_font).grid(column=3, row=3)
+        last_name_label = tk.Label(self, text="Surname: ", font=controller.label_font).grid(column=3, row=3)
         last_name_entry = tk.Entry(self).grid(column=4, row=3)
 
         phone_number_label = tk.Label(self, text="Phone Number: ", font=controller.label_font).grid(column=1, row=4)
@@ -107,6 +109,8 @@ class RegistrationForm(tk.Frame):
 
         post_code_label = tk.Label(self, text="Postcode: ", font=controller.label_font).grid(column=3, row=6)
         post_code_entry = tk.Entry(self).grid(column=4, row=6)
+
+        # todo discuss whether role is tied to employee number or if it's assigned by admins
 
         role_label = tk.Label(self, text="Role: ", font=controller.label_font).grid(column=1, row=7)
         role_entry = tk.Entry(self).grid(column=2, row=7)

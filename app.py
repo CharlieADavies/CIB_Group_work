@@ -17,7 +17,7 @@ def login():
 
 
 @app.route('/')
-def hello_world():
+def dashboard():
     return 'Hello World!'
 
 

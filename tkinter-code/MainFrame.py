@@ -20,7 +20,7 @@ class Application(tk.Tk):
         window_manager.grid_columnconfigure(0, weight=1)
 
         self.frames = {}
-        for pages in (LoginScreen, RegistrationForm):
+        for pages in (LoginScreen, RegistrationForm, SubmissionPage):
             page_name = pages.__name__
             frame = pages(parent=window_manager, controller=self)
             self.frames[page_name] = frame
@@ -48,15 +48,15 @@ class LoginScreen(tk.Frame):
 
         title = tk.Label(self, text="Please Login", font=controller.title_font).grid(column=2, row=1)
 
-        username_label = tk.Label(self, text="Username: ", font=controller.label_font).grid(column=1, row=2)
+        username_label = tk.Label(self, text="Username: ", font=controller.label_font, pady=5).grid(column=1, row=2)
         username_entry = tk.Entry(self).grid(column=2, row=2)
 
-        password_label = tk.Label(self, text="Password: ", font=controller.label_font).grid(column=1, row=3)
+        password_label = tk.Label(self, text="Password: ", font=controller.label_font, pady=5).grid(column=1, row=3)
         password_entry = tk.Entry(self).grid(column=2, row=3)
 
-        login_button = tk.Button(self, text="Login", font=controller.label_font).grid(column=2, row=4)
+        login_button = tk.Button(self, text="Login", font=controller.label_font, pady=15).grid(column=2, row=4)
 
-        register_button = tk.Button(self, text="Registration", command=lambda: controller.switch_frame("RegistrationForm"), font=controller.title_font).grid(column=2, row=5)
+        register_button = tk.Button(self, text="Registration", command=lambda: controller.switch_frame("RegistrationForm"), font=controller.title_font, pady=15).grid(column=2, row=5)
 
 
 class RegistrationForm(tk.Frame):
@@ -102,7 +102,27 @@ class RegistrationForm(tk.Frame):
         blue_badge_label = tk.Label(self, text="Blue Badge Holder? ", font=controller.label_font).grid(column=3, row=8)
         blue_button_button = tk.Checkbutton(self).grid(column=4, row=8)
 
-        #change
+        submit_button = tk.Button(self, text="Submit Form", command=lambda: controller.switch_frame("SubmissionPage"), font=controller.title_font).grid(column=4, row=9)
+
+
+class SubmissionPage(tk.Frame):
+
+    def __init__(self, parent, controller):
+        tk.Frame.__init__(self, parent)
+        self.controller = controller
+
+        title = tk.Label(self, text="Thank you for registering, \nyour form will be reviewed, \nwe will get back to you shortly", font=controller.title_font, pady=30).pack()
+        back_button = tk.Button(self, text="Return to login page", command=lambda: controller.switch_frame("LoginScreen"), font=controller.title_font).pack()
+
+
+class Dashboard(tk.Frame):
+
+    def __init__(self, parent, controller):
+        tk.Frame.__init__(self, parent)
+        self.controller = controller
+
+
+
 
 
 if __name__ == "__main__":

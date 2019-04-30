@@ -1,6 +1,7 @@
 from flask import Flask, request, redirect, url_for, render_template, session
+
+from utils.db_func import *
 from utils.passwords import check_user
-from utils.db_func import *  # add_vehicle
 
 app = Flask(__name__)
 app.secret_key = "secret-key"
@@ -31,11 +32,14 @@ def process_vehicle_form():
     is_electric = request.form['electric']
     reg = request.form['reg']
     badge = request.form['blue_badge']
+    if insert_vehicle(username, is_electric, reg, badge):
+        return redirect(url_for("dashboard_page"))
+    else:
+        return redirect(url_for("vehicle_form"))
 
 
 @app.route('/')
 def dashboard_page():
-
     main_markup = """
     <div class="panel panel--booking">
         <h2>Bookings</h2>

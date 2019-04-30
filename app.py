@@ -12,13 +12,16 @@ def login():
     password = request.form['password']
     print(username,password)
     if not check_user(username, password):
-        return redirect(url_for('invalid_login'))
-    return redirect(url_for('home'))
+        print("Invalid login")
+        return redirect(url_for("login_page"))
+    session['username'] = username
+    return redirect(url_for('dashboard'))
 
 
 @app.route('/')
 def dashboard():
     if "username" in session.keys():
+        print(session)
         render_template("main.html")
 
 

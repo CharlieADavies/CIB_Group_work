@@ -12,7 +12,7 @@ CREATE TABLE users (
     is_blue_badge tinyint(1),
     salt VARCHAR(45),
     PRIMARY KEY (username),
-    FOREIGN KEY (badge) REFERENCES park_and_ride(badge)
+    FOREIGN KEY (badge) REFERENCES badge_colours(badge)
 );
 
 create table vehicles (

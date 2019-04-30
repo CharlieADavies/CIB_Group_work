@@ -10,7 +10,7 @@ def login():
     print("Logging user in")
     username = request.form['username']
     password = request.form['password']
-    print(username,password)
+    print(username, password)
     if not check_user(username, password):
         print("Invalid login")
         return redirect(url_for("login_page"))
@@ -20,13 +20,14 @@ def login():
 
 @app.route('/')
 def dashboard():
-    print(session)
-    return 'Hello World!'
+    if "username" in session.keys():
+        print(session)
+        render_template("main.html")
 
 
 @app.route('/login')
 def login_page():
-    return render_template("login.html")
+    return render_template("gate.html")
 
 
 if __name__ == '__main__':

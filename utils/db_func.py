@@ -2,20 +2,19 @@
 database functionality common to both flask and tkinter
 """
 import mysql
+import utils.db_init
 
 
-
-import mysql.connector
-from mysql.connector import Error
-from mysql.connector import errorcode
+connection = mysql.connector.connect(host='you-fail.net',
+                                     database='youfailn_cib',
+                                     user='youfailn_cib',
+                                     password='H4p9Hcf3scCytzr')
 
 
 def vehicles_insert_query(userID, electricVehicle, registrationVehicle, makeVehicle, blueBadge):
     try:
-        connection = mysql.connector.connect(host='you-fail.net',
-                             database='youfailn_cib',
-                             user='youfailn_cib',
-                             password='H4p9Hcf3scCytzr')
+        creds = utils.db_init.load_credentials("./secrets.json")
+        connect_sql = utils.db_init.connect(creds['user'], creds['database'], creds['password'], creds['host'])
         cursor = connection.cursor(prepared=True)
         sql_insert_query = """ INSERT INTO `vehicles`
                           (`username`, `electric_vehicle`, `vehicle_registration`, `vehicle_make`,`is_blue_badge`) VALUES (%s,%s,%s,%s,%s)"""

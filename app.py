@@ -21,7 +21,7 @@ def login():
 
 @app.route("/vehicle")
 def vehicle_form():
-    # TODO add main content (required markup is commented in main.html
+    # TODO add main content (required markup is commented in main.html)
     return render_template("main.html")
 
 
@@ -34,7 +34,7 @@ def process_vehicle_form():
 
 
 @app.route('/')
-def dashboard():
+def dashboard_page():
 
     main_markup = """
     <div class="panel panel--booking">
@@ -52,9 +52,14 @@ def dashboard():
     if "username" in session.keys():
         print(session)
         return render_template("main.html",
+                               title="Dashboard",
                                main=main_markup,
-                               sidebar=sidebar_markup,
-                               type="Dashboard")
+                               sidebar=sidebar_markup)
+
+
+@app.route("/license")
+def license_page():
+    return render_template("main.html", title="Licenses")
 
 
 @app.route('/login')
@@ -63,7 +68,7 @@ def login_page():
 
 
 @app.route("/register")
-def register():
+def register_page():
     return render_template("gate.html", type="register")
 
 

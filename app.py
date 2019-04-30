@@ -27,12 +27,12 @@ def dashboard():
 
 @app.route('/login')
 def login_page():
-    return render_template("gate.html")
+    return render_template("gate.html", type="login")
 
 
 @app.route("/register")
 def register():
-    return render_template("gate.html")
+    return render_template("gate.html", type="register")
 
 
 if __name__ == '__main__':

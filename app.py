@@ -21,6 +21,7 @@ def login():
 
 @app.route("/vehicle")
 def vehicle_form():
+    # TODO add main content (required markup is commented in main.html
     return render_template("main.html")
 
 
@@ -34,9 +35,24 @@ def process_vehicle_form():
 
 @app.route('/')
 def dashboard():
+
+    main_markup = """
+    <div class="panel panel--booking">
+        <h2>Bookings</h2>
+        <!-- bookings calendar goes here -->
+    </div>
+    """
+    sidebar_markup = """
+    <div class="panel">
+        <h2>Park and Ride dates</h2>
+        <p>16th – 26th Sept</p>
+    </div>
+    """
+
     if "username" in session.keys():
         print(session)
-        render_template("main.html")
+        return render_template("main.html", main=main_markup,
+                               sidebar=sidebar_markup)
 
 
 @app.route('/login')

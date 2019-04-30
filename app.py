@@ -30,5 +30,10 @@ def login_page():
     return render_template("gate.html")
 
 
+@app.route("/register")
+def register():
+    return render_template("gate.html")
+
+
 if __name__ == '__main__':
     app.run()

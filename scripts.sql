@@ -34,7 +34,7 @@ create table bookings (
     FOREIGN KEY (vehicle_registration) REFERENCES vehicles(vehicle_registration)
 );
 
-CREATE TABLE park_and_ride (
+CREATE TABLE badge_colours (
     badge VARCHAR(50),
     first_week DATE,
     second_week DATE,
@@ -44,13 +44,14 @@ CREATE TABLE park_and_ride (
     PRIMARY KEY (badge)
 );
 
-
 INSERT INTO users(username, password, first_name, last_name, phone_no, address, post_code, role, employee_no, badge,is_blue_badge, salt)
     VALUES ("jacob.smith@gmail.com", "Hyf754Lk", "Jacob", "Smith", "3953604440", "67 Hollow Ridge Trail", "SP3 4UN", "Manager", "01", "RED",0, "78976865422"),
            ("ardra.denford@yahoo.co.uk", "VYq0X718mm", "Ardra", "Denford", "1491335319", "1062 Northwestern Place", "NN6 0QQ", "Facilities", "02", "DARK GREEN",0, "3456490798"),
            ("merrile.fuster@gmail.co.uk", "yyHs3AJUvfh", "Merrile", "Fuster", "9601526599", "1889 School Alley", "LL17 0AW", "Employee", "03", "GREY",0, "67576879075"),
            ("richard.chop@gmail.com", "yLaDhkyS", "Richard", "Chopping", "7586192639", "3876 Hallows Alley", "TS18 5LN", "System Administrator", "04", "PURPLE", 1, "786574365475"),
            ("al.n.murford@yahoo.co.uk", "eK5V5deg9Y", "Alvina", "Murford", "8475882191", "5198 Scofield Court", "LE6 0JA", "Facilities", "05", "ORANGE",0, "9887654657689");
+
+
 
 INSERT INTO vehicles(username, electric_vehicle, vehicle_registration, vehicle_make)
     VALUES ("jacob.smith@gmail.com", 1, "TIG 8184", "Ford"),
@@ -67,7 +68,7 @@ INSERT INTO bookings (booking_ref, username, booking_date, vehicle_registration)
            ("BK0059", "richard.chop@gmail.com", "2018-09-20", "WHZ 1558"),
            ("BK1756", "al.n.murford@yahoo.co.uk", "2018-12-05", "DRS 318D");
 
-INSERT INTO park_and_ride(badge, first_week, second_week, third_week, fourth_week, fifth_week)
+INSERT INTO badge_colours(badge, first_week, second_week, third_week, fourth_week, fifth_week)
     VALUES ("RED", "2018-06-25", "2018-07-30", "2018-09-03", "2018-10-08", "2018-11-12"),
            ("LIGHT PINK", "2018-06-25", "2018-07-30", "2018-09-03", "2018-10-08", "2018-11-12"),
            ("DARK GREEN", "2018-07-02", "2018-08-06", "2018-09-10", "2018-10-15", "2018-11-19"),
@@ -82,4 +83,4 @@ INSERT INTO park_and_ride(badge, first_week, second_week, third_week, fourth_wee
 DROP TABLE users;
 DROP TABLE vehicles;
 DROP TABLE bookings;
-DROP TABLE park_and_ride;
+DROP TABLE badge_colours;

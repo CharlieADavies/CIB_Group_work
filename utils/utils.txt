@@ -1,1 +1,29 @@
 the utility functions that could feasibly be used by both tkinter and flask go here
+
+import mysql.connector
+from mysql.connector import Error
+from mysql.connector import errorcode
+
+try:
+   connection = mysql.connector.connect(host='you-fail.net',
+                             database='youfailn_cib',
+                             user='youfailn_cb',
+                             password='H4p9Hcf3scCytzr')
+
+def vehicles_insert_query(username, electric_vehicle, vehicle_registration, vehicle_make, is_blue_badge):
+    username= '\'+"xxx"+\''
+    electric_vehicle= '\'xxx\''
+    vehicle_make= '\'+"xxx"+\''
+    is_blue_badge= '\'+"user"+\''
+
+
+   sql_insert_query = """ INSERT INTO `vehicles`
+                          (`username`, `electric_vehicle`, `vehicle_registration`, `vehicle_make`, `is_blue_badge`) VALUES (username, electric_vehicle, vehicle_registration, vehicle_make, is_blue_badge)"""
+
+   cursor = connection.cursor()
+   result  = cursor.execute(sql_insert_query)
+   connection.commit()
+   print ("Record inserted successfully into python_users table")
+except mysql.connector.Error as error :
+    connection.rollback() #rollback if any exception occured
+    print("Failed inserting record into python_users table {}".format(error))

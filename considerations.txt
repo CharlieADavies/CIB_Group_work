@@ -1,6 +1,5 @@
-I don't want to message facebook at 00:26 so here is a list of possible problems to consider
+I don't want to message facebook at 00:26 so here is a list of things to consider
 
-Problems
 
 -at no point do we reference parking space numbers - add this to the database
 	-This is very obvious, and none of us thought of this, its very important we try to think of any similar issues
@@ -11,3 +10,4 @@ Problems
 
 -I looked through a lot of the commits, and a few functions have been implemented by multiple people, and then lost - everyone needs to make sure that they double check that they aren't duplicating any work. Literally every time you make a new function, ask if anyone else has done something similar.
 
+-I think the insert_into_database function from register needs to be changed slightly - Finn can you explain it to me

@@ -1,6 +1,7 @@
 import tkinter as tk
 from tkinter import font as tkfont
 from tkinter import ttk
+import utils.passwords
 
 
 class Application(tk.Tk):
@@ -48,15 +49,29 @@ class LoginScreen(tk.Frame):
 
         title = tk.Label(self, text="Please Login", font=controller.title_font).grid(column=2, row=1)
 
-        username_label = tk.Label(self, text="Username: ", font=controller.label_font, pady=5).grid(column=1, row=2)
-        username_entry = tk.Entry(self).grid(column=2, row=2)
+        username_label = tk.Label(self, text="Username: ", font=controller.label_font).grid(column=1, row=2)
+        self.username_text = tk.StringVar()
+        username_entry = tk.Entry(self, textvariable=self.username_text).grid(column=2, row=2)
 
-        password_label = tk.Label(self, text="Password: ", font=controller.label_font, pady=5).grid(column=1, row=3)
-        password_entry = tk.Entry(self).grid(column=2, row=3)
+        password_label = tk.Label(self, text="Password: ", font=controller.label_font).grid(column=1, row=3)
+        self.password_text = tk.StringVar()
+        password_entry = tk.Entry(self, show="*", textvariable=self.password_text).grid(column=2, row=3)
 
-        login_button = tk.Button(self, text="Login", font=controller.label_font, pady=15).grid(column=2, row=4)
+        login_button = tk.Button(self, text="Login", command=self.login_click, font=controller.label_font).grid(column=2, row=4)
 
         register_button = tk.Button(self, text="Registration", command=lambda: controller.switch_frame("RegistrationForm"), font=controller.title_font, pady=15).grid(column=2, row=5)
+
+    def login_click(self):
+        # in empty "" enter your secretes.json file path.
+        # eg. ardra.denford@yahoo.co.uk, VYq0X718mm for username and password
+        can_login = utils.passwords.check_user(
+            self.username_text.get(), self.password_text.get(), "")
+        if can_login is True:
+            # Enter dash board
+            print("Works")
+        else:
+            # Wrong details entered.
+            print("Wrong details entered")
 
 
 class RegistrationForm(tk.Frame):
@@ -70,12 +85,14 @@ class RegistrationForm(tk.Frame):
         username_entry = tk.Entry(self).grid(column=2, row=2)
 
         password_label = tk.Label(self, text="Password: ", font=controller.label_font).grid(column=3, row=2)
-        password_entry = tk.Entry(self).grid(column=4, row=2)
+        password_entry = tk.Entry(self, show="*").grid(column=4, row=2)
+
+        # TODO add confirm password field
 
         first_name_label = tk.Label(self, text="First Name: ", font=controller.label_font).grid(column=1, row=3)
         first_name_entry = tk.Entry(self).grid(column=2, row=3)
 
-        last_name_label = tk.Label(self, text="Last Name: ", font=controller.label_font).grid(column=3, row=3)
+        last_name_label = tk.Label(self, text="Surname: ", font=controller.label_font).grid(column=3, row=3)
         last_name_entry = tk.Entry(self).grid(column=4, row=3)
 
         phone_number_label = tk.Label(self, text="Phone Number: ", font=controller.label_font).grid(column=1, row=4)
@@ -92,6 +109,8 @@ class RegistrationForm(tk.Frame):
 
         post_code_label = tk.Label(self, text="Postcode: ", font=controller.label_font).grid(column=3, row=6)
         post_code_entry = tk.Entry(self).grid(column=4, row=6)
+
+        # todo discuss whether role is tied to employee number or if it's assigned by admins
 
         role_label = tk.Label(self, text="Role: ", font=controller.label_font).grid(column=1, row=7)
         role_entry = tk.Entry(self).grid(column=2, row=7)

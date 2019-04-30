@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>login</title>
+</head>
+<body>
+
+{% if type == "login" %}
+    <form action="/login_action" method="post">
+        Username:<br>
+        <input type="email" name="username" value="">
+        <br>
+        password<br>
+        <input type="password" name="password" value="">
+        <br><br>
+        <input type="submit" value="Login">
+    </form>
+{% endif %}
+
+{% if type == "register" %}
+    <form action="/register_action" method="post">
+        Email address:<br />
+        <input type="email" name="username" />
+        Password:<br />
+        <input type="password" name="password" />
+        Confirm password:<br />
+        <input type="password" name="confirm-password" />
+        First name:<br />
+        <input type="text" name="first-name" />
+        Surname:<br />
+        <input type="text" name="last-name" />
+        Phone number:<br />
+        <input type="text" name="telephone" />
+        Address Line 1:<br />
+        <input type="text" name="address-first" />
+        Address line 2:<br />
+        <input type="text" name="address-second" />
+        City:<br />
+        <input type="text" name="address-three" />
+        Postcode:<br />
+        <input type="text" name="postcode" />
+        Role:<br />
+        <input type="text" name="role" />
+        Employee number:<br />
+        <input type="text" name="employee-number" />
+        Blue badge holder?:<br />
+        <input type="checkbox" name="blue-badge" value="I am a blue badge holder" />
+        <br /><br />
+        <input type="submit" value="Register" />
+    </form>
+{% endif %}
+
+</body>
+</html>

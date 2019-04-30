@@ -1,5 +1,6 @@
-from flask import Flask, request, redirect, url_for, render_template
+from flask import Flask, request, redirect, url_for, render_template, session
 from utils.passwords import check_user
+from utils.db_func import *  # add_vehicle
 
 app = Flask(__name__)
 app.secret_key = "secret-key"
@@ -10,20 +11,58 @@ def login():
     print("Logging user in")
     username = request.form['username']
     password = request.form['password']
-    print(username,password)
+    print(username, password)
     if not check_user(username, password):
-        return redirect(url_for('invalid_login'))
-    return redirect(url_for('home'))
+        print("Invalid login")
+        return redirect(url_for("login_page"))
+    session['username'] = username
+    return redirect(url_for('dashboard'))
+
+
+@app.route("/vehicle")
+def vehicle_form():
+    # TODO add main content (required markup is commented in main.html
+    return render_template("main.html")
+
+
+@app.route("/vehicle_f", methods=['POST'])
+def process_vehicle_form():
+    username = session['username']
+    is_electric = request.form['electric']
+    reg = request.form['reg']
+    badge = request.form['blue_badge']
 
 
 @app.route('/')
 def dashboard():
-    return 'Hello World!'
+
+    main_markup = """
+    <div class="panel panel--booking">
+        <h2>Bookings</h2>
+        <!-- bookings calendar goes here -->
+    </div>
+    """
+    sidebar_markup = """
+    <div class="panel">
+        <h2>Park and Ride dates</h2>
+        <p>16th – 26th Sept</p>
+    </div>
+    """
+
+    if "username" in session.keys():
+        print(session)
+        return render_template("main.html", main=main_markup,
+                               sidebar=sidebar_markup)
 
 
 @app.route('/login')
 def login_page():
-    return render_template("login.html")
+    return render_template("gate.html", type="login")
+
+
+@app.route("/register")
+def register():
+    return render_template("gate.html", type="register")
 
 
 if __name__ == '__main__':

@@ -25,7 +25,7 @@ def load_db(file_path="../secrets.json"):
     return connect(user=creds['user'],
                    database=creds['database'],
                    password=creds['password'],
-                   host=creds['host'])
+                   host=creds['host']).cursor()
 
 
 

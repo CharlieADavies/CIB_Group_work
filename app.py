@@ -1,4 +1,4 @@
-from flask import Flask, request, redirect, url_for, render_template
+from flask import Flask, request, redirect, url_for, render_template, session
 from utils.passwords import check_user
 
 app = Flask(__name__)
@@ -12,12 +12,15 @@ def login():
     password = request.form['password']
     print(username,password)
     if not check_user(username, password):
-        return redirect(url_for('invalid_login'))
-    return redirect(url_for('home'))
+        print("Invalid login")
+        return redirect(url_for("login_page"))
+    session['username'] = username
+    return redirect(url_for('dashboard'))
 
 
 @app.route('/')
 def dashboard():
+    print(session)
     return 'Hello World!'
 
 

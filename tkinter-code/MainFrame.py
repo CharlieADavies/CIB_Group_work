@@ -32,6 +32,7 @@ class Application(tk.Tk):
 
         self.switch_frame("LoginScreen")
         self.title("B&Q Parking")
+        self.geometry("800x300")
 
     def switch_frame(self, page_name):
         '''Show a frame for the given page name'''
@@ -51,7 +52,7 @@ class LoginScreen(tk.Frame):
         username_entry = tk.Entry(self).grid(column=2, row=2)
 
         password_label = tk.Label(self, text="Password: ", font=controller.label_font).grid(column=1, row=3)
-        password_entry = tk.Entry(self, show="*").grid(column=2, row=3)
+        password_entry = tk.Entry(self).grid(column=2, row=3)
 
         login_button = tk.Button(self, text="Login", font=controller.label_font).grid(column=2, row=4)
 
@@ -63,7 +64,7 @@ class RegistrationForm(tk.Frame):
         tk.Frame.__init__(self, parent)
         self.controller = controller
 
-        title = tk.Label(self, text="Registration Form", font=controller.title_font).grid(column=3, row=1)
+        title = tk.Label(self, text="Registration Form", font=controller.title_font).grid(column=2, row=1)
 
         username_label = tk.Label(self, text="Username(Email Address): ", font=controller.label_font).grid(column=1, row=2)
         username_entry = tk.Entry(self).grid(column=2, row=2)
@@ -78,20 +79,30 @@ class RegistrationForm(tk.Frame):
         last_name_entry = tk.Entry(self).grid(column=4, row=3)
 
         phone_number_label = tk.Label(self, text="Phone Number: ", font=controller.label_font).grid(column=1, row=4)
+        phone_number_entry = tk.Entry(self).grid(column=2, row=4)
 
-        #address
+        address__line1_label = tk.Label(self, text="Address Line 1: ", font=controller.label_font).grid(column=1, row=5)
+        address__line1_entry = tk.Entry(self).grid(column=2, row=5)
 
-        #postcode
+        address_line2_label = tk.Label(self, text="Address Line 2: ", font=controller.label_font).grid(column=3, row=5)
+        address_line2_entry = tk.Entry(self).grid(column=4, row=5)
 
-        #role
+        city_label = tk.Label(self, text="City: ", font=controller.label_font).grid(column=1, row=6)
+        city_entry = tk.Entry(self).grid(column=2, row=6)
 
-        #employee number
+        post_code_label = tk.Label(self, text="Postcode: ", font=controller.label_font).grid(column=3, row=6)
+        post_code_entry = tk.Entry(self).grid(column=4, row=6)
 
-        #blue badge
+        role_label = tk.Label(self, text="Role: ", font=controller.label_font).grid(column=1, row=7)
+        role_entry = tk.Entry(self).grid(column=2, row=7)
 
+        employee_number_label = tk.Label(self, text="Employee Number: ", font=controller.label_font).grid(column=3, row=7)
+        employee_number_entry = tk.Entry(self).grid(column=4, row=7)
 
+        blue_badge_label = tk.Label(self, text="Blue Badge Holder? ", font=controller.label_font).grid(column=3, row=8)
+        blue_button_button = tk.Checkbutton(self).grid(column=4, row=8)
 
-
+        #change
 
 
 if __name__ == "__main__":

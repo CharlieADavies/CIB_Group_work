@@ -51,8 +51,10 @@ def dashboard():
 
     if "username" in session.keys():
         print(session)
-        return render_template("main.html", main=main_markup,
-                               sidebar=sidebar_markup)
+        return render_template("main.html",
+                               main=main_markup,
+                               sidebar=sidebar_markup,
+                               type="Dashboard")
 
 
 @app.route('/login')

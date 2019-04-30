@@ -46,7 +46,7 @@ def check_user(user_name, password, credential_file="./secretes.json"):
 
 if __name__ == '__main__':
     # add the secrets.json file path
-    can_login = check_user("tom@gmail.com", "password", "H:\\Applications of programming\\CIB\\secrets.json")
+    can_login = check_user("tom@gmail.com", "password", "")
     if can_login is True:
         # LOGIN
         print("pass")

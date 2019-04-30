@@ -2,6 +2,7 @@ import tkinter as tk
 from tkinter import font as tkfont
 from tkinter import ttk
 import utils.passwords
+import utils.account_details
 
 
 class Application(tk.Tk):
@@ -21,7 +22,7 @@ class Application(tk.Tk):
         window_manager.grid_columnconfigure(0, weight=1)
 
         self.frames = {}
-        for pages in (LoginScreen, RegistrationForm):
+        for pages in (LoginScreen, RegistrationForm, AccountDetails):
             page_name = pages.__name__
             frame = pages(parent=window_manager, controller=self)
             self.frames[page_name] = frame
@@ -33,7 +34,7 @@ class Application(tk.Tk):
 
         self.switch_frame("LoginScreen")
         self.title("B&Q Parking")
-        self.geometry("800x300")
+        self.geometry("800x400")
 
     def switch_frame(self, page_name):
         '''Show a frame for the given page name'''
@@ -65,13 +66,76 @@ class LoginScreen(tk.Frame):
         # in empty "" enter your secretes.json file path.
         # eg. ardra.denford@yahoo.co.uk, VYq0X718mm for username and password
         can_login = utils.passwords.check_user(
-            self.username_text.get(), self.password_text.get(), "H:\\Applications of programming\\CIB\\secrets.json")
+            self.username_text.get(), self.password_text.get(), "")
         if can_login is True:
             # Enter dash board
             print("Works")
         else:
             # Wrong details entered.
             print("Wrong details entered")
+
+
+class AccountDetails(tk.Frame):
+    def __init__(self, parent, controller):
+        tk.Frame.__init__(self, parent)
+        self.controller = controller
+
+        title = tk.Label(self, text="Account Details", font=controller.title_font).grid(column=2, row=1)
+
+        self.username_text = tk.StringVar()
+        self.username_text.set("Username: ")
+        username_label = tk.Label(self, textvariable=self.username_text, font=controller.label_font).grid(column=1, row=2)
+
+        self.first_name_text = tk.StringVar()
+        self.first_name_text.set("First name: ")
+        first_name_Label = tk.Label(self, textvariable=self.first_name_text, font=controller.label_font).grid(column=1, row=3)
+
+        self.last_name_text = tk.StringVar()
+        self.last_name_text.set("Last Name: ")
+        last_name_Label = tk.Label(self, textvariable=self.last_name_text, font=controller.label_font).grid(column=1, row=4)
+
+        self.phone_number_text = tk.StringVar()
+        self.phone_number_text.set("Phone Number: ")
+        Phone_number = tk.Label(self, textvariable=self.phone_number_text, font=controller.label_font).grid(column=1, row=5)
+
+        self.address_text = tk.StringVar()
+        self.address_text.set("Address: ")
+        Address_Label = tk.Label(self, textvariable=self.address_text, font=controller.label_font).grid(column=1, row=6)
+
+        self.postcode_text = tk.StringVar()
+        self.postcode_text.set("Post code: ")
+        postcode_Label = tk.Label(self, textvariable=self.postcode_text, font=controller.label_font).grid(column=1, row=7)
+
+        self.role_text = tk.StringVar()
+        self.role_text.set("Role: ")
+        role_Label = tk.Label(self, textvariable=self.role_text, font=controller.label_font).grid(column=1, row=8)
+
+        self.employee_number_text = tk.StringVar()
+        self.employee_number_text.set("Employee number: ")
+        employee_number_Label = tk.Label(self, textvariable=self.employee_number_text, font=controller.label_font).grid(column=1, row=9)
+
+        self.badge_text = tk.StringVar()
+        self.badge_text .set("badge: ")
+        badge_Label = tk.Label(self, textvariable=self.badge_text, font=controller.label_font).grid(column=1, row=10)
+
+        self.has_blue_badge_text = tk.StringVar()
+        self.has_blue_badge_text.set("Blue Badge: ")
+        has_blue_badge_Label = tk.Label(self, textvariable=self.has_blue_badge_text, font=controller.label_font).grid(column=1, row=11)
+        self.account_logic()
+
+    def account_logic(self):
+        account_details = utils.account_details.AccountDetails("jacob.smith@gmail.com", "H:\\Applications of programming\CIB\\secrets.json")
+        details = account_details.get_user_details()
+        self.username_text.set("Username: " + str(details[0]))
+        self.first_name_text.set("First name: " + str(details[2]))
+        self.last_name_text.set("Last name: " + str(details[3]))
+        self.phone_number_text.set("Phone Number: " + str(details[4]))
+        self.address_text.set("Address: " + str(details[5]))
+        self.postcode_text.set("Post Code: " + str(details[6]))
+        self.role_text.set("Role: " + str(details[7]))
+        self.employee_number_text.set("Employee Number: " + str(details[8]))
+        self.badge_text.set("Badge: " + str(details[9]))
+        self.has_blue_badge_text.set("Blue Badge: " + str(details[10]))
 
 
 class RegistrationForm(tk.Frame):

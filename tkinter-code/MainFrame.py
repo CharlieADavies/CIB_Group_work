@@ -102,6 +102,8 @@ class RegistrationForm(tk.Frame):
         blue_badge_label = tk.Label(self, text="Blue Badge Holder? ", font=controller.label_font).grid(column=3, row=8)
         blue_button_button = tk.Checkbutton(self).grid(column=4, row=8)
 
+        #change
+
 
 if __name__ == "__main__":
     app = Application()

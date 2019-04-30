@@ -25,7 +25,7 @@ create table vehicles (
 );
 
 create table bookings (
-    booking_ref VARCHAR(50),
+    booking_ref integer auto_increment,
     username VARCHAR(50),
     booking_date DATE,
     vehicle_registration VARCHAR(50),
@@ -61,12 +61,12 @@ INSERT INTO vehicles(username, electric_vehicle, vehicle_registration, vehicle_m
            ("richard.chop@gmail.com", 0, "WHZ 1558", "Vauxhall"),
            ("al.n.murford@yahoo.co.uk", 0, "DRS 318D", "Ford");
 
-INSERT INTO bookings (booking_ref, username, booking_date, vehicle_registration)
-    VALUES ("BK0027", "jacob.smith@gmail.com", "2018-06-25", "TIG 8184"),
-           ("BK0005", "ardra.denford@yahoo.co.uk", "2018-09-09", "CSZ 2178"),
-           ("BK0128", "merrile.fuster@gmail.co.uk", "2018-10-18", "JGZ 5677"),
-           ("BK0059", "richard.chop@gmail.com", "2018-09-20", "WHZ 1558"),
-           ("BK1756", "al.n.murford@yahoo.co.uk", "2018-12-05", "DRS 318D");
+INSERT INTO bookings ( username, booking_date, vehicle_registration)
+    VALUES ( "jacob.smith@gmail.com", "2018-06-25", "TIG 8184"),
+           ( "ardra.denford@yahoo.co.uk", "2018-09-09", "CSZ 2178"),
+           ( "merrile.fuster@gmail.co.uk", "2018-10-18", "JGZ 5677"),
+           ( "richard.chop@gmail.com", "2018-09-20", "WHZ 1558"),
+           ( "al.n.murford@yahoo.co.uk", "2018-12-05", "DRS 318D");
 
 INSERT INTO badge_colours(badge, first_week, second_week, third_week, fourth_week, fifth_week)
     VALUES ("RED", "2018-06-25", "2018-07-30", "2018-09-03", "2018-10-08", "2018-11-12"),
@@ -84,3 +84,6 @@ DROP TABLE users;
 DROP TABLE vehicles;
 DROP TABLE bookings;
 DROP TABLE badge_colours;
+
+
+select * from bookings

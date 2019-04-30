@@ -1,9 +1,9 @@
 import utils.db_init
 
 
-class AccountDetails():
-    def __init__(self, username, credential_file):
-        self._username = username
+class AccountDetails:
+    def __init__(self, local_username, credential_file):
+        self._username = local_username
         self._credential_file = credential_file
         self.user_details = self.get_user_details()
 
@@ -19,4 +19,6 @@ class AccountDetails():
 
 
 if __name__ == '__main__':
-    details = AccountDetails("ardra.denford@yahoo.co.uk", "H:\\Applications of programming\\CIB\\secrets.json")
+    username = "richard.chop@gmail.com"
+    # enter secretes.json in empty quotations
+    details = AccountDetails(username, "")

@@ -20,7 +20,7 @@ def check_user(user_name, password, credential_file="./secretes.json"):
     correct_details = False
     creds = utils.db_init.load_credentials(credential_file)
     connect_sql = utils.db_init.connect(creds['user'], creds['database'], creds['password'], creds['host'])
-    table = "user"
+    table = "users"
     sql = "SELECT * FROM " + table
     cursor = connect_sql.cursor()
     cursor.execute(sql)
@@ -28,15 +28,17 @@ def check_user(user_name, password, credential_file="./secretes.json"):
     user_names = []
     passwords = []
     # salt is temporary until its in the table.
-    salt = uuid.uuid4().hex
-    hash_password(password, salt)
+
+
     for record in records:
         user_names.append(record[0])
         passwords.append(record[1])
     for name in user_names:
         if name == user_name:
             index = user_names.index(name)
-            if passwords[index] == password:
+            salt = records[index][11]
+            encrypted_password = hash_password(password, salt)
+            if passwords[index] == encrypted_password:
                 correct_details = True
                 break
             else:
@@ -46,7 +48,9 @@ def check_user(user_name, password, credential_file="./secretes.json"):
 
 if __name__ == '__main__':
     # add the secrets.json file path
-    can_login = check_user("adenford0", "VYq0X718mm", "")
+    can_login = check_user("tom@gmail.com", "123", "H:\\Applications of programming\\CIB\\secrets.json")
     if can_login is True:
         # LOGIN
-        print()
+        print("pass")
+    else:
+        print("Fail")

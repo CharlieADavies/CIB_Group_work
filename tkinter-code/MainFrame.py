@@ -65,7 +65,7 @@ class LoginScreen(tk.Frame):
         # in empty "" enter your secretes.json file path.
         # eg. ardra.denford@yahoo.co.uk, VYq0X718mm for username and password
         can_login = utils.passwords.check_user(
-            self.username_text.get(), self.password_text.get(), "H:\\Applications of programming\\CIB\\secrets.json")
+            self.username_text.get(), self.password_text.get(), "")
         if can_login is True:
             # Enter dash board
             print("Works")

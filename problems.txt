@@ -1,0 +1,13 @@
+I don't want to message facebook at 00:26 so here is a list of possible problems to consider
+
+Problems
+
+-at no point do we reference parking space numbers - add this to the database
+	-This is very obvious, and none of us thought of this, its very important we try to think of any similar issues
+
+-I don't think there is any left, but make sure you aren't running any Python code in files that are primarily used for inputs - if you do put it under a if __name__ == "__main__"
+
+-I don't think the current approach to templates is the way they are supposed to work, discuss it before we write more code - http://jinja.pocoo.org/docs/2.10/templates/#template-inheritance
+
+-I looked through a lot of the commits, and a few functions have been implemented by multiple people, and then lost - everyone needs to make sure that they double check that they aren't duplicating any work. Literally every time you make a new function, ask if anyone else has done something similar.
+

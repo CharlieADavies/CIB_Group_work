@@ -10,7 +10,7 @@ class AccountDetails:
     def get_user_details(self):
         creds = utils.db_init.load_credentials(self._credential_file)
         connect_sql = utils.db_init.connect(creds['user'], creds['database'], creds['password'], creds['host'])
-        table = "user"
+        table = "users"
         sql = "SELECT * FROM " + table + " WHERE username = '" + self._username + "';"
         cursor = connect_sql.cursor()
         cursor.execute(sql)
@@ -21,4 +21,5 @@ class AccountDetails:
 if __name__ == '__main__':
     username = "richard.chop@gmail.com"
     # enter secretes.json in empty quotations
-    details = AccountDetails(username, "")
+    details = AccountDetails(username, "H:\\Applications of programming\\CIB\\secrets.json")
+    for detail in details

@@ -17,10 +17,10 @@ def insert_into_database(table, credential_file, vals_local):
     vals_local[1] = hash_password(vals_local[1], salt_local)
     sql = "INSERT INTO " + table + \
           "(username, password, first_name, last_name, phone_no," \
-          " address, post_code, role, employee_no, is_blue_badge, salt) VALUES " \
-          "(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)"
+          " address, post_code, role, employee_no, badge, is_blue_badge, salt) VALUES " \
+          "(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)"
     values = (vals_local[0], vals_local[1], vals_local[2], vals_local[3], vals_local[4],
-              vals_local[5], vals_local[6], vals_local[7], vals_local[8], vals_local[9], salt_local)
+              vals_local[5], vals_local[6], vals_local[7], vals_local[8], vals_local[9], vals_local[10], salt_local)
     cursor.execute(sql, values)
     db.commit()
 
@@ -53,7 +53,7 @@ def email_check(username):
 def check_all(vals_local):
     master_check_local = False
     # add link to secretes.json file.
-    check_username = username_check(vals_local[0], "")
+    check_username = username_check(vals_local[0], "H:\\Applications of programming\\CIB\\secrets.json")
     check_email = email_check(vals[0])
     if check_username is True and check_email is True:
         master_check_local = True
@@ -62,11 +62,11 @@ def check_all(vals_local):
 
 if __name__ == '__main__':
     # change these to the entry fields values.
-    vals = ["tom@gmail.com", "password", "John", "Smith", "07284192871", "8 Red Road", "BH8 8FT", "Manager",
-            "06", "0"]
+    vals = ["towjdklam@gmail.com", "password", "John", "Smith", "07284192871", "8 Red Road", "BH8 8FT", "Manager",
+            "06", None, "0"]
     master_check = check_all(vals)
     if master_check is True:
         # add link to secretes.json file.
-        insert_into_database("users", "", vals)
+        insert_into_database("users", "H:\\Applications of programming\\CIB\\secrets.json", vals)
     else:
         print("Failed")

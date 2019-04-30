@@ -1,6 +1,7 @@
 """
 database functionality common to both flask and tkinter
 """
+import mysql
 
 """
 import these

@@ -30,7 +30,7 @@ class Application(tk.Tk):
         window_manager.grid_columnconfigure(0, weight=1)
 
         self.frames = {}
-        for pages in (LoginScreen, RegistrationForm, BookingScreen, SubmissionPage, Dashboard):
+        for pages in (LoginScreen, RegistrationForm, BookingScreen, SubmissionPage, Dashboard, AccountDetails):
             page_name = pages.__name__
             frame = pages(parent=window_manager, controller=self)
             self.frames[page_name] = frame
@@ -41,8 +41,8 @@ class Application(tk.Tk):
             frame.grid(row=0, column=0, sticky="nsew")
 
         self.switch_frame("LoginScreen")
-        self.title("B&Q Parking")
-        self.geometry("1200x500")
+        self.title("Herbie")
+        self.geometry("1350x500")
 
     def switch_frame(self, page_name):
         '''Show a frame for the given page name'''
@@ -70,7 +70,7 @@ class LoginScreen(tk.Frame):
 
         login_button = tk.Button(self, text="Login", command=self.login_click, font=controller.label_font).grid(column=2, row=4)
 
-        register_button = tk.Button(self, text="Registration", command=lambda: controller.switch_frame("RegistrationForm"), font=controller.title_font, pady=15).grid(column=2, row=5)
+        register_button = tk.Button(self, text="Registration", command=lambda: controller.switch_frame("RegistrationForm"), font=controller.title_font, pady=5).grid(column=2, row=5)
         self.user = ""
 
     def write_username(self, f="user.txt", user=None):
@@ -81,7 +81,7 @@ class LoginScreen(tk.Frame):
         # in empty "" enter your secretes.json file path.
         # eg. ardra.denford@yahoo.co.uk, VYq0X718mm for username and password
         can_login = utils.passwords.check_user(
-            self.username_text.get(), self.password_text.get(), "..\secrets.json")
+            self.username_text.get(), self.password_text.get(), "H:\Applications of programming\CIB\secrets.json")
         if can_login is True:
             self.write_username("user.txt", self.username_text.get())
             self.controller.switch_frame("Dashboard")
@@ -135,11 +135,17 @@ class AccountDetails(tk.Frame):
         self.has_blue_badge_text = tk.StringVar()
         self.has_blue_badge_text.set("Blue Badge: ")
         has_blue_badge_Label = tk.Label(self, textvariable=self.has_blue_badge_text, font=controller.label_font).grid(column=1, row=11)
+        image = Image.open("Logo.png")
+        image = image.resize((150, 75), Image.ANTIALIAS)
+        image = ImageTk.PhotoImage(image)
+        artwork = tk.Button(self, command=lambda: controller.switch_frame("Dashboard"), image=image)
+        artwork.photo = image
+        artwork.grid(column=1, row=1)
         self.account_logic()
 
 
     def account_logic(self):
-        account_details = utils.account_details.AccountDetails("jacob.smith@gmail.com", "..\secrets.json")
+        account_details = utils.account_details.AccountDetails("jacob.smith@gmail.com", "H:\Applications of programming\CIB\secrets.json")
 
         #jacob.smith@gmail.com, password
         details = account_details.get_user_details()
@@ -160,9 +166,9 @@ class BookingScreen(tk.Frame):
         tk.Frame.__init__(self, parent)
         self.controller = controller
         image = Image.open("Logo.png")
-        image = image.resize((150, 50), Image.ANTIALIAS)
+        image = image.resize((150, 75), Image.ANTIALIAS)
         image = ImageTk.PhotoImage(image)
-        artwork = tk.Label(self, image=image)
+        artwork = tk.Button(self, command=lambda: controller.switch_frame("Dashboard"), image=image)
         artwork.photo = image
         artwork.grid(column=1, row=1)
 
@@ -175,20 +181,26 @@ class BookingScreen(tk.Frame):
 
         self.bind("<<ShowFrame>>", self.on_show_frame)
 
-    def read_file(self, file):
+    @staticmethod
+    def read_file(file):
         with open(file, "r+") as f:
             username = f.read()
         return username
 
-
     def on_show_frame(self, event):
         username_text = tk.StringVar()
-        username = get_name("..\secrets.json")
+        username = get_name("H:\Applications of programming\CIB\secrets.json")
         username_text.set(username)
         username_label = tk.Label(self, textvariable=username_text, font=self.controller.label_font).grid(column=1, row=4, pady=100)
         park_date_text = tk.StringVar()
         park_date_text.set("16-09-2000 10am-3pm")
         park_date_label = tk.Label(self, textvariable=park_date_text, font=self.controller.label_font).grid(column=1, row=5)
+
+        subframe_2 = tk.Frame(self, height="300", width="300", relief="raised", pady=5, borderwidth=2,
+                              background="white")
+        subframe_2.place(x="500", y="100")
+        line_2 = tk.Frame(self, height=30, width=300, bg="#16dace").place(x="500", y="100")
+        username_labe_2 = tk.Label(self, text=username, bg="white", font=self.controller.label_font).place(x="595", y="140")
 
 
 class RegistrationForm(tk.Frame):
@@ -253,7 +265,7 @@ class RegistrationForm(tk.Frame):
 
     def check(self):
         username = self.username_text.get()
-        check = utils.register.check_all(username, "..\secrets.json")
+        check = utils.register.check_all(username, "H:\Applications of programming\CIB\secrets.json")
         if check is True:
             address = self.address_text.get() + " : " + self.address_second_line_text.get()+ " : " + self.city_text.get()
             # username, password, firstname, lastname, phone_no, location, postcode, role, employee_no, badge, is_blue
@@ -261,7 +273,7 @@ class RegistrationForm(tk.Frame):
                       self.last_name_text.get(), self.phone_number_text, address, self.post_code,
                       self.role_text.get(), self.employee_number.get(), None, self.check_badge.get()
                       ]
-            utils.register.insert_into_database("users", "..\secrets.json", values)
+            utils.register.insert_into_database("users", "H:\Applications of programming\CIB\secrets.json", values)
         # lambda: controller.switch_frame("SubmissionPage")
 
 
@@ -275,7 +287,7 @@ class SubmissionPage(tk.Frame):
         back_button = tk.Button(self, text="Return to login page", command=lambda: controller.switch_frame("LoginScreen"), font=controller.title_font).pack()
 
 
-def get_name(credential_file="../secrets.json"):
+def get_name(credential_file="H:\Applications of programming\CIB/secrets.json"):
     username = read_file("user.txt")
     creds = utils.db_init.load_credentials(credential_file)
     connect_sql = utils.db_init.connect(creds['user'], creds['database'], creds['password'], creds['host'])
@@ -312,34 +324,48 @@ class Dashboard(tk.Frame):
         artwork.photo = image
         artwork.grid(column=1, row=1)
 
-        user = get_name("..\secrets.json")
+        user = get_name("H:\Applications of programming\CIB\secrets.json")
         welcome_message = tk.Label(self, text="Welcome back " + user[0] + " " + user[1], font=controller.title_font, pady=15, padx=200).grid(column=3, row=1)
 
-        account_button = tk.Button(self, text="Account", font=controller.label_font, pady=5, padx=10).grid(column=4, row=1)
+        account_button = tk.Button(self, text="Account", command=lambda: controller.switch_frame("AccountDetails"), font=controller.label_font, pady=5, padx=10).grid(column=4, row=1)
 
         bookings_button = tk.Button(self, text="Boookings", command=lambda: controller.switch_frame("BookingScreen"), font=controller.label_font, pady=5, padx=10).grid(column=5, row=1)
 
-        line = tk.Frame(self, height=3, width=1000, bg="black").grid(column=1, columnspan=10, row=2)
+        line = tk.Frame(self, height=3, width=1200, bg="black").grid(column=1, columnspan=10, row=2)
 
         subframe_1 = tk.Frame(self, relief="raised", pady=5, borderwidth=2)
         subframe_1.place(x="75", y="150")
 
-        cal = Calendar(subframe_1, font="Arial 14", selectmode='day', locale='en_US',
-                       cursor="hand1", year=2018, month=2, day=5)
+        cal = Calendar(subframe_1, font="Arial 14", selectmode='day', locale='en_UK',
+                       cursor="hand2")
 
-        cal.config(background="#16dace", foreground="#1586da", headersbackground="#16dace", headersforeground="#1586da",
-                   selectbackground="#16dace", selectforeground="red", normalbackground="#16dace", normalforeground="#1586da",
-                   weekendbackground="#16dace", weekendforeground="#1586da", othermonthbackground="#16dace")
+        cal.config(background="#292d2f", foreground="#1586da", headersbackground="#292d2f", headersforeground="#1586da",
+                   selectbackground="#292d2f", selectforeground="#16dace", normalbackground="#292d2f", normalforeground="#1586da",
+                   weekendbackground="#292d2f", weekendforeground="#1586da", othermonthbackground="#292d2f", othermonthwebackground="#292d2f")
 
         cal.pack(fill="both", expand=True)
 
-        subframe_2 = tk.Frame(self, height="300", width="300", relief="raised", pady=5, borderwidth=2, background="white")
-        subframe_2.place(x="500", y="100")
-        line_2 = tk.Frame(self, height=30, width=300, bg="#16dace").place(x="500", y="100")
+        subframe_2 = tk.Frame(self, height="275", width="500", relief="raised", pady=5, borderwidth=2)
+        subframe_2.place(x="520", y="160")
+        line_2 = tk.Frame(self, height=30, width=500, bg="#16dace").place(x="520", y="160")
 
-        """colour_fill = tk.Frame(subframe_2)
-        colour_fill.grid(row=1, column=1)
-        colour_fill.config(background="blue")"""
+        image_2 = Image.open("Default_picture.png")
+        image_2 = image_2.resize((150, 150), Image.ANTIALIAS)
+        image_2 = ImageTk.PhotoImage(image_2)
+        artwork_2 = tk.Label(self, image=image_2)
+        artwork_2.photo = image_2
+        artwork_2.place(x="840", y="265")
+
+        name_label = tk.Label(self, text=(self.read_file("user.txt")), font=controller.title_font).place(x="600", y="210")
+        role_label = tk.Label(self, text="Role: ", font=controller.title_font).place(x="557", y="260")
+        role_2 = tk.Label(self, text="Employee", font=controller.label_font).place(x="637", y="265")
+        date_label = tk.Label(self, text="Date: ", font=controller.title_font).place(x="557", y="310")
+        date_2 = tk.Label(self, text="10/08/2019", font=controller.label_font).place(x="637", y="315")
+        time_label = tk.Label(self, text="Time: ", font=controller.title_font).place(x="557", y="350")
+        time_2 = tk.Label(self, text="10am - 3pm", font=controller.label_font).place(x="637", y="355")
+
+
+
 
 
     def read_file(self, file):

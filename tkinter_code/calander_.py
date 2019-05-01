@@ -124,16 +124,16 @@ class Control:
     def __init__(self, parent):
         parent = parent
         choose_btn = tk.Button(parent, text='Open Calendar', command=self.popup)
-        show_btn = tk.Button(parent, text='Show Selected', command=self.print_selected_date)
+        # show_btn = tk.Button(parent, text='Show Selected', command=self.print_selected_date)
         choose_btn.grid(column=1, row=2, pady=50)
-        show_btn.grid(column=1, row=3)
+        # show_btn.grid(column=1, row=3)
         self.data = {}
 
     def popup(self):
         child = tk.Toplevel()
         cal = Calendar(child, self.data)
 
-    def print_selected_date(self):
-        data_to_send = str(self.data['year_selected']) + "-" + str(self.data['month_selected']) + "-" + str(self.data['day_selected'])
-        free_date = utils.date_select_logic.check_date(data_to_send, "H:\Applications of programming\CIB\secrets.json")
-        print(data_to_send)
+    # def print_selected_date(self):
+    #     data_to_send = str(self.data['year_selected']) + "-" + str(self.data['month_selected']) + "-" + str(self.data['day_selected'])
+    #     free_date = utils.date_select_logic.check_date(data_to_send, "H:\Applications of programming\CIB\secrets.json")
+    #     print(data_to_send)

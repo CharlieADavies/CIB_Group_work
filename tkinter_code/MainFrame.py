@@ -145,8 +145,17 @@ class BookingScreen(tk.Frame):
     def __init__(self, parent, controller):
         tk.Frame.__init__(self, parent)
         self.controller = controller
-        photo = tk.PhotoImage(file="Logo.png")
-        title = tk.Label(self, text="Bookings", font=controller.title_font).grid(column=2, row=1)
+        image = Image.open("Logo.png")
+        image = image.resize((150, 50), Image.ANTIALIAS)
+        image = ImageTk.PhotoImage(image)
+        artwork = tk.Label(self, image=image)
+        artwork.photo = image
+        artwork.grid(column=1, row=1)
+
+        title = tk.Label(self, text="Bookings", font=controller.title_font).grid(column=2, row=1, padx=250)
+        photo_label = tk.Label(self)
+        photo_label.image = image
+        photo_label.grid(column=1, row=1)
         # YYYY-MM-DD
         control = tkinter_code.calander_.Control(self)
 
@@ -156,8 +165,7 @@ class BookingScreen(tk.Frame):
 
         self.park_date_text = tk.StringVar()
         self.park_date_text.set("16-09-2000 10am-3pm")
-        park_date_label = tk.Label(self, textvariable=self.park_date_text, font=controller.label_font).grid(column=1,
-                                                                                                          row=5)
+        park_date_label = tk.Label(self, textvariable=self.park_date_text, font=controller.label_font).grid(column=1, row=5)
 
 class RegistrationForm(tk.Frame):
     def __init__(self, parent, controller):

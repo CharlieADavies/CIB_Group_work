@@ -9,6 +9,9 @@ import tkinter_code.calander_
 from PIL import ImageTk, Image
 import os
 from tkcalendar import Calendar
+import utils.register
+
+
 
 class Application(tk.Tk):
 
@@ -78,7 +81,7 @@ class LoginScreen(tk.Frame):
         # in empty "" enter your secretes.json file path.
         # eg. ardra.denford@yahoo.co.uk, VYq0X718mm for username and password
         can_login = utils.passwords.check_user(
-            self.username_text.get(), self.password_text.get(), "../secrets.json")
+            self.username_text.get(), self.password_text.get(), "..\secrets.json")
         if can_login is True:
             self.write_username("user.txt", self.username_text.get())
             self.controller.switch_frame("Dashboard")
@@ -136,7 +139,7 @@ class AccountDetails(tk.Frame):
 
 
     def account_logic(self):
-        account_details = utils.account_details.AccountDetails("jacob.smith@gmail.com", "../secrets.json")
+        account_details = utils.account_details.AccountDetails("jacob.smith@gmail.com", "..\secrets.json")
 
         #jacob.smith@gmail.com, password
         details = account_details.get_user_details()
@@ -180,7 +183,8 @@ class BookingScreen(tk.Frame):
 
     def on_show_frame(self, event):
         username_text = tk.StringVar()
-        username_text.set(self.read_file("user.txt"))
+        username = get_name("..\secrets.json")
+        username_text.set(username)
         username_label = tk.Label(self, textvariable=username_text, font=self.controller.label_font).grid(column=1, row=4, pady=100)
         park_date_text = tk.StringVar()
         park_date_text.set("16-09-2000 10am-3pm")
@@ -194,47 +198,71 @@ class RegistrationForm(tk.Frame):
 
         title = tk.Label(self, text="Registration Form", font=controller.title_font).grid(column=2, row=1)
 
+        self.username_text = tk.StringVar()
         username_label = tk.Label(self, text="Username(Email Address): ", font=controller.label_font).grid(column=1, row=2)
-        username_entry = tk.Entry(self).grid(column=2, row=2)
+        self.username_entry = tk.Entry(self, textvariable=self.username_text).grid(column=2, row=2)
 
+        self.password_text = tk.StringVar()
         password_label = tk.Label(self, text="Password: ", font=controller.label_font).grid(column=3, row=2)
-        password_entry = tk.Entry(self, show="*").grid(column=4, row=2)
+        password_entry = tk.Entry(self, show="*", textvariable=self.password_text).grid(column=4, row=2)
 
         # TODO add confirm password field
-
+        self.first_name_text = tk.StringVar()
         first_name_label = tk.Label(self, text="First Name: ", font=controller.label_font).grid(column=1, row=3)
-        first_name_entry = tk.Entry(self).grid(column=2, row=3)
+        first_name_entry = tk.Entry(self, textvariable=self.first_name_text).grid(column=2, row=3)
 
+        self.last_name_text = tk.StringVar()
         last_name_label = tk.Label(self, text="Surname: ", font=controller.label_font).grid(column=3, row=3)
-        last_name_entry = tk.Entry(self).grid(column=4, row=3)
+        last_name_entry = tk.Entry(self, textvariable=self.last_name_text).grid(column=4, row=3)
 
+        self.phone_number_text = tk.StringVar()
         phone_number_label = tk.Label(self, text="Phone Number: ", font=controller.label_font).grid(column=1, row=4)
-        phone_number_entry = tk.Entry(self).grid(column=2, row=4)
+        phone_number_entry = tk.Entry(self, textvariable=self.phone_number_text).grid(column=2, row=4)
 
+        self.address_text = tk.StringVar()
         address__line1_label = tk.Label(self, text="Address Line 1: ", font=controller.label_font).grid(column=1, row=5)
-        address__line1_entry = tk.Entry(self).grid(column=2, row=5)
+        address__line1_entry = tk.Entry(self, textvariable=self.address_text).grid(column=2, row=5)
 
+        self.address_second_line_text = tk.StringVar()
         address_line2_label = tk.Label(self, text="Address Line 2: ", font=controller.label_font).grid(column=3, row=5)
-        address_line2_entry = tk.Entry(self).grid(column=4, row=5)
+        address_line2_entry = tk.Entry(self, textvariable=self.address_second_line_text).grid(column=4, row=5)
 
+        self.city_text = tk.StringVar()
         city_label = tk.Label(self, text="City: ", font=controller.label_font).grid(column=1, row=6)
-        city_entry = tk.Entry(self).grid(column=2, row=6)
+        city_entry = tk.Entry(self, textvariable=self.city_text).grid(column=2, row=6)
 
+        self.post_code = tk.StringVar()
         post_code_label = tk.Label(self, text="Postcode: ", font=controller.label_font).grid(column=3, row=6)
-        post_code_entry = tk.Entry(self).grid(column=4, row=6)
+        post_code_entry = tk.Entry(self, textvariable=self.post_code).grid(column=4, row=6)
 
         # todo discuss whether role is tied to employee number or if it's assigned by admins
 
+        self.role_text = tk.StringVar()
         role_label = tk.Label(self, text="Role: ", font=controller.label_font).grid(column=1, row=7)
-        role_entry = tk.Entry(self).grid(column=2, row=7)
+        role_entry = tk.Entry(self, textvariable=self.role_text).grid(column=2, row=7)
 
+        self.employee_number = tk.StringVar()
         employee_number_label = tk.Label(self, text="Employee Number: ", font=controller.label_font).grid(column=3, row=7)
-        employee_number_entry = tk.Entry(self).grid(column=4, row=7)
+        employee_number_entry = tk.Entry(self, textvariable=self.employee_number).grid(column=4, row=7)
 
+        self.check_badge = tk.IntVar()
         blue_badge_label = tk.Label(self, text="Blue Badge Holder? ", font=controller.label_font).grid(column=3, row=8)
-        blue_button_button = tk.Checkbutton(self).grid(column=4, row=8)
+        blue_button_button = tk.Checkbutton(self, variable=self.check_badge).grid(column=4, row=8)
 
-        submit_button = tk.Button(self, text="Submit Form", command=lambda: controller.switch_frame("SubmissionPage"), font=controller.title_font).grid(column=4, row=9)
+        submit_button = tk.Button(self, text="Submit Form", command=self.check, font=controller.title_font).grid(column=4, row=9)
+
+    def check(self):
+        username = self.username_text.get()
+        check = utils.register.check_all(username, "..\secrets.json")
+        if check is True:
+            address = self.address_text.get() + " : " + self.address_second_line_text.get()+ " : " + self.city_text.get()
+            # username, password, firstname, lastname, phone_no, location, postcode, role, employee_no, badge, is_blue
+            values = [self.username_text.get(), self.password_text.get(), self.first_name_text.get(),
+                      self.last_name_text.get(), self.phone_number_text, address, self.post_code,
+                      self.role_text.get(), self.employee_number.get(), None, self.check_badge.get()
+                      ]
+            utils.register.insert_into_database("users", "..\secrets.json", values)
+        # lambda: controller.switch_frame("SubmissionPage")
 
 
 class SubmissionPage(tk.Frame):
@@ -245,6 +273,30 @@ class SubmissionPage(tk.Frame):
 
         title = tk.Label(self, text="Thank you for registering, \nyour form will be reviewed, \nwe will get back to you shortly", font=controller.title_font, pady=30).pack()
         back_button = tk.Button(self, text="Return to login page", command=lambda: controller.switch_frame("LoginScreen"), font=controller.title_font).pack()
+
+
+def get_name(credential_file="../secrets.json"):
+    username = read_file("user.txt")
+    creds = utils.db_init.load_credentials(credential_file)
+    connect_sql = utils.db_init.connect(creds['user'], creds['database'], creds['password'], creds['host'])
+    table = "users"
+    sql = "SELECT * FROM " + table
+    cursor = connect_sql.cursor()
+    cursor.execute(sql)
+    records = cursor.fetchall()
+    first_name = ""
+    last_name = ""
+    for record in records:
+        if record[0] == username:
+            first_name = record[2]
+            last_name = record[3]
+    return first_name, last_name
+
+
+def read_file( file):
+    with open(file, "r+") as f:
+        username = f.read()
+    return username
 
 
 class Dashboard(tk.Frame):
@@ -260,11 +312,12 @@ class Dashboard(tk.Frame):
         artwork.photo = image
         artwork.grid(column=1, row=1)
 
-        welcome_message = tk.Label(self, text="Welcome back " + self.read_file("user.txt"), font=controller.title_font, pady=15, padx=200).grid(column=3, row=1)
+        user = get_name("..\secrets.json")
+        welcome_message = tk.Label(self, text="Welcome back " + user[0] + " " + user[1], font=controller.title_font, pady=15, padx=200).grid(column=3, row=1)
 
         account_button = tk.Button(self, text="Account", font=controller.label_font, pady=5, padx=10).grid(column=4, row=1)
 
-        bookings_button = tk.Button(self, text="Boookings", font=controller.label_font, pady=5, padx=10).grid(column=5, row=1)
+        bookings_button = tk.Button(self, text="Boookings", command=lambda: controller.switch_frame("BookingScreen"), font=controller.label_font, pady=5, padx=10).grid(column=5, row=1)
 
         line = tk.Frame(self, height=3, width=1200, bg="black").grid(column=1, columnspan=10, row=2)
 

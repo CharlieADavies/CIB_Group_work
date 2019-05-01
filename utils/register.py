@@ -50,11 +50,11 @@ def email_check(username):
     return check
 
 
-def check_all(vals_local):
+def check_all(username_local, path):
     master_check_local = False
     # add link to secretes.json file.
-    check_username = username_check(vals_local[0], "")
-    check_email = email_check(vals[0])
+    check_username = username_check(username_local, path)
+    check_email = email_check(username_local)
     if check_username is True and check_email is True:
         master_check_local = True
     return master_check_local
@@ -64,7 +64,8 @@ if __name__ == '__main__':
     # change these to the entry fields values.
     vals = ["towjdklam@gmail.com", "password", "John", "Smith", "07284192871", "8 Red Road", "BH8 8FT", "Manager",
             "06", None, "0"]
-    master_check = check_all(vals)
+    username = vals[0]
+    master_check = check_all(username)
     if master_check is True:
         # add link to secretes.json file.
         insert_into_database("users", "", vals)

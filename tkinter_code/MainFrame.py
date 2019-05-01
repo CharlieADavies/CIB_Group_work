@@ -38,7 +38,7 @@ class Application(tk.Tk):
 
         self.switch_frame("LoginScreen")
         self.title("B&Q Parking")
-        self.geometry("800x500")
+        self.geometry("900x500")
 
     def switch_frame(self, page_name):
         '''Show a frame for the given page name'''
@@ -241,13 +241,11 @@ class Dashboard(tk.Frame):
 
         welcome_message = tk.Label(self, text="Welcome back 'User'", font=controller.title_font, pady=15, padx=200).grid(column=3, row=1)
 
-        account_button = tk.Button(self, text="Account", font=controller.label_font, pady=15, padx=10).grid(column=4, row=1)
+        account_button = tk.Button(self, text="Account", font=controller.label_font, pady=8, padx=10).grid(column=4, row=1)
 
-        bookings_button = tk.Button(self, text="Boookings", font=controller.label_font, pady=15, padx=10).grid(column=5, row=1)
+        bookings_button = tk.Button(self, text="Boookings", command=lambda: controller.switch_frame("BookingScreen"), font=controller.label_font, pady=8, padx=10).grid(column=5, row=1)
 
         line = tk.Frame(self, height=3, width=720, bg="black").grid(column=1, columnspan=10, row=2)
-
-
 
 
 if __name__ == "__main__":

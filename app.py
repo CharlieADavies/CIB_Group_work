@@ -15,7 +15,7 @@ def login():
     password = request.form['password']
 
     print(username, password)
-    if not check_user(username, password, credential_file="secrets.json"):
+    if not check_user(username, password, credential_file="D:/Documents/GitHub Workspace/CIB_Group_work/secrets.json"):
         print("Invalid login")
         return redirect(url_for("login_page"))
 
@@ -26,9 +26,7 @@ def login():
 
 @app.route("/vehicle")
 def vehicle_form():
-    # TODO add main content
-    return render_template("main.html",
-                           title="Vehicles")
+    return render_template("main.html", title="Vehicles")
 
 
 @app.route("/vehicle_f", methods=['POST'])
@@ -49,7 +47,7 @@ def dashboard():
         print(session)
         return render_template("main.html",
                                title="Dashboard",
-                               type="dashboard")
+                               page="dashboard")
     else:
         return redirect(url_for("login_page"))
 
@@ -58,17 +56,23 @@ def dashboard():
 def license_page():
     return render_template("main.html",
                            title="Licenses",
-                           type="licenses")
+                           page="licenses")
 
 
 @app.route('/login')
 def login_page():
-    return render_template("gate.html", type="login")
+    if "username" in session.keys():    # if user is logged in, redirect to dashboard
+        redirect(url_for("dashboard"))
+    else:
+        return render_template("gate.html", page="login")
 
 
 @app.route("/register")
 def register_page():
-    return render_template("gate.html", type="register")
+    if "username" in session.keys():    # if user is logged in, redirect to dashboard
+        redirect(url_for("dashboard"))
+    else:
+        return render_template("gate.html", page="register")
 
 
 @app.route("/plate", methods=['POST'])

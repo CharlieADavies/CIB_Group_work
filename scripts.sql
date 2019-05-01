@@ -45,11 +45,11 @@ CREATE TABLE badge_colours (
 );
 
 INSERT INTO users(username, password, first_name, last_name, phone_no, address, post_code, role, employee_no, badge,is_blue_badge, salt)
-    VALUES ("jacob.smith@gmail.com", "Hyf754Lk", "Jacob", "Smith", "3953604440", "67 Hollow Ridge Trail", "SP3 4UN", "Manager", "01", "RED",0, "78976865422"),
-           ("ardra.denford@yahoo.co.uk", "VYq0X718mm", "Ardra", "Denford", "1491335319", "1062 Northwestern Place", "NN6 0QQ", "Facilities", "02", "DARK GREEN",0, "3456490798"),
-           ("merrile.fuster@gmail.co.uk", "yyHs3AJUvfh", "Merrile", "Fuster", "9601526599", "1889 School Alley", "LL17 0AW", "Employee", "03", "GREY",0, "67576879075"),
-           ("richard.chop@gmail.com", "yLaDhkyS", "Richard", "Chopping", "7586192639", "3876 Hallows Alley", "TS18 5LN", "System Administrator", "04", "PURPLE", 1, "786574365475"),
-           ("al.n.murford@yahoo.co.uk", "eK5V5deg9Y", "Alvina", "Murford", "8475882191", "5198 Scofield Court", "LE6 0JA", "Facilities", "05", "ORANGE",0, "9887654657689");
+    VALUES ("jacob.smith@gmail.com", "02bf31f440b5941e698cc2e7e682627b211932ca9d10c62a07623a8d4f2e107a:97e89558ccbc4bb3a55162ddf9e05879", "Jacob", "Smith", "3953604440", "67 Hollow Ridge Trail", "SP3 4UN", "Manager", "01", "RED",0, "97e89558ccbc4bb3a55162ddf9e05879"),
+           ("ardra.denford@yahoo.co.uk", "cf0af64566290ba259091de0f73b22ca642693fefc693ade4e9313111c79d4df:eb2b0ffe968d4b2fb10ef4245b5b729a", "Ardra", "Denford", "1491335319", "1062 Northwestern Place", "NN6 0QQ", "Facilities", "02", "DARK GREEN",0, "eb2b0ffe968d4b2fb10ef4245b5b729a"),
+           ("merrile.fuster@gmail.co.uk", "6fe18e21f04455bba324aa597c7426889e9e9a2d8669e5e65e234b71d7e44394:b60054c895404f808d7736e18258e4ad", "Merrile", "Fuster", "9601526599", "1889 School Alley", "LL17 0AW", "Employee", "03", "GREY",0, "b60054c895404f808d7736e18258e4ad"),
+           ("richard.chop@gmail.com", "00eeefa6423aca2237e080e18c0307cd8c6675b75ee25cd3b6bce8262a7e9dd8:2f6a903a10224792ae6a09687d370748", "Richard", "Chopping", "7586192639", "3876 Hallows Alley", "TS18 5LN", "System Administrator", "04", "PURPLE", 1, "2f6a903a10224792ae6a09687d370748"),
+           ("al.n.murford@yahoo.co.uk", "b0e037b4ce763ba90a1958aff4ef3032eb1d5256f94480c8d7812b3448b2e09f:86a3497334934a5dbace72443b6741e5", "Alvina", "Murford", "8475882191", "5198 Scofield Court", "LE6 0JA", "Facilities", "05", "ORANGE",0, "86a3497334934a5dbace72443b6741e5");
 
 
 

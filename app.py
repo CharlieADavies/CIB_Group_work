@@ -35,26 +35,9 @@ def process_vehicle_form():
 
 @app.route('/')
 def dashboard():
-
-    main_markup = """
-    <div class="panel panel--booking">
-        <h2>Bookings</h2>
-        <!-- bookings calendar goes here -->
-    </div>
-    """
-    sidebar_markup = """
-    <div class="panel">
-        <h2>Park and Ride dates</h2>
-        <p>16th – 26th Sept</p>
-    </div>
-    """
-
     if "username" in session.keys():
         print(session)
-        return render_template("main.html",
-                               main=main_markup,
-                               sidebar=sidebar_markup,
-                               type="Dashboard")
+        return render_template("main.html", type="Dashboard")
 
 
 @app.route('/login')

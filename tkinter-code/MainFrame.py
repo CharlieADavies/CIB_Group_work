@@ -1,8 +1,10 @@
 import tkinter as tk
 from tkinter import font as tkfont
-from tkinter import ttk
+from tkinter import ttk, PhotoImage
 import utils.passwords
-
+from PIL import ImageTk, Image
+import os
+import tkcalendar
 
 class Application(tk.Tk):
 
@@ -13,7 +15,7 @@ class Application(tk.Tk):
         self.label_font = tkfont.Font(family='Helvetica', size=15)
 
         # the container is where we'll stack a bunch of frames
-        # on top of each other, then the one we want visible
+        # on top of each other, then the one $we want visible
         # will be raised above the others
         window_manager = tk.Frame(self)
         window_manager.pack(side="top", fill="both", expand=True)
@@ -21,7 +23,7 @@ class Application(tk.Tk):
         window_manager.grid_columnconfigure(0, weight=1)
 
         self.frames = {}
-        for pages in (LoginScreen, RegistrationForm, SubmissionPage):
+        for pages in (LoginScreen, RegistrationForm, SubmissionPage, Dashboard):
             page_name = pages.__name__
             frame = pages(parent=window_manager, controller=self)
             self.frames[page_name] = frame
@@ -33,7 +35,7 @@ class Application(tk.Tk):
 
         self.switch_frame("LoginScreen")
         self.title("B&Q Parking")
-        self.geometry("800x300")
+        self.geometry("800x500")
 
     def switch_frame(self, page_name):
         '''Show a frame for the given page name'''
@@ -57,11 +59,11 @@ class LoginScreen(tk.Frame):
         self.password_text = tk.StringVar()
         password_entry = tk.Entry(self, show="*", textvariable=self.password_text).grid(column=2, row=3)
 
-        login_button = tk.Button(self, text="Login", command=self.login_click, font=controller.label_font).grid(column=2, row=4)
+        login_button = tk.Button(self, text="Login", command=lambda: controller.switch_frame("Dashboard"), font=controller.label_font).grid(column=2, row=4)
 
         register_button = tk.Button(self, text="Registration", command=lambda: controller.switch_frame("RegistrationForm"), font=controller.title_font, pady=15).grid(column=2, row=5)
 
-    def login_click(self):
+    """def login_click(self):
         # in empty "" enter your secretes.json file path.
         # eg. ardra.denford@yahoo.co.uk, VYq0X718mm for username and password
         can_login = utils.passwords.check_user(
@@ -71,7 +73,9 @@ class LoginScreen(tk.Frame):
             print("Works")
         else:
             # Wrong details entered.
-            print("Wrong details entered")
+            print("Wrong details entered")"""
+
+
 
 
 class RegistrationForm(tk.Frame):
@@ -139,6 +143,26 @@ class Dashboard(tk.Frame):
     def __init__(self, parent, controller):
         tk.Frame.__init__(self, parent)
         self.controller = controller
+
+        """profile_picture = ImageTk.PhotoImage(Image.open("Default_picture.png"))
+        picture_label = ttk.Label(self, image=profile_picture).grid(column=1, row=1)"""
+
+        welcome_message = tk.Label(self, text="Welcome back 'User'", font=controller.title_font, pady=15, padx=200).grid(column=3, row=1)
+
+        account_button = tk.Button(self, text="Account", font=controller.label_font, pady=15, padx=10).grid(column=4, row=1)
+
+        bookings_button = tk.Button(self, text="Boookings", font=controller.label_font, pady=15, padx=10).grid(column=5, row=1)
+
+        line = tk.Frame(self, height=3, width=720, bg="black").grid(column=1, columnspan=10, row=3)
+
+
+
+
+
+
+
+
+
 
 
 

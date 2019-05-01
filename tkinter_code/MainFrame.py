@@ -1,4 +1,5 @@
 import tkinter as tk
+from datetime import time
 from tkinter import font as tkfont
 from tkinter import ttk, PhotoImage
 import utils.passwords
@@ -8,6 +9,10 @@ import tkinter_code.calander_
 from PIL import ImageTk, Image
 import os
 from tkcalendar import Calendar
+
+
+user = ""
+
 
 class Application(tk.Tk):
 
@@ -39,11 +44,14 @@ class Application(tk.Tk):
         self.switch_frame("LoginScreen")
         self.title("B&Q Parking")
         self.geometry("900x500")
+        self.user = ""
 
     def switch_frame(self, page_name):
         '''Show a frame for the given page name'''
         frame = self.frames[page_name]
         frame.tkraise()
+        frame.update()
+        frame.event_generate("<<ShowFrame>>")
 
 
 class LoginScreen(tk.Frame):
@@ -51,7 +59,6 @@ class LoginScreen(tk.Frame):
     def __init__(self, parent, controller):
         tk.Frame.__init__(self, parent)
         self.controller = controller
-
         title = tk.Label(self, text="Please Login", font=controller.title_font).grid(column=2, row=1)
 
         username_label = tk.Label(self, text="Username: ", font=controller.label_font).grid(column=1, row=2)
@@ -62,9 +69,14 @@ class LoginScreen(tk.Frame):
         self.password_text = tk.StringVar()
         password_entry = tk.Entry(self, show="*", textvariable=self.password_text).grid(column=2, row=3)
 
-        login_button = tk.Button(self, text="Login", command=lambda: controller.switch_frame("Dashboard"), font=controller.label_font).grid(column=2, row=4)
+        login_button = tk.Button(self, text="Login", command=self.login_click, font=controller.label_font).grid(column=2, row=4)
 
         register_button = tk.Button(self, text="Registration", command=lambda: controller.switch_frame("RegistrationForm"), font=controller.title_font, pady=15).grid(column=2, row=5)
+        self.user = ""
+
+    def write_username(self, f="user.txt", user=None):
+        with open(f, "w") as f:
+            f.write(user)
 
     def login_click(self):
         # in empty "" enter your secretes.json file path.
@@ -72,6 +84,7 @@ class LoginScreen(tk.Frame):
         can_login = utils.passwords.check_user(
             self.username_text.get(), self.password_text.get(), "H:\Applications of programming\CIB\secrets.json")
         if can_login is True:
+            self.write_username("user.txt", self.username_text.get())
             self.controller.switch_frame("Dashboard")
         else:
             # Wrong details entered.
@@ -125,7 +138,6 @@ class AccountDetails(tk.Frame):
         has_blue_badge_Label = tk.Label(self, textvariable=self.has_blue_badge_text, font=controller.label_font).grid(column=1, row=11)
         self.account_logic()
 
-    
     def account_logic(self):
         account_details = utils.account_details.AccountDetails("jacob.smith@gmail.com", "H:\\Applications of programming\CIB\\secrets.json")
         details = account_details.get_user_details()
@@ -159,13 +171,22 @@ class BookingScreen(tk.Frame):
         # YYYY-MM-DD
         control = tkinter_code.calander_.Control(self)
 
-        self.username_text = tk.StringVar()
-        self.username_text.set("Username")
-        username_label = tk.Label(self, textvariable=self.username_text, font=controller.label_font).grid(column=1, row=4, pady=(100, 10))
+        self.bind("<<ShowFrame>>", self.on_show_frame)
 
-        self.park_date_text = tk.StringVar()
-        self.park_date_text.set("16-09-2000 10am-3pm")
-        park_date_label = tk.Label(self, textvariable=self.park_date_text, font=controller.label_font).grid(column=1, row=5)
+    def read_file(self, file):
+        with open(file, "r+") as f:
+            username = f.read()
+        return username
+
+
+    def on_show_frame(self, event):
+        username_text = tk.StringVar()
+        username_text.set(self.read_file("user.txt"))
+        username_label = tk.Label(self, textvariable=username_text, font=self.controller.label_font).grid(column=1, row=4, pady=100)
+        park_date_text = tk.StringVar()
+        park_date_text.set("16-09-2000 10am-3pm")
+        park_date_label = tk.Label(self, textvariable=park_date_text, font=self.controller.label_font).grid(column=1, row=5)
+
 
 class RegistrationForm(tk.Frame):
     def __init__(self, parent, controller):

@@ -107,24 +107,18 @@ class Calendar:
         self.parent.destroy()
 
 
-if __name__ == '__main__':
-    class Control:
-        def __init__(self, parent):
-            self.parent = parent
-            self.choose_btn = tk.Button(self.parent, text='Choose', command=self.popup)
-            self.show_btn = tk.Button(self.parent, text='Show Selected', command=self.print_selected_date)
-            self.choose_btn.grid()
-            self.show_btn.grid()
-            self.data = {}
+class Control:
+    def __init__(self, parent):
+        parent = parent
+        choose_btn = tk.Button(parent, text='Choose', command=self.popup)
+        show_btn = tk.Button(parent, text='Show Selected', command=self.print_selected_date)
+        choose_btn.grid(column=1, row=2)
+        show_btn.grid(column=1, row=3)
+        self.data = {}
 
-        def popup(self):
-            child = tk.Toplevel()
-            cal = Calendar(child, self.data)
+    def popup(self):
+        child = tk.Toplevel()
+        cal = Calendar(child, self.data)
 
-        def print_selected_date(self):
-            print(self.data)
-
-
-    root = tk.Tk()
-    app = Control(root)
-    root.mainloop()
+    def print_selected_date(self):
+        print(self.data)

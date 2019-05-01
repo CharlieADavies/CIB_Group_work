@@ -2,7 +2,10 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>login</title>
+    <link href="../static/main.css" rel="stylesheet" />
+    <link href="../static/reset.css" rel="stylesheet" />
+    {% if type == "login" %}<title>Welcome · Project Herbie</title>{% endif %}
+    {% if type == "register" %}<title>Register · Project Herbie</title>{% endif %}
 </head>
 <body>
 

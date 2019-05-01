@@ -28,8 +28,6 @@ def check_user(user_name, password, credential_file="./secretes.json"):
     user_names = []
     passwords = []
     # salt is temporary until its in the table.
-
-
     for record in records:
         user_names.append(record[0])
         passwords.append(record[1])
@@ -48,7 +46,7 @@ def check_user(user_name, password, credential_file="./secretes.json"):
 
 if __name__ == '__main__':
     # add the secrets.json file path
-    can_login = check_user("tom@gmail.com", "password", "")
+    can_login = check_user("jacob.smith@gmail.com", "password", "H:\\Applications of programming\CIB\\secrets.json")
     if can_login is True:
         # LOGIN
         print("pass")

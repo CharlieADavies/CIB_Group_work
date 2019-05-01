@@ -1,6 +1,7 @@
 from flask import Flask, request, redirect, url_for, render_template, session
+
+from utils.db_func import *
 from utils.passwords import check_user
-from utils.db_func import *  # add_vehicle
 
 app = Flask(__name__)
 app.secret_key = "secret-key"
@@ -21,7 +22,7 @@ def login():
 
 @app.route("/vehicle")
 def vehicle_form():
-    # TODO add main content (required markup is commented in main.html
+    # TODO add main content (required markup is commented in main.html)
     return render_template("main.html")
 
 
@@ -31,11 +32,14 @@ def process_vehicle_form():
     is_electric = request.form['electric']
     reg = request.form['reg']
     badge = request.form['blue_badge']
+    if insert_vehicle(username, is_electric, reg, badge):
+        return redirect(url_for("dashboard_page"))
+    else:
+        return redirect(url_for("vehicle_form"))
 
 
 @app.route('/')
-def dashboard():
-
+def dashboard_page():
     main_markup = """
     <div class="panel panel--booking">
         <h2>Bookings</h2>
@@ -51,8 +55,28 @@ def dashboard():
 
     if "username" in session.keys():
         print(session)
-        return render_template("main.html", main=main_markup,
+        return render_template("main.html",
+                               title="Dashboard",
+                               main=main_markup,
                                sidebar=sidebar_markup)
+
+
+@app.route("/license")
+def license_page():
+    main_markup = """
+    <div class="panel panel--PANEL_NAME">
+        <h2>Licenses</h2>
+        <p>
+            All work that isn't in the public domain or free for personal use is credited here.
+        </p>
+        <ul>
+            <li><a href='https://www.flaticon.com/free-icon/volkswagen-beetle_83631'>Volkswagen Beetle</a></li>
+        </ul>
+    </div>
+    """
+    return render_template("main.html",
+                           title="Licenses",
+                           main=main_markup)
 
 
 @app.route('/login')
@@ -61,7 +85,7 @@ def login_page():
 
 
 @app.route("/register")
-def register():
+def register_page():
     return render_template("gate.html", type="register")
 
 

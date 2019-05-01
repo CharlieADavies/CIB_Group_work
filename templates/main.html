@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>{% title + " · Project Herbie" %}</title>
+    <title>{% title %} · Project Herbie</title>
     <link href="../static/main.css" rel="stylesheet" />
     <link href="../static/reset.css" rel="stylesheet" />
 </head>
@@ -29,6 +29,18 @@
         <div class="panel panel--booking">
             <h2>Bookings</h2>
             <!-- bookings calendar goes here -->
+        </div>
+        {% endif %}
+
+        {% if type == "licenses" %}
+        <div class="panel panel--licenses">
+            <h2>Licenses</h2>
+            <p>
+                All work that isn't in the public domain or free for personal use is credited here.
+            </p>
+            <ul>
+                <li><a href='https://www.flaticon.com/free-icon/volkswagen-beetle_83631'>Volkswagen Beetle</a></li>
+            </ul>
         </div>
         {% endif %}
 

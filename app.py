@@ -26,8 +26,9 @@ def login():
 
 @app.route("/vehicle")
 def vehicle_form():
-    # TODO add main content (required markup is commented in main.html)
-    return render_template("main.html")
+    # TODO add main content
+    return render_template("main.html",
+                           title="Vehicles")
 
 
 @app.route("/vehicle_f", methods=['POST'])
@@ -76,5 +77,5 @@ def number_plate_recognition():
 
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=80)
+    app.run()
 

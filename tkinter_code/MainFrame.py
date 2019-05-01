@@ -38,8 +38,8 @@ class Application(tk.Tk):
             frame.grid(row=0, column=0, sticky="nsew")
 
         self.switch_frame("LoginScreen")
-        self.title("B&Q Parking")
-        self.geometry("1200x500")
+        self.title("Herbie")
+        self.geometry("1350x500")
 
     def switch_frame(self, page_name):
         '''Show a frame for the given page name'''
@@ -67,7 +67,7 @@ class LoginScreen(tk.Frame):
 
         login_button = tk.Button(self, text="Login", command=self.login_click, font=controller.label_font).grid(column=2, row=4)
 
-        register_button = tk.Button(self, text="Registration", command=lambda: controller.switch_frame("RegistrationForm"), font=controller.title_font, pady=15).grid(column=2, row=5)
+        register_button = tk.Button(self, text="Registration", command=lambda: controller.switch_frame("RegistrationForm"), font=controller.title_font, pady=5).grid(column=2, row=5)
         self.user = ""
 
     def write_username(self, f="user.txt", user=None):
@@ -266,27 +266,41 @@ class Dashboard(tk.Frame):
 
         bookings_button = tk.Button(self, text="Boookings", font=controller.label_font, pady=5, padx=10).grid(column=5, row=1)
 
-        line = tk.Frame(self, height=3, width=1000, bg="black").grid(column=1, columnspan=10, row=2)
+        line = tk.Frame(self, height=3, width=1200, bg="black").grid(column=1, columnspan=10, row=2)
 
         subframe_1 = tk.Frame(self, relief="raised", pady=5, borderwidth=2)
         subframe_1.place(x="75", y="150")
 
-        cal = Calendar(subframe_1, font="Arial 14", selectmode='day', locale='en_US',
-                       cursor="hand1", year=2018, month=2, day=5)
+        cal = Calendar(subframe_1, font="Arial 14", selectmode='day', locale='en_UK',
+                       cursor="hand2")
 
-        cal.config(background="#16dace", foreground="#1586da", headersbackground="#16dace", headersforeground="#1586da",
-                   selectbackground="#16dace", selectforeground="red", normalbackground="#16dace", normalforeground="#1586da",
-                   weekendbackground="#16dace", weekendforeground="#1586da", othermonthbackground="#16dace")
+        cal.config(background="#292d2f", foreground="#1586da", headersbackground="#292d2f", headersforeground="#1586da",
+                   selectbackground="#292d2f", selectforeground="#16dace", normalbackground="#292d2f", normalforeground="#1586da",
+                   weekendbackground="#292d2f", weekendforeground="#1586da", othermonthbackground="#292d2f", othermonthwebackground="#292d2f")
 
         cal.pack(fill="both", expand=True)
 
-        subframe_2 = tk.Frame(self, height="300", width="300", relief="raised", pady=5, borderwidth=2, background="white")
-        subframe_2.place(x="500", y="100")
-        line_2 = tk.Frame(self, height=30, width=300, bg="#16dace").place(x="500", y="100")
+        subframe_2 = tk.Frame(self, height="275", width="500", relief="raised", pady=5, borderwidth=2)
+        subframe_2.place(x="520", y="160")
+        line_2 = tk.Frame(self, height=30, width=500, bg="#16dace").place(x="520", y="160")
 
-        """colour_fill = tk.Frame(subframe_2)
-        colour_fill.grid(row=1, column=1)
-        colour_fill.config(background="blue")"""
+        image_2 = Image.open("Default_picture.png")
+        image_2 = image_2.resize((150, 150), Image.ANTIALIAS)
+        image_2 = ImageTk.PhotoImage(image_2)
+        artwork_2 = tk.Label(self, image=image_2)
+        artwork_2.photo = image_2
+        artwork_2.place(x="840", y="265")
+
+        name_label = tk.Label(self, text=(self.read_file("user.txt")), font=controller.title_font).place(x="600", y="210")
+        role_label = tk.Label(self, text="Role: ", font=controller.title_font).place(x="557", y="260")
+        role_2 = tk.Label(self, text="Employee", font=controller.label_font).place(x="637", y="265")
+        date_label = tk.Label(self, text="Date: ", font=controller.title_font).place(x="557", y="310")
+        date_2 = tk.Label(self, text="10/08/2019", font=controller.label_font).place(x="637", y="315")
+        time_label = tk.Label(self, text="Time: ", font=controller.title_font).place(x="557", y="350")
+        time_2 = tk.Label(self, text="10am - 3pm", font=controller.label_font).place(x="637", y="355")
+
+
+
 
 
     def read_file(self, file):

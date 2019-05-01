@@ -3,9 +3,7 @@ database functionality common to both flask and tkinter
 """
 import datetime
 import random
-
 import mysql.connector
-
 import utils.db_init
 
 
@@ -28,30 +26,41 @@ def insert_vehicle(username, is_electric, vehicle_reg, vehicle_make):
         return False
 
 
+def validate_booking(username, booking_date: datetime.datetime):
+    query = _fetch_booking_info(username)
+    booking_date = booking_date.date()
+    if not query:
+        return False
+    for row in query:
+        dates = list(row)
+        first_date = dates[0]
+
+        if booking_date.day == first_date.day and booking_date.month == first_date.month and booking_date.year == first_date.year:
+            return False, "You already have a booking for that date"
+        for p_r_date in dates[1:]:
+            if p_r_date <= booking_date <= p_r_date + datetime.timedelta(days=7):
+                return False, "This collides with your park and ride dates"
+        return True
 
 
-def can_book_at_time(username, booking_date):
+def _fetch_booking_info(username):
+    print(username)
     creds = utils.db_init.load_credentials()
     sql_insert_query = """
         SELECT booking_date, first_week,second_week,third_week,fourth_week,fifth_week FROM bookings
         INNER JOIN users u on bookings.username = u.username
         inner join badge_colours b on u.badge = b.badge
-         where booking_date = %s
-        and u.username = %s
-    """
+        where u.username = '""" + username+"'"
     try:
         connection = utils.db_init.connect(creds['user'], creds['database'], creds['password'], creds['host'])
         cursor = connection.cursor()
-        cursor.execute(sql_insert_query, (booking_date, username))
-        print(cursor.fetchall())
-        print("Select executed")
-        return True
+        cursor.execute(sql_insert_query)
+
+        return cursor.fetchall()
 
     except mysql.connector.Error as e:
         print("Failed to select ", e)
         return False
-
-
 
 
 def insert_booking(username, booking_date, vehicle_reg, start_time=8, end_time=8):
@@ -70,8 +79,6 @@ def insert_booking(username, booking_date, vehicle_reg, start_time=8, end_time=8
     except mysql.connector.Error as e:
         print("Failed to insert", e)
         return False
-
-
 
 
 def give_user_badge(username, badge_colour="RAND"):
@@ -99,7 +106,5 @@ def give_user_badge(username, badge_colour="RAND"):
         return False
 
 
-
-
 if __name__ == "__main__":
-    can_book_at_time("jacob.smith@gmail.com", datetime.datetime(2018, 6, 25))
+    print(validate_booking("jacob.smith@gmail.com", datetime.datetime(2018, 7, 28)))

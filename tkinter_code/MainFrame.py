@@ -81,7 +81,7 @@ class LoginScreen(tk.Frame):
         # in empty "" enter your secretes.json file path.
         # eg. ardra.denford@yahoo.co.uk, VYq0X718mm for username and password
         can_login = utils.passwords.check_user(
-            self.username_text.get(), self.password_text.get(), "../secrets.json")
+            self.username_text.get(), self.password_text.get(), "H:\Applications of programming\CIB\secrets.json")
         if can_login is True:
             self.write_username("user.txt", self.username_text.get())
             self.controller.switch_frame("Dashboard")
@@ -139,7 +139,7 @@ class AccountDetails(tk.Frame):
 
 
     def account_logic(self):
-        account_details = utils.account_details.AccountDetails("jacob.smith@gmail.com", "../secrets.json")
+        account_details = utils.account_details.AccountDetails("jacob.smith@gmail.com", "H:\Applications of programming\CIB\secrets.json")
 
         #jacob.smith@gmail.com, password
         details = account_details.get_user_details()
@@ -317,7 +317,7 @@ class Dashboard(tk.Frame):
 
         account_button = tk.Button(self, text="Account", font=controller.label_font, pady=5, padx=10).grid(column=4, row=1)
 
-        bookings_button = tk.Button(self, text="Boookings", font=controller.label_font, pady=5, padx=10).grid(column=5, row=1)
+        bookings_button = tk.Button(self, text="Boookings", command=lambda: controller.switch_frame("BookingScreen"), font=controller.label_font, pady=5, padx=10).grid(column=5, row=1)
 
         line = tk.Frame(self, height=3, width=1000, bg="black").grid(column=1, columnspan=10, row=2)
 

@@ -10,13 +10,18 @@ app.secret_key = "secret-key"
 @app.route("/login_action", methods=['POST'])
 def login():
     print("Logging user in")
+
     username = request.form['username']
     password = request.form['password']
+
     print(username, password)
+
     if not check_user(username, password):
         print("Invalid login")
         return redirect(url_for("login_page"))
+
     session['username'] = username
+
     return redirect(url_for('dashboard'))
 
 
@@ -45,6 +50,8 @@ def dashboard():
         return render_template("main.html",
                                title="Dashboard",
                                type="dashboard")
+    else:
+        return redirect(url_for("login_page"))
 
 
 @app.route("/licenses")

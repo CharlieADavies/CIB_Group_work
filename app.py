@@ -62,7 +62,7 @@ def license_page():
 @app.route('/login')
 def login_page():
     if "username" in session.keys():    # if user is logged in, redirect to dashboard
-        redirect(url_for("dashboard"))
+        return redirect(url_for("dashboard"))
     else:
         return render_template("gate.html", page="login")
 
@@ -70,9 +70,15 @@ def login_page():
 @app.route("/register")
 def register_page():
     if "username" in session.keys():    # if user is logged in, redirect to dashboard
-        redirect(url_for("dashboard"))
+        return redirect(url_for("dashboard"))
     else:
         return render_template("gate.html", page="register")
+
+
+@app.route("/sign-out")
+def sign_out():
+    del session['username']  # TODO proven to work, but test session.pop("username", None)
+    return redirect(url_for("login_page"))
 
 
 @app.route("/plate", methods=['POST'])

@@ -2,6 +2,7 @@ import calendar
 import datetime
 import sys
 import utils.date_select_logic
+import utils.date_select_logic
 
 if sys.version[0] == '2':
     import Tkinter as tk
@@ -105,23 +106,34 @@ class Calendar:
         ok.grid(row=9, column=2, columnspan=3, pady=10)
 
     def kill_and_save(self):
-        self.parent.destroy()
+        date = str(self.values['year_selected']) + "-" + str(self.values['month_selected']) + "-" + str(
+            self.values['day_selected'])
+        free_date = utils.date_select_logic.check_date(date, "H:\Applications of programming\CIB\secrets.json")
+        if free_date is True:
+            username = self.read_file("../tkinter_code/user.txt")
 
+            utils.date_select_logic.insert_into_database("H:\Applications of programming\CIB/secrets.json", date, username)
+            self.parent.destroy()
+
+    def read_file(self, file):
+        with open(file, "r+") as f:
+            username = f.read()
+        return username
 
 class Control:
     def __init__(self, parent):
         parent = parent
-        choose_btn = tk.Button(parent, text='Choose', command=self.popup)
-        show_btn = tk.Button(parent, text='Show Selected', command=self.print_selected_date)
-        choose_btn.grid(column=1, row=2)
-        show_btn.grid(column=1, row=3)
+        choose_btn = tk.Button(parent, text='Open Calendar', command=self.popup)
+        # show_btn = tk.Button(parent, text='Show Selected', command=self.print_selected_date)
+        choose_btn.grid(column=1, row=2, pady=50)
+        # show_btn.grid(column=1, row=3)
         self.data = {}
 
     def popup(self):
         child = tk.Toplevel()
         cal = Calendar(child, self.data)
 
-    def print_selected_date(self):
-        data_to_send = str(self.data['year_selected']) + "-" + str(self.data['month_selected']) + "-" + str(self.data['day_selected'])
-        free_date = utils.date_select_logic.check_date(data_to_send, "H:\Applications of programming\CIB\secrets.json")
-        print(data_to_send)
+    # def print_selected_date(self):
+    #     data_to_send = str(self.data['year_selected']) + "-" + str(self.data['month_selected']) + "-" + str(self.data['day_selected'])
+    #     free_date = utils.date_select_logic.check_date(data_to_send, "H:\Applications of programming\CIB\secrets.json")
+    #     print(data_to_send)

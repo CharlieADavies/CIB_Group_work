@@ -63,7 +63,20 @@ def dashboard_page():
 
 @app.route("/license")
 def license_page():
-    return render_template("main.html", title="Licenses")
+    main_markup = """
+    <div class="panel panel--PANEL_NAME">
+        <h2>Licenses</h2>
+        <p>
+            All work that isn't in the public domain or free for personal use is credited here.
+        </p>
+        <ul>
+            <li><a href='https://www.flaticon.com/free-icon/volkswagen-beetle_83631'>Volkswagen Beetle</a></li>
+        </ul>
+    </div>
+    """
+    return render_template("main.html",
+                           title="Licenses",
+                           main=main_markup)
 
 
 @app.route('/login')

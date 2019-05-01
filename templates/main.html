@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>{% title %} · Project Herbie</title>
+    <title>{{ title }} · Project Herbie</title>
     <link href="../static/main.css" rel="stylesheet" />
     <link href="../static/reset.css" rel="stylesheet" />
 </head>
@@ -25,7 +25,7 @@
 
     <main>
 
-        {% if type == "dashboard" OR type == "booking" %}
+        {% if type == "dashboard" or type == "booking" %}
         <div class="panel panel--booking">
             <h2>Bookings</h2>
             <!-- bookings calendar goes here -->
@@ -44,8 +44,6 @@
         </div>
         {% endif %}
 
-        {% main %}
-
     </main>
 
     <div class="sidebar">
@@ -54,8 +52,6 @@
             <h2>Park and Ride dates</h2>
             <p>16th – 26th Sept</p>
         </div>
-
-        {% sidebar %}
 
     </div>
 

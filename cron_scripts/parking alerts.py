@@ -16,7 +16,7 @@ def users_with_bookings_in_range(range=1):
 from users
          inner join vehicles on users.username = vehicles.username
          inner join bookings on users.username = bookings.username
-where CURDATE() >= (bookings.booking_date - interval """+str(range)+""" day) AND curdate() > bookings.booking_date""")
+where CURDATE() >= (bookings.booking_date - interval """+str(range)+""" day) AND curdate() < bookings.booking_date""")
     return cursor.column_names, cursor.fetchall()
 
 

@@ -31,16 +31,16 @@ def insert_vehicle(username, is_electric, vehicle_reg, vehicle_make):
         return False
 
 
-def insert_booking(username, booking_date, vehicle_reg):
+def insert_booking(username, booking_date, vehicle_reg, start_time=8, end_time=8):
     creds = utils.db_init.load_credentials()
     sql_insert_query = """
     INSERT INTO `bookings`
-    (`username`, `booking_date`, `vehicle_registration`) VALUES (%s,%s,%s)
+    (`username`, `booking_date`, `vehicle_registration`,`start_time`,`end_time`) VALUES (%s,%s,%s,%s,%s)
     """
     try:
         connection = utils.db_init.connect(creds['user'], creds['database'], creds['password'], creds['host'])
         cursor = connection.cursor()
-        cursor.execute(sql_insert_query, (username, booking_date, vehicle_reg))
+        cursor.execute(sql_insert_query, (username, booking_date, vehicle_reg, start_time, end_time))
         print("Row inserted into booking table")
         return True
 

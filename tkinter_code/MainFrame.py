@@ -39,7 +39,7 @@ class Application(tk.Tk):
 
         self.switch_frame("LoginScreen")
         self.title("B&Q Parking")
-        self.geometry("1000x500")
+        self.geometry("1200x500")
 
     def switch_frame(self, page_name):
         '''Show a frame for the given page name'''
@@ -78,7 +78,7 @@ class LoginScreen(tk.Frame):
         # in empty "" enter your secretes.json file path.
         # eg. ardra.denford@yahoo.co.uk, VYq0X718mm for username and password
         can_login = utils.passwords.check_user(
-            self.username_text.get(), self.password_text.get(), "H:\Applications of programming\CIB\secrets.json")
+            self.username_text.get(), self.password_text.get(), "../secrets.json")
         if can_login is True:
             self.write_username("user.txt", self.username_text.get())
             self.controller.switch_frame("Dashboard")
@@ -136,7 +136,9 @@ class AccountDetails(tk.Frame):
 
 
     def account_logic(self):
-        account_details = utils.account_details.AccountDetails("jacob.smith@gmail.com", "H:\\Applications of programming\CIB\\secrets.json")
+        account_details = utils.account_details.AccountDetails("jacob.smith@gmail.com", "../secrets.json")
+
+        #jacob.smith@gmail.com, password
         details = account_details.get_user_details()
         self.username_text.set("Username: " + str(details[0]))
         self.first_name_text.set("First name: " + str(details[2]))
@@ -264,7 +266,7 @@ class Dashboard(tk.Frame):
 
         bookings_button = tk.Button(self, text="Boookings", font=controller.label_font, pady=5, padx=10).grid(column=5, row=1)
 
-        line = tk.Frame(self, height=3, width=720, bg="black").grid(column=1, columnspan=10, row=2)
+        line = tk.Frame(self, height=3, width=1000, bg="black").grid(column=1, columnspan=10, row=2)
 
         subframe_1 = tk.Frame(self, relief="raised", pady=5, borderwidth=2)
         subframe_1.place(x="75", y="150")

@@ -8,11 +8,9 @@ def hash_password(password, salt):
     return hashlib.sha256(salt.encode() + password.encode()).hexdigest() + ':' + salt
 
 
-<<<<<<< HEAD
-def check_user(user_name, password, credential_file="./secrets.json"):
-=======
+#<<<<<<< HEAD
 def check_user(user_name, password, credential_file="../secrets.json"):
->>>>>>> 712345976bd54a9137ced27de194a2a1e2afb708
+#>>>>>>> 712345976bd54a9137ced27de194a2a1e2afb708
     """
     This function checks if the user has entered the correct details
     and if so allow them into the booking system.
@@ -50,7 +48,7 @@ def check_user(user_name, password, credential_file="../secrets.json"):
 
 if __name__ == '__main__':
     # add the secrets.json file path
-    can_login = check_user("jacob.smith@gmail.com", "password", "H:\\Applications of programming\CIB\\secrets.json")
+    can_login = check_user("jacob.smith@gmail.com", "password", "../secrets.json")
     if can_login is True:
         # LOGIN
         print("pass")

@@ -3,6 +3,7 @@ from tkinter import font as tkfont
 from tkinter import ttk
 import utils.passwords
 import utils.account_details
+import tkinter_code.calander_
 
 
 class Application(tk.Tk):
@@ -22,7 +23,7 @@ class Application(tk.Tk):
         window_manager.grid_columnconfigure(0, weight=1)
 
         self.frames = {}
-        for pages in (LoginScreen, RegistrationForm, AccountDetails):
+        for pages in (LoginScreen, RegistrationForm, AccountDetails, BookingScreen):
             page_name = pages.__name__
             frame = pages(parent=window_manager, controller=self)
             self.frames[page_name] = frame
@@ -32,7 +33,7 @@ class Application(tk.Tk):
             # will be the one that is visible.
             frame.grid(row=0, column=0, sticky="nsew")
 
-        self.switch_frame("LoginScreen")
+        self.switch_frame("BookingScreen")
         self.title("B&Q Parking")
         self.geometry("800x400")
 
@@ -66,7 +67,7 @@ class LoginScreen(tk.Frame):
         # in empty "" enter your secretes.json file path.
         # eg. ardra.denford@yahoo.co.uk, VYq0X718mm for username and password
         can_login = utils.passwords.check_user(
-            self.username_text.get(), self.password_text.get(), "")
+            self.username_text.get(), self.password_text.get(), "H:\Applications of programming\CIB\secrets.json")
         if can_login is True:
             # Enter dash board
             print("Works")
@@ -81,7 +82,6 @@ class AccountDetails(tk.Frame):
         self.controller = controller
 
         title = tk.Label(self, text="Account Details", font=controller.title_font).grid(column=2, row=1)
-
         self.username_text = tk.StringVar()
         self.username_text.set("Username: ")
         username_label = tk.Label(self, textvariable=self.username_text, font=controller.label_font).grid(column=1, row=2)
@@ -136,6 +136,33 @@ class AccountDetails(tk.Frame):
         self.employee_number_text.set("Employee Number: " + str(details[8]))
         self.badge_text.set("Badge: " + str(details[9]))
         self.has_blue_badge_text.set("Blue Badge: " + str(details[10]))
+
+
+class BookingScreen(tk.Frame):
+    def __init__(self, parent, controller):
+        tk.Frame.__init__(self, parent)
+        self.controller = controller
+
+        title = tk.Label(self, text="Bookings", font=controller.title_font).grid(column=2, row=1)
+        # YYYY-MM-DD
+        control = Control(parent)
+
+
+class Control(tk.Frame):
+    def __init__(self, parent):
+        self.parent = parent
+        self.choose_btn = tk.Button(self.parent, text='Choose', command=self.popup)
+        self.show_btn = tk.Button(self.parent, text='Show Selected', command=self.print_selected_date)
+        self.choose_btn.grid()
+        self.show_btn.grid()
+        self.data = {}
+
+    def popup(self):
+        child = tk.Toplevel()
+        cal = tkinter_code.calander_.Calendar(child, self.data)
+
+    def print_selected_date(self):
+        print(self.data)
 
 
 class RegistrationForm(tk.Frame):

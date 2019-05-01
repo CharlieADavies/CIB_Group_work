@@ -12,7 +12,7 @@
     <div class="site-header">
 
         <div class="logo">
-            <img src="#" alt="Project Herbie logo" />
+            <img src="/static/img/logo-white.png" alt="Project Herbie logo" />
         </div>
 
     </div>
@@ -24,15 +24,35 @@
         </h1>
     </div>
 
-    <form action="/login_action" method="post">
-        Email:<br>
-        <input type="email" name="username" value="">
-        <br>
-        Password<br>
-        <input type="password" name="password" value="">
-        <br><br>
-        <input type="submit" value="Login">
-    </form>
+    <div class="panel panel--login">
+
+        <h2>
+            Login to Herbie
+        </h2>
+
+        <form action="/login_action" method="post">
+
+            <div class="form-field form-field--email">
+                <label for="form-field-email">Email</label>
+                <input type="email" name="username" id="form-field-email" placeholder="john.doe@gmail.com" />
+            </div>
+
+            <div class="form-field form-field--password">
+                <label id="form-field-password">Password</label>
+                <input type="password" name="password" id="form-field-password" placeholder="hello world" />
+            </div>
+
+            <div class="form-field form-field--submit">
+                <input type="submit" value="Login" />
+            </div>
+
+            <div class="form-field form-field--text">
+                <a href="/register">Not registered?</a>
+            </div>
+
+        </form>
+
+    </div>
 {% endif %}
 
 {% if page == "register" %}

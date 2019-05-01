@@ -1,0 +1,142 @@
+@blue: #1686da;
+@turquoise: #16dace;
+@white: #ffffff;
+@darkWhite: #ebebeb;
+@lightBlack: #1f2122;
+@blueBlack: #282d2f;
+
+@gutter: 10%;
+
+.header-font() {
+  font-family: "Arial", sans-serif;
+  font-weight: 600;
+  line-height: 1.25;
+}
+.body-font() {
+  font-family: "Open Sans", sans-serif;
+  font-weight: 400;
+}
+
+.border-style() {
+  border-top: 0.375rem solid @blue;
+  border-radius: 0.1875rem 0.1875rem 0.625rem 0.625rem; // 3 3 10 10
+}
+
+body {
+  .body-font();
+  color: @lightBlack;
+  background-color: @blueBlack;
+  padding: 0 @gutter @gutter
+}
+
+*:focus {
+  outline: 1px dotted @turquoise !important;
+}
+
+a {
+  color: @blue;
+  font-weight: 600;
+  text-decoration: none;
+
+  &:hover {
+    color: darken(@blue, 20%);
+    border-color: darken(@blue, 20%) !important
+  }
+  &:active {
+    color: @turquoise;
+    border-color: @turquoise !important
+  }
+}
+
+h1 {
+  font-size: 64px;
+  color: @white;
+  .header-font();
+  text-shadow: 0 0 5px rgba(0,0,0, 0.2)
+}
+
+h2 {
+  color: @blue;
+  .header-font();
+  font-size: 1.5em;
+  letter-spacing: 0.5px;
+}
+
+label {
+  font-weight: 600;
+  display: block;
+
+  &:after {
+    content: ":";
+  }
+}
+
+input[type=password],
+input[type=email],
+input[type=text] {
+  border: 1px solid grey;
+  border-radius: 3px;
+  margin: 0.25em 0;
+  width: 100%;
+  padding: 6px;
+}
+
+.logo {
+  margin: 1em 0;
+}
+
+.site-strapline {
+  display: none;
+}
+
+.panel a {
+  border-bottom: 3px solid @blue;
+}
+
+.form-field {
+  margin-bottom: 1em;
+}
+
+.page--login {
+  background-color: @blueBlack
+}
+
+.panel--login {
+  background-color: @white;
+  padding: 20px 42px 110px;
+  margin: auto;
+  .border-style();
+}
+
+.panel--login h2 {
+  margin-bottom: 1em;
+  text-align: center;
+}
+
+.panel--login .form-field--submit,
+.panel--login .form-field--text {
+  text-align: center;
+}
+
+@media only screen and (min-width: 1366px) {
+
+  .page--login {
+    background: @lightBlack url("/static/img/bg--login.jpg") top left / cover no-repeat;
+  }
+
+  .site-strapline {
+    display: block;
+    position: absolute;
+    width: 40%;
+    top: 280px;
+    left: 640px;
+  }
+
+  .panel--login {
+    max-width: 298px;
+    position: relative;
+    top: 110px;
+    margin: 0;
+  }
+
+}

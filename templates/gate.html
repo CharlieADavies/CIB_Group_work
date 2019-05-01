@@ -2,12 +2,14 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <link href="../static/main.css" rel="stylesheet" />
-    <link href="../static/reset.css" rel="stylesheet" />
+    <meta name="viewport" content="width=device-width, user-scalable=no" />
     {% if page == "login" %}<title>Welcome · Project Herbie</title>{% endif %}
     {% if page == "register" %}<title>Register · Project Herbie</title>{% endif %}
+    <link href="../static/reset.css" rel="stylesheet" />
+    <link href="../static/main.css" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,700" rel="stylesheet">
 </head>
-<body>
+<body class="page--{{ page }}">
 
     <div class="site-header">
 
@@ -39,7 +41,7 @@
 
             <div class="form-field form-field--password">
                 <label id="form-field-password">Password</label>
-                <input type="password" name="password" id="form-field-password" placeholder="hello world" />
+                <input type="password" name="password" id="form-field-password" placeholder="" />
             </div>
 
             <div class="form-field form-field--submit">

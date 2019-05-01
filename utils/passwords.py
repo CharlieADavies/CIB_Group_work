@@ -8,7 +8,11 @@ def hash_password(password, salt):
     return hashlib.sha256(salt.encode() + password.encode()).hexdigest() + ':' + salt
 
 
+<<<<<<< HEAD
 def check_user(user_name, password, credential_file="./secrets.json"):
+=======
+def check_user(user_name, password, credential_file="../secrets.json"):
+>>>>>>> 712345976bd54a9137ced27de194a2a1e2afb708
     """
     This function checks if the user has entered the correct details
     and if so allow them into the booking system.

@@ -106,11 +106,14 @@ class Calendar:
         ok.grid(row=9, column=2, columnspan=3, pady=10)
 
     def kill_and_save(self):
-        username = self.read_file("../tkinter_code/user.txt")
         date = str(self.values['year_selected']) + "-" + str(self.values['month_selected']) + "-" + str(
             self.values['day_selected'])
-        utils.date_select_logic.insert_into_database("H:\Applications of programming\CIB/secrets.json", date, username)
-        self.parent.destroy()
+        free_date = utils.date_select_logic.check_date(date, "H:\Applications of programming\CIB\secrets.json")
+        if free_date is True:
+            username = self.read_file("../tkinter_code/user.txt")
+
+            utils.date_select_logic.insert_into_database("H:\Applications of programming\CIB/secrets.json", date, username)
+            self.parent.destroy()
 
     def read_file(self, file):
         with open(file, "r+") as f:

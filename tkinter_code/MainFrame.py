@@ -196,11 +196,25 @@ class BookingScreen(tk.Frame):
         park_date_text.set("16-09-2000 10am-3pm")
         park_date_label = tk.Label(self, textvariable=park_date_text, font=self.controller.label_font).grid(column=1, row=5)
 
-        subframe_2 = tk.Frame(self, height="300", width="300", relief="raised", pady=5, borderwidth=2,
-                              background="white")
-        subframe_2.place(x="500", y="100")
-        line_2 = tk.Frame(self, height=30, width=300, bg="#16dace").place(x="500", y="100")
-        username_labe_2 = tk.Label(self, text=username, bg="white", font=self.controller.label_font).place(x="595", y="140")
+        subframe_2 = tk.Frame(self, height="275", width="500", relief="raised", pady=5, borderwidth=2)
+        subframe_2.place(x="520", y="160")
+        line_2 = tk.Frame(self, height=30, width=500, bg="#16dace").place(x="520", y="160")
+
+        image_2 = Image.open("Default_picture.png")
+        image_2 = image_2.resize((150, 150), Image.ANTIALIAS)
+        image_2 = ImageTk.PhotoImage(image_2)
+        artwork_2 = tk.Label(self, image=image_2)
+        artwork_2.photo = image_2
+        artwork_2.place(x="840", y="265")
+
+        name_label = tk.Label(self, text=(self.read_file("user.txt")), font=self.controller.title_font).place(x="600",
+                                                                                                         y="210")
+        role_label = tk.Label(self, text="Role: ", font=self.controller.title_font).place(x="557", y="260")
+        role_2 = tk.Label(self, text="Employee", font=self.controller.label_font).place(x="637", y="265")
+        date_label = tk.Label(self, text="Date: ", font=self.controller.title_font).place(x="557", y="310")
+        date_2 = tk.Label(self, text="10/08/2019", font=self.controller.label_font).place(x="637", y="315")
+        time_label = tk.Label(self, text="Time: ", font=self.controller.title_font).place(x="557", y="350")
+        time_2 = tk.Label(self, text="10am - 3pm", font=self.controller.label_font).place(x="637", y="355")
 
 
 class RegistrationForm(tk.Frame):

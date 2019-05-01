@@ -1,3 +1,5 @@
 venv
 .idea
 secrets.json
+db_init.cpython-37.pyc
+passwords.cpython-37.pyc

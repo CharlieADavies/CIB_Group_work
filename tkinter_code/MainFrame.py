@@ -135,6 +135,12 @@ class AccountDetails(tk.Frame):
         self.has_blue_badge_text = tk.StringVar()
         self.has_blue_badge_text.set("Blue Badge: ")
         has_blue_badge_Label = tk.Label(self, textvariable=self.has_blue_badge_text, font=controller.label_font).grid(column=1, row=11)
+        image = Image.open("Logo.png")
+        image = image.resize((150, 75), Image.ANTIALIAS)
+        image = ImageTk.PhotoImage(image)
+        artwork = tk.Button(self, command=lambda: controller.switch_frame("Dashboard"), image=image)
+        artwork.photo = image
+        artwork.grid(column=1, row=1)
         self.account_logic()
 
 
@@ -194,6 +200,7 @@ class BookingScreen(tk.Frame):
                               background="white")
         subframe_2.place(x="500", y="100")
         line_2 = tk.Frame(self, height=30, width=300, bg="#16dace").place(x="500", y="100")
+        username_labe_2 = tk.Label(self, text=username, bg="white", font=self.controller.label_font).place(x="595", y="140")
 
 
 class RegistrationForm(tk.Frame):

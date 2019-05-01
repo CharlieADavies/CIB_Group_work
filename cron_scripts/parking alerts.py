@@ -1,7 +1,4 @@
-
-
 import utils.db_init
-
 
 def users_with_bookings_in_range(range=1):
     """
@@ -26,10 +23,10 @@ def assign_parking_spaces(cols):
         send_alert(col)
 
 
-
 def send_alert(text):
     """Placeholder function for the function that will be used to text or email users"""
     print(text)
+
 
 if __name__ == "__main__":
     assign_parking_spaces(users_with_bookings_in_range()[1])

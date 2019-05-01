@@ -81,7 +81,7 @@ class LoginScreen(tk.Frame):
         # in empty "" enter your secretes.json file path.
         # eg. ardra.denford@yahoo.co.uk, VYq0X718mm for username and password
         can_login = utils.passwords.check_user(
-            self.username_text.get(), self.password_text.get(), "H:\Applications of programming\CIB\secrets.json")
+            self.username_text.get(), self.password_text.get(), "..\secrets.json")
         if can_login is True:
             self.write_username("user.txt", self.username_text.get())
             self.controller.switch_frame("Dashboard")
@@ -139,7 +139,7 @@ class AccountDetails(tk.Frame):
 
 
     def account_logic(self):
-        account_details = utils.account_details.AccountDetails("jacob.smith@gmail.com", "H:\Applications of programming\CIB\secrets.json")
+        account_details = utils.account_details.AccountDetails("jacob.smith@gmail.com", "..\secrets.json")
 
         #jacob.smith@gmail.com, password
         details = account_details.get_user_details()
@@ -183,7 +183,7 @@ class BookingScreen(tk.Frame):
 
     def on_show_frame(self, event):
         username_text = tk.StringVar()
-        username = get_name("H:\\Applications of programming\\CIB\\secrets.json")
+        username = get_name("..\secrets.json")
         username_text.set(username)
         username_label = tk.Label(self, textvariable=username_text, font=self.controller.label_font).grid(column=1, row=4, pady=100)
         park_date_text = tk.StringVar()
@@ -253,7 +253,7 @@ class RegistrationForm(tk.Frame):
 
     def check(self):
         username = self.username_text.get()
-        check = utils.register.check_all(username, "H:\Applications of programming\CIB\secrets.json")
+        check = utils.register.check_all(username, "..\secrets.json")
         if check is True:
             address = self.address_text.get() + " : " + self.address_second_line_text.get()+ " : " + self.city_text.get()
             # username, password, firstname, lastname, phone_no, location, postcode, role, employee_no, badge, is_blue
@@ -261,7 +261,7 @@ class RegistrationForm(tk.Frame):
                       self.last_name_text.get(), self.phone_number_text, address, self.post_code,
                       self.role_text.get(), self.employee_number.get(), None, self.check_badge.get()
                       ]
-            utils.register.insert_into_database("users", "H:\Applications of programming\CIB\secrets.json", values)
+            utils.register.insert_into_database("users", "..\secrets.json", values)
         # lambda: controller.switch_frame("SubmissionPage")
 
 
@@ -312,7 +312,7 @@ class Dashboard(tk.Frame):
         artwork.photo = image
         artwork.grid(column=1, row=1)
 
-        user = get_name("H:\Applications of programming\CIB\secrets.json")
+        user = get_name("..\secrets.json")
         welcome_message = tk.Label(self, text="Welcome back " + user[0] + " " + user[1], font=controller.title_font, pady=15, padx=200).grid(column=3, row=1)
 
         account_button = tk.Button(self, text="Account", font=controller.label_font, pady=5, padx=10).grid(column=4, row=1)

@@ -333,7 +333,7 @@ class Dashboard(tk.Frame):
 
         cal.pack(fill="both", expand=True)
 
-        subframe_2 = tk.Frame(self, height="275", width="500", relief="raised", pady=5, borderwidth=2)
+        subframe_2 = tk.Frame(self, height="275", width="500", relief="raised", pady=5, padx=5, borderwidth=2)
         subframe_2.place(x="520", y="160")
         line_2 = tk.Frame(self, height=30, width=500, bg="#16dace").place(x="520", y="160")
 
@@ -352,8 +352,11 @@ class Dashboard(tk.Frame):
         time_label = tk.Label(self, text="Time: ", font=controller.title_font).place(x="557", y="350")
         time_2 = tk.Label(self, text="10am - 3pm", font=controller.label_font).place(x="637", y="355")
 
+        subframe_3 = tk.Frame(self, height="275", width="250", relief="raised", pady=5, padx=5, borderwidth=2)
+        subframe_3.place(x="1050", y="160")
 
-
+        p_and_r_label = tk.Label(self, text="Your P&R Dates", font=controller.title_font).place(x="1065", y="175")
+        pr_label_text = tk.Label(self, text="As a blue badge holder:", font=controller.label_font).place(x="1060", y="220")
 
 
     def read_file(self, file):

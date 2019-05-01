@@ -1,4 +1,5 @@
 import utils.db_init
+import requests
 
 def users_with_bookings_in_range(range=1):
     """
@@ -27,6 +28,12 @@ def send_alert(text):
     """Placeholder function for the function that will be used to text or email users"""
     print(text)
 
+def send_sms(message, phone_no):
+    API_K = "7jCSMgddGbA-1kaQXk8WRv6v47R4VwOz6KkyMwpTGN" # pretend this isn't here
+    data = {'apikey': API_K, 'numbers': phone_no,
+     'message': message, 'sender': "Herbie Parking"}
+    r = requests.post("https://api.txtlocal.com/send/", data)
+    print(r.text)
 
 if __name__ == "__main__":
     assign_parking_spaces(users_with_bookings_in_range()[1])

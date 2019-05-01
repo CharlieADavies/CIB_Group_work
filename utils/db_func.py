@@ -27,8 +27,31 @@ def insert_vehicle(username, is_electric, vehicle_reg, vehicle_make):
         print("Failed to insert", e)
         return False
 
-    finally:
+
+
+
+def can_book_at_time(username, booking_date):
+    creds = utils.db_init.load_credentials()
+    sql_insert_query = """
+        SELECT booking_date, first_week,second_week,third_week,fourth_week,fifth_week FROM bookings
+        INNER JOIN users u on bookings.username = u.username
+        inner join badge_colours b on u.badge = b.badge
+         where booking_date = %s
+        and u.username = %s
+    """
+    try:
+        connection = utils.db_init.connect(creds['user'], creds['database'], creds['password'], creds['host'])
+        cursor = connection.cursor()
+        cursor.execute(sql_insert_query, (booking_date, username))
+        print(cursor.fetchall())
+        print("Select executed")
+        return True
+
+    except mysql.connector.Error as e:
+        print("Failed to select ", e)
         return False
+
+
 
 
 def insert_booking(username, booking_date, vehicle_reg, start_time=8, end_time=8):
@@ -48,8 +71,7 @@ def insert_booking(username, booking_date, vehicle_reg, start_time=8, end_time=8
         print("Failed to insert", e)
         return False
 
-    finally:
-        return False
+
 
 
 def give_user_badge(username, badge_colour="RAND"):
@@ -76,9 +98,8 @@ def give_user_badge(username, badge_colour="RAND"):
         print("Failed to update", e)
         return False
 
-    finally:
-        return False
+
 
 
 if __name__ == "__main__":
-    give_user_badge("jacob.smith@gmail.com")
+    can_book_at_time("jacob.smith@gmail.com", datetime.datetime(2018, 6, 25))

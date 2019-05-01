@@ -7,7 +7,7 @@ import tkinter_code.calander_
 
 from PIL import ImageTk, Image
 import os
-import tkcalendar
+from tkcalendar import Calendar
 
 class Application(tk.Tk):
 
@@ -26,7 +26,7 @@ class Application(tk.Tk):
         window_manager.grid_columnconfigure(0, weight=1)
 
         self.frames = {}
-        for pages in (LoginScreen, RegistrationForm, AccountDetails, BookingScreen, SubmissionPage):
+        for pages in (LoginScreen, RegistrationForm, BookingScreen, SubmissionPage, Dashboard):
             page_name = pages.__name__
             frame = pages(parent=window_manager, controller=self)
             self.frames[page_name] = frame
@@ -66,7 +66,7 @@ class LoginScreen(tk.Frame):
 
         register_button = tk.Button(self, text="Registration", command=lambda: controller.switch_frame("RegistrationForm"), font=controller.title_font, pady=15).grid(column=2, row=5)
 
-    """def login_click(self):
+    def login_click(self):
         # in empty "" enter your secretes.json file path.
         # eg. ardra.denford@yahoo.co.uk, VYq0X718mm for username and password
         can_login = utils.passwords.check_user(
@@ -76,9 +76,7 @@ class LoginScreen(tk.Frame):
             print("Works")
         else:
             # Wrong details entered.
-            print("Wrong details entered")"""
-
-
+            print("Wrong details entered")
 
 
 class AccountDetails(tk.Frame):
@@ -128,6 +126,7 @@ class AccountDetails(tk.Frame):
         has_blue_badge_Label = tk.Label(self, textvariable=self.has_blue_badge_text, font=controller.label_font).grid(column=1, row=11)
         self.account_logic()
 
+    
     def account_logic(self):
         account_details = utils.account_details.AccountDetails("jacob.smith@gmail.com", "H:\\Applications of programming\CIB\\secrets.json")
         details = account_details.get_user_details()
@@ -155,6 +154,7 @@ class BookingScreen(tk.Frame):
 
 class Control(tk.Frame):
     def __init__(self, parent):
+        tk.Frame.__init__(self, parent)
         self.parent = parent
         self.choose_btn = tk.Button(self.parent, text='Choose', command=self.popup)
         self.show_btn = tk.Button(self.parent, text='Show Selected', command=self.print_selected_date)
@@ -245,17 +245,7 @@ class Dashboard(tk.Frame):
 
         bookings_button = tk.Button(self, text="Boookings", font=controller.label_font, pady=15, padx=10).grid(column=5, row=1)
 
-        line = tk.Frame(self, height=3, width=720, bg="black").grid(column=1, columnspan=10, row=3)
-
-
-
-
-
-
-
-
-
-
+        line = tk.Frame(self, height=3, width=720, bg="black").grid(column=1, columnspan=10, row=2)
 
 
 

@@ -1,10 +1,13 @@
 import tkinter as tk
 from tkinter import font as tkfont
-from tkinter import ttk
+from tkinter import ttk, PhotoImage
 import utils.passwords
 import utils.account_details
 import tkinter_code.calander_
 
+from PIL import ImageTk, Image
+import os
+from tkcalendar import Calendar
 
 class Application(tk.Tk):
 
@@ -23,7 +26,7 @@ class Application(tk.Tk):
         window_manager.grid_columnconfigure(0, weight=1)
 
         self.frames = {}
-        for pages in (LoginScreen, RegistrationForm, AccountDetails, BookingScreen):
+        for pages in (LoginScreen, RegistrationForm, BookingScreen, SubmissionPage, Dashboard):
             page_name = pages.__name__
             frame = pages(parent=window_manager, controller=self)
             self.frames[page_name] = frame
@@ -33,9 +36,9 @@ class Application(tk.Tk):
             # will be the one that is visible.
             frame.grid(row=0, column=0, sticky="nsew")
 
-        self.switch_frame("BookingScreen")
+        self.switch_frame("LoginScreen")
         self.title("B&Q Parking")
-        self.geometry("800x400")
+        self.geometry("900x500")
 
     def switch_frame(self, page_name):
         '''Show a frame for the given page name'''
@@ -59,9 +62,9 @@ class LoginScreen(tk.Frame):
         self.password_text = tk.StringVar()
         password_entry = tk.Entry(self, show="*", textvariable=self.password_text).grid(column=2, row=3)
 
-        login_button = tk.Button(self, text="Login", command=self.login_click, font=controller.label_font).grid(column=2, row=4)
+        login_button = tk.Button(self, text="Login", command=lambda: controller.switch_frame("Dashboard"), font=controller.label_font).grid(column=2, row=4)
 
-        register_button = tk.Button(self, text="Registration", command=lambda: controller.switch_frame("RegistrationForm"), font=controller.title_font).grid(column=2, row=5)
+        register_button = tk.Button(self, text="Registration", command=lambda: controller.switch_frame("RegistrationForm"), font=controller.title_font, pady=15).grid(column=2, row=5)
 
     def login_click(self):
         # in empty "" enter your secretes.json file path.
@@ -123,6 +126,7 @@ class AccountDetails(tk.Frame):
         has_blue_badge_Label = tk.Label(self, textvariable=self.has_blue_badge_text, font=controller.label_font).grid(column=1, row=11)
         self.account_logic()
 
+    
     def account_logic(self):
         account_details = utils.account_details.AccountDetails("jacob.smith@gmail.com", "H:\\Applications of programming\CIB\\secrets.json")
         details = account_details.get_user_details()
@@ -150,6 +154,7 @@ class BookingScreen(tk.Frame):
 
 class Control(tk.Frame):
     def __init__(self, parent):
+        tk.Frame.__init__(self, parent)
         self.parent = parent
         self.choose_btn = tk.Button(self.parent, text='Choose', command=self.popup)
         self.show_btn = tk.Button(self.parent, text='Show Selected', command=self.print_selected_date)
@@ -212,7 +217,35 @@ class RegistrationForm(tk.Frame):
         blue_badge_label = tk.Label(self, text="Blue Badge Holder? ", font=controller.label_font).grid(column=3, row=8)
         blue_button_button = tk.Checkbutton(self).grid(column=4, row=8)
 
-        #change
+        submit_button = tk.Button(self, text="Submit Form", command=lambda: controller.switch_frame("SubmissionPage"), font=controller.title_font).grid(column=4, row=9)
+
+
+class SubmissionPage(tk.Frame):
+
+    def __init__(self, parent, controller):
+        tk.Frame.__init__(self, parent)
+        self.controller = controller
+
+        title = tk.Label(self, text="Thank you for registering, \nyour form will be reviewed, \nwe will get back to you shortly", font=controller.title_font, pady=30).pack()
+        back_button = tk.Button(self, text="Return to login page", command=lambda: controller.switch_frame("LoginScreen"), font=controller.title_font).pack()
+
+
+class Dashboard(tk.Frame):
+
+    def __init__(self, parent, controller):
+        tk.Frame.__init__(self, parent)
+        self.controller = controller
+
+        """profile_picture = ImageTk.PhotoImage(Image.open("Default_picture.png"))
+        picture_label = ttk.Label(self, image=profile_picture).grid(column=1, row=1)"""
+
+        welcome_message = tk.Label(self, text="Welcome back 'User'", font=controller.title_font, pady=15, padx=200).grid(column=3, row=1)
+
+        account_button = tk.Button(self, text="Account", font=controller.label_font, pady=8, padx=10).grid(column=4, row=1)
+
+        bookings_button = tk.Button(self, text="Boookings", command=lambda: controller.switch_frame("BookingScreen"), font=controller.label_font, pady=8, padx=10).grid(column=5, row=1)
+
+        line = tk.Frame(self, height=3, width=720, bg="black").grid(column=1, columnspan=10, row=2)
 
 
 if __name__ == "__main__":

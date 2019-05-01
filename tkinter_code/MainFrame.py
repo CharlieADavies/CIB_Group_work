@@ -142,7 +142,7 @@ class BookingScreen(tk.Frame):
     def __init__(self, parent, controller):
         tk.Frame.__init__(self, parent)
         self.controller = controller
-
+        photo = tk.PhotoImage(file="Logo.png")
         title = tk.Label(self, text="Bookings", font=controller.title_font).grid(column=2, row=1)
         # YYYY-MM-DD
         control = Control(parent)

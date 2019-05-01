@@ -72,8 +72,7 @@ class LoginScreen(tk.Frame):
         can_login = utils.passwords.check_user(
             self.username_text.get(), self.password_text.get(), "H:\Applications of programming\CIB\secrets.json")
         if can_login is True:
-            # Enter dash board
-            print("Works")
+            self.controller.switch_frame("Dashboard")
         else:
             # Wrong details entered.
             print("Wrong details entered")
@@ -149,26 +148,16 @@ class BookingScreen(tk.Frame):
         photo = tk.PhotoImage(file="Logo.png")
         title = tk.Label(self, text="Bookings", font=controller.title_font).grid(column=2, row=1)
         # YYYY-MM-DD
-        control = Control(parent)
+        control = tkinter_code.calander_.Control(self)
 
+        self.username_text = tk.StringVar()
+        self.username_text.set("Username")
+        username_label = tk.Label(self, textvariable=self.username_text, font=controller.label_font).grid(column=1, row=4, pady=(100, 10))
 
-class Control(tk.Frame):
-    def __init__(self, parent):
-        tk.Frame.__init__(self, parent)
-        self.parent = parent
-        self.choose_btn = tk.Button(self.parent, text='Choose', command=self.popup)
-        self.show_btn = tk.Button(self.parent, text='Show Selected', command=self.print_selected_date)
-        self.choose_btn.grid()
-        self.show_btn.grid()
-        self.data = {}
-
-    def popup(self):
-        child = tk.Toplevel()
-        cal = tkinter_code.calander_.Calendar(child, self.data)
-
-    def print_selected_date(self):
-        print(self.data)
-
+        self.park_date_text = tk.StringVar()
+        self.park_date_text.set("16-09-2000 10am-3pm")
+        park_date_label = tk.Label(self, textvariable=self.park_date_text, font=controller.label_font).grid(column=1,
+                                                                                                          row=5)
 
 class RegistrationForm(tk.Frame):
     def __init__(self, parent, controller):

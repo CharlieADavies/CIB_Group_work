@@ -13,7 +13,7 @@ def login():
     username = request.form['username']
     password = request.form['password']
     print(username, password)
-    if not check_user(username, password):
+    if not check_user(username, password, credential_file="secrets.json"):
         print("Invalid login")
         return redirect(url_for("login_page"))
     session['username'] = username
@@ -64,5 +64,11 @@ def register_page():
     return render_template("gate.html", type="register")
 
 
+@app.route("/plate", methods=['POST'])
+def number_plate_recognition():
+    pass
+
+
 if __name__ == '__main__':
-    app.run()
+    app.run(host='0.0.0.0', port=80)
+

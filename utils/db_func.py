@@ -51,5 +51,27 @@ def insert_booking(username, booking_date, vehicle_reg):
         return False
 
 
+def give_user_badge(username, badge_colour):
+    creds = utils.db_init.load_credentials()
+    sql_insert_query = """
+    UPDATE users
+    SET badge = %s
+    WHERE username = %s
+    """
+    try:
+        connection = utils.db_init.connect(creds['user'], creds['database'], creds['password'], creds['host'])
+        cursor = connection.cursor()
+        cursor.execute(sql_insert_query, (username, badge_colour))
+        print("Print badge colour for "+username+" set to "+badge_colour)
+        return True
+
+    except mysql.connector.Error as e:
+        print("Failed to update", e)
+        return False
+
+    finally:
+        return False
+
+
 if __name__ == "__main__":
-    insert_booking("jacob.smith@gmail.com", datetime.datetime.now(), "TIG 8184")
+    give_user_badge("jacob.smith@gmail.com", "RED")

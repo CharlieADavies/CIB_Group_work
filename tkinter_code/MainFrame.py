@@ -12,6 +12,7 @@ from tkcalendar import Calendar
 import utils.register
 
 
+
 class Application(tk.Tk):
 
     def __init__(self, *args, **kwargs):
@@ -41,8 +42,7 @@ class Application(tk.Tk):
 
         self.switch_frame("LoginScreen")
         self.title("B&Q Parking")
-        self.geometry("900x500")
-        self.user = ""
+        self.geometry("1200x500")
 
     def switch_frame(self, page_name):
         '''Show a frame for the given page name'''
@@ -57,6 +57,7 @@ class LoginScreen(tk.Frame):
     def __init__(self, parent, controller):
         tk.Frame.__init__(self, parent)
         self.controller = controller
+
         title = tk.Label(self, text="Please Login", font=controller.title_font).grid(column=2, row=1)
 
         username_label = tk.Label(self, text="Username: ", font=controller.label_font).grid(column=1, row=2)
@@ -80,7 +81,7 @@ class LoginScreen(tk.Frame):
         # in empty "" enter your secretes.json file path.
         # eg. ardra.denford@yahoo.co.uk, VYq0X718mm for username and password
         can_login = utils.passwords.check_user(
-            self.username_text.get(), self.password_text.get(), "H:\Applications of programming\CIB\secrets.json")
+            self.username_text.get(), self.password_text.get(), "../secrets.json")
         if can_login is True:
             self.write_username("user.txt", self.username_text.get())
             self.controller.switch_frame("Dashboard")
@@ -136,8 +137,11 @@ class AccountDetails(tk.Frame):
         has_blue_badge_Label = tk.Label(self, textvariable=self.has_blue_badge_text, font=controller.label_font).grid(column=1, row=11)
         self.account_logic()
 
+
     def account_logic(self):
-        account_details = utils.account_details.AccountDetails("jacob.smith@gmail.com", "H:\\Applications of programming\CIB\\secrets.json")
+        account_details = utils.account_details.AccountDetails("jacob.smith@gmail.com", "../secrets.json")
+
+        #jacob.smith@gmail.com, password
         details = account_details.get_user_details()
         self.username_text.set("Username: " + str(details[0]))
         self.first_name_text.set("First name: " + str(details[2]))
@@ -301,19 +305,47 @@ class Dashboard(tk.Frame):
         tk.Frame.__init__(self, parent)
         self.controller = controller
 
-        """profile_picture = ImageTk.PhotoImage(Image.open("Default_picture.png"))
-        picture_label = ttk.Label(self, image=profile_picture).grid(column=1, row=1)"""
+        image = Image.open("herbie_logo.png")
+        image = image.resize((150, 75), Image.ANTIALIAS)
+        image = ImageTk.PhotoImage(image)
+        artwork = tk.Label(self, image=image)
+        artwork.photo = image
+        artwork.grid(column=1, row=1)
 
         user = get_name("H:\Applications of programming\CIB\secrets.json")
         welcome_message = tk.Label(self, text="Welcome back " + user[0] + " " + user[1], font=controller.title_font, pady=15, padx=200).grid(column=3, row=1)
 
-        account_button = tk.Button(self, text="Account", font=controller.label_font, pady=8, padx=10).grid(column=4, row=1)
+        account_button = tk.Button(self, text="Account", font=controller.label_font, pady=5, padx=10).grid(column=4, row=1)
 
-        bookings_button = tk.Button(self, text="Boookings", command=lambda: controller.switch_frame("BookingScreen"), font=controller.label_font, pady=8, padx=10).grid(column=5, row=1)
+        bookings_button = tk.Button(self, text="Boookings", font=controller.label_font, pady=5, padx=10).grid(column=5, row=1)
 
-        line = tk.Frame(self, height=3, width=720, bg="black").grid(column=1, columnspan=10, row=2)
+        line = tk.Frame(self, height=3, width=1000, bg="black").grid(column=1, columnspan=10, row=2)
+
+        subframe_1 = tk.Frame(self, relief="raised", pady=5, borderwidth=2)
+        subframe_1.place(x="75", y="150")
+
+        cal = Calendar(subframe_1, font="Arial 14", selectmode='day', locale='en_US',
+                       cursor="hand1", year=2018, month=2, day=5)
+
+        cal.config(background="#16dace", foreground="#1586da", headersbackground="#16dace", headersforeground="#1586da",
+                   selectbackground="#16dace", selectforeground="red", normalbackground="#16dace", normalforeground="#1586da",
+                   weekendbackground="#16dace", weekendforeground="#1586da", othermonthbackground="#16dace")
+
+        cal.pack(fill="both", expand=True)
+
+        subframe_2 = tk.Frame(self, height="300", width="300", relief="raised", pady=5, borderwidth=2, background="white")
+        subframe_2.place(x="500", y="100")
+        line_2 = tk.Frame(self, height=30, width=300, bg="#16dace").place(x="500", y="100")
+
+        """colour_fill = tk.Frame(subframe_2)
+        colour_fill.grid(row=1, column=1)
+        colour_fill.config(background="blue")"""
 
 
+    def read_file(self, file):
+        with open(file, "r+") as f:
+            username = f.read()
+        return username
 
 
 if __name__ == "__main__":

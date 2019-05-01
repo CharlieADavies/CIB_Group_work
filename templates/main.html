@@ -25,14 +25,14 @@
 
     <main>
 
-        {% if type == "dashboard" or type == "booking" %}
+        {% if page == "dashboard" or page == "booking" %}
         <div class="panel panel--booking">
             <h2>Bookings</h2>
             <!-- bookings calendar goes here -->
         </div>
         {% endif %}
 
-        {% if type == "licenses" %}
+        {% if page == "licenses" %}
         <div class="panel panel--licenses">
             <h2>Licenses</h2>
             <p>

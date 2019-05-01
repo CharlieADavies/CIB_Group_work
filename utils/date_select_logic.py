@@ -11,7 +11,7 @@ def convert_to_string(date):
 
 
 def check_date(date, credential_file):
-    check = False
+    check = True
     creds = utils.db_init.load_credentials(credential_file)
     connect_sql = utils.db_init.connect(creds['user'], creds['database'], creds['password'], creds['host'])
     table = "bookings"
@@ -32,8 +32,9 @@ def check_date(date, credential_file):
             else:
                 check = True
             print(check)
+        else:
+            check = True
     return check
-
 
 if __name__ == '__main__':
     check = check_date( "2019-06-25", "H:\Applications of programming\CIB\secrets.json")

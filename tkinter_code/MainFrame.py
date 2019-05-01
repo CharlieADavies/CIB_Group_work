@@ -1,4 +1,5 @@
 import tkinter as tk
+from datetime import time
 from tkinter import font as tkfont
 from tkinter import ttk, PhotoImage
 import utils.passwords
@@ -44,6 +45,8 @@ class Application(tk.Tk):
         '''Show a frame for the given page name'''
         frame = self.frames[page_name]
         frame.tkraise()
+        frame.update()
+        frame.event_generate("<<ShowFrame>>")
 
 
 class LoginScreen(tk.Frame):
@@ -62,9 +65,14 @@ class LoginScreen(tk.Frame):
         self.password_text = tk.StringVar()
         password_entry = tk.Entry(self, show="*", textvariable=self.password_text).grid(column=2, row=3)
 
-        login_button = tk.Button(self, text="Login", command=lambda: controller.switch_frame("Dashboard"), font=controller.label_font).grid(column=2, row=4)
+        login_button = tk.Button(self, text="Login", command=self.login_click, font=controller.label_font).grid(column=2, row=4)
 
-        register_button = tk.Button(self, text="Registration", command=lambda: controller.switch_frame("RegistrationForm"), font=controller.title_font, pady=5).grid(column=2, row=5)
+        register_button = tk.Button(self, text="Registration", command=lambda: controller.switch_frame("RegistrationForm"), font=controller.title_font, pady=15).grid(column=2, row=5)
+        self.user = ""
+
+    def write_username(self, f="user.txt", user=None):
+        with open(f, "w") as f:
+            f.write(user)
 
     def login_click(self):
         # in empty "" enter your secretes.json file path.
@@ -72,6 +80,7 @@ class LoginScreen(tk.Frame):
         can_login = utils.passwords.check_user(
             self.username_text.get(), self.password_text.get(), "H:\Applications of programming\CIB\secrets.json")
         if can_login is True:
+            self.write_username("user.txt", self.username_text.get())
             self.controller.switch_frame("Dashboard")
         else:
             # Wrong details entered.
@@ -159,13 +168,22 @@ class BookingScreen(tk.Frame):
         # YYYY-MM-DD
         control = tkinter_code.calander_.Control(self)
 
-        self.username_text = tk.StringVar()
-        self.username_text.set("Username")
-        username_label = tk.Label(self, textvariable=self.username_text, font=controller.label_font).grid(column=1, row=4, pady=(100, 10))
+        self.bind("<<ShowFrame>>", self.on_show_frame)
 
-        self.park_date_text = tk.StringVar()
-        self.park_date_text.set("16-09-2000 10am-3pm")
-        park_date_label = tk.Label(self, textvariable=self.park_date_text, font=controller.label_font).grid(column=1, row=5)
+    def read_file(self, file):
+        with open(file, "r+") as f:
+            username = f.read()
+        return username
+
+
+    def on_show_frame(self, event):
+        username_text = tk.StringVar()
+        username_text.set(self.read_file("user.txt"))
+        username_label = tk.Label(self, textvariable=username_text, font=self.controller.label_font).grid(column=1, row=4, pady=100)
+        park_date_text = tk.StringVar()
+        park_date_text.set("16-09-2000 10am-3pm")
+        park_date_label = tk.Label(self, textvariable=park_date_text, font=self.controller.label_font).grid(column=1, row=5)
+
 
 class RegistrationForm(tk.Frame):
     def __init__(self, parent, controller):
@@ -240,7 +258,7 @@ class Dashboard(tk.Frame):
         artwork.photo = image
         artwork.grid(column=1, row=1)
 
-        welcome_message = tk.Label(self, text="Welcome back 'User'", font=controller.title_font, pady=15, padx=200).grid(column=3, row=1)
+        welcome_message = tk.Label(self, text="Welcome back " + self.read_file("user.txt"), font=controller.title_font, pady=15, padx=200).grid(column=3, row=1)
 
         account_button = tk.Button(self, text="Account", font=controller.label_font, pady=5, padx=10).grid(column=4, row=1)
 
@@ -267,6 +285,12 @@ class Dashboard(tk.Frame):
         """colour_fill = tk.Frame(subframe_2)
         colour_fill.grid(row=1, column=1)
         colour_fill.config(background="blue")"""
+
+
+    def read_file(self, file):
+        with open(file, "r+") as f:
+            username = f.read()
+        return username
 
 
 if __name__ == "__main__":

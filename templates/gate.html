@@ -9,12 +9,27 @@
 </head>
 <body>
 
+    <div class="site-header">
+
+        <div class="logo">
+            <img src="#" alt="Project Herbie logo" />
+        </div>
+
+    </div>
+
 {% if type == "login" %}
+    <div class="site-tagline">
+        <h1>
+            Book your parking on the go
+        </h1>
+    </div>
+
+
     <form action="/login_action" method="post">
-        Username:<br>
+        Email:<br>
         <input type="email" name="username" value="">
         <br>
-        password<br>
+        Password<br>
         <input type="password" name="password" value="">
         <br><br>
         <input type="submit" value="Login">
@@ -43,8 +58,6 @@
         <input type="text" name="address-three" />
         Postcode:<br />
         <input type="text" name="postcode" />
-        Role:<br />
-        <input type="text" name="role" />
         Employee number:<br />
         <input type="text" name="employee-number" />
         Blue badge holder?:<br />
@@ -53,6 +66,12 @@
         <input type="submit" value="Register" />
     </form>
 {% endif %}
+
+    <footer>
+        <p>
+            Made with ♥ by Team 6
+        </p>
+    </footer>
 
 </body>
 </html>

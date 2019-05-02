@@ -10,6 +10,7 @@ from PIL import ImageTk, Image
 import os
 from tkcalendar import Calendar
 import utils.register
+import utils.db_func
 
 
 
@@ -188,13 +189,6 @@ class BookingScreen(tk.Frame):
         return username
 
     def on_show_frame(self, event):
-        username_text = tk.StringVar()
-        username = get_name("H:\Applications of programming\CIB\secrets.json")
-        username_text.set(username)
-        username_label = tk.Label(self, textvariable=username_text, font=self.controller.label_font).grid(column=1, row=4, pady=100)
-        park_date_text = tk.StringVar()
-        park_date_text.set("16-09-2000 10am-3pm")
-        park_date_label = tk.Label(self, textvariable=park_date_text, font=self.controller.label_font).grid(column=1, row=5)
 
         subframe_2 = tk.Frame(self, height="275", width="500", relief="raised", pady=5, borderwidth=2)
         subframe_2.place(x="520", y="160")
@@ -206,8 +200,14 @@ class BookingScreen(tk.Frame):
         artwork_2 = tk.Label(self, image=image_2)
         artwork_2.photo = image_2
         artwork_2.place(x="840", y="265")
+        ad = utils.account_details.AccountDetails(self.read_file("user.txt"),
+                                                  "H:\Applications of programming\CIB/secrets.json")
+        user = ad.get_user_details()
+        first_name = user[2]
+        last_name = user[3]
+        full_name = first_name + " " + last_name
 
-        name_label = tk.Label(self, text=(self.read_file("user.txt")), font=self.controller.title_font).place(x="600",
+        name_label = tk.Label(self, text=(full_name), font=self.controller.title_font).place(x="600",
                                                                                                          y="210")
         role_label = tk.Label(self, text="Role: ", font=self.controller.title_font).place(x="557", y="260")
         role_2 = tk.Label(self, text="Employee", font=self.controller.label_font).place(x="637", y="265")
@@ -330,6 +330,9 @@ class Dashboard(tk.Frame):
     def __init__(self, parent, controller):
         tk.Frame.__init__(self, parent)
         self.controller = controller
+        # role = ""
+        # utils.db_func
+        # if role == "Manager":
 
         image = Image.open("herbie_logo.png")
         image = image.resize((150, 75), Image.ANTIALIAS)
@@ -369,8 +372,12 @@ class Dashboard(tk.Frame):
         artwork_2 = tk.Label(self, image=image_2)
         artwork_2.photo = image_2
         artwork_2.place(x="840", y="265")
-
-        name_label = tk.Label(self, text=(self.read_file("user.txt")), font=controller.title_font).place(x="600", y="210")
+        ad = utils.account_details.AccountDetails(self.read_file("user.txt"), "H:\Applications of programming\CIB/secrets.json")
+        user = ad.get_user_details()
+        first_name = user[2]
+        last_name = user[3]
+        full_name = first_name + " " + last_name
+        name_label = tk.Label(self, text=(full_name), font=controller.title_font).place(x="600", y="210")
         role_label = tk.Label(self, text="Role: ", font=controller.title_font).place(x="557", y="260")
         role_2 = tk.Label(self, text="Employee", font=controller.label_font).place(x="637", y="265")
         date_label = tk.Label(self, text="Date: ", font=controller.title_font).place(x="557", y="310")

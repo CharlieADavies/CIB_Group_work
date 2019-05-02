@@ -91,6 +91,10 @@ class Calendar:
             for d, day in enumerate(week):
                 if day:
                     # print(calendar.day_name[day])
+                    #change colour based on if the day is booked.
+                    # username = self.read_file("../tkinter_code/user.txt")
+                    # booked_dates = utils.date_select_logic.check_if_booked(username, "H:\Applications of programming\CIB\secrets.json")
+                    # if booked_dates
                     b = tk.Button(self.parent, width=5, text=day,
                                   command=lambda day=day: self.selection(day, calendar.day_name[(day - 1) % 7]))
                     self.wid.append(b)
@@ -123,7 +127,7 @@ class Calendar:
 class Control:
     def __init__(self, parent):
         parent = parent
-        choose_btn = tk.Button(parent, text='Open Calendar', command=self.popup)
+        choose_btn = tk.Button(parent, text='Open Calendar', command=self.popup, width=20, height=5)
         # show_btn = tk.Button(parent, text='Show Selected', command=self.print_selected_date)
         choose_btn.grid(column=1, row=2, pady=50)
         # show_btn.grid(column=1, row=3)

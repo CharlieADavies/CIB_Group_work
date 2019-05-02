@@ -29,6 +29,72 @@
 
     <main>
 
+        <div class="sidebar">
+
+            <div class="panel panel--todays-booking">
+
+                <div class="panel__title">
+                    <h2>Today's booking</h2>
+                </div>
+
+                <div class="panel__content">
+
+                    {# TODO needs an attr to output badge colour in css #}
+                    <article class="todays-booking">
+
+                        <header>
+                            <div class="todays-booking__photo">
+                                <img src="#" alt="Profile photo of Scott Cummins"/>
+                            </div>
+                            <div class="todays-booking__name">
+                                <h3>
+                                    Scott<br />
+                                    Cummins
+                                </h3>
+                            </div>
+                        </header>
+
+                        <dl>
+                            <dt>Role</dt>
+                            <dd>Employee</dd>
+
+                            <dt>Employee</dt>
+                            <dd>05712857-85</dd>
+
+                            <dt>Date</dt>
+                            <dd>16/09/2019</dd>
+
+                            <dt>Time</dt>
+                            <dd>10am—3pm</dd>
+                        </dl>
+
+                    </article>
+
+                </div>
+
+            </div>
+
+            <div class="panel">
+
+                <div class="panel__title">
+                    <h2>Your Park & Ride dates</h2>
+                </div>
+
+                <div class="panel__content">
+                    <p>
+                        As a <em>Red-Badge</em> holder, your Park & Ride dates are:
+                    </p>
+                    <blockquote>
+                        16th—26th September, 2019
+                    </blockquote>
+                    <p>
+                        You will not be able to book parking at our facilities on these dates.
+                    </p>
+                </div>
+            </div>
+
+        </div>
+
         {% if page == "dashboard" or page == "booking" %}
         <div class="panel panel--booking">
             <div class="panel__title">
@@ -53,27 +119,6 @@
             </div>
         </div>
         {% endif %}
-
-        <div class="sidebar">
-
-            <div class="panel">
-                <div class="panel__title">
-                  <h2>Your Park & Ride dates</h2>
-                </div>
-                <div class="panel__content">
-                    <p>
-                        As a <em>Red-Badge</em> holder, your Park & Ride dates are:
-                    </p>
-                    <blockquote>
-                        16th—26th September, 2019
-                    </blockquote>
-                    <p>
-                        You will not be able to book parking at our facilities on these dates.
-                    </p>
-                </div>
-            </div>
-
-        </div>
 
     </main>
 

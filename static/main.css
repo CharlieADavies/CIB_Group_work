@@ -98,6 +98,10 @@ menu a {
   display: inline-block;
   margin-bottom: 0.5em;
 }
+menu a:hover {
+  color: #cccccc;
+  border-color: #cccccc !important;
+}
 .site-strapline {
   display: none;
 }
@@ -131,7 +135,7 @@ menu a {
 .panel--login .form-field--text {
   text-align: center;
 }
-.todays-booking {
+.next-booking {
   border-top: 0.375rem solid #1686da;
   border-radius: 0.1875rem 0.1875rem 0.625rem 0.625rem;
   background-color: #ffffff;
@@ -139,7 +143,7 @@ menu a {
   padding: 16px 16px 32px;
   box-shadow: 0 2px 3px rgba(0, 0, 0, 0.1);
 }
-.todays-booking dl {
+.next-booking dl {
   display: grid;
   grid-template-columns: 30% 1fr;
   grid-column-gap: 1em;
@@ -148,7 +152,7 @@ menu a {
   align-items: stretch;
   width: 280px;
 }
-.todays-booking dt {
+.next-booking dt {
   display: inline-block;
   text-align: right;
   font-family: "Arial", sans-serif;
@@ -156,11 +160,11 @@ menu a {
   line-height: 1.25;
   line-height: 1;
 }
-.todays-booking dd {
+.next-booking dd {
   display: inline-block;
   letter-spacing: 0.75px;
 }
-.todays-booking header {
+.next-booking header {
   display: grid;
   grid-template-columns: 80px 1fr;
   grid-template-rows: 80px;
@@ -168,14 +172,14 @@ menu a {
   align-items: stretch;
   margin-bottom: 1em;
 }
-.todays-booking__photo {
+.next-booking__photo {
   display: block;
   background-color: #cccccc;
 }
-.todays-booking__name {
+.next-booking__name {
   position: relative;
 }
-.todays-booking__name h3 {
+.next-booking__name h3 {
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
@@ -183,8 +187,35 @@ menu a {
   font-size: 1.75em;
 }
 @media only screen and (min-width: 1366px) {
+  .site-header {
+    position: relative;
+  }
+  menu {
+    display: inline-block;
+    position: absolute;
+    right: 0;
+    top: 50%;
+  }
+  menu li {
+    display: inline-block;
+    margin: 0 2em;
+  }
   .page--login {
     background: #1f2122 url("/static/img/bg--login.jpg") top left / cover no-repeat;
+  }
+  .page--dashboard {
+    padding: 0 10% 10%;
+  }
+  main {
+    min-height: 600px;
+    position: relative;
+    padding: 2.5em 3em;
+  }
+  .sidebar {
+    position: absolute;
+    right: 0;
+    max-width: 340px;
+    right: 3em;
   }
   .site-strapline {
     display: block;
@@ -192,6 +223,9 @@ menu a {
     width: 570px;
     top: 280px;
     left: 640px;
+  }
+  .panel {
+    max-width: 600px;
   }
   .panel--login {
     max-width: 298px;
@@ -204,6 +238,18 @@ menu a {
     position: absolute;
     bottom: 10%;
     right: 10%;
+  }
+  .page--dashboard footer {
+    bottom: -10%;
+  }
+}
+@media only screen and (min-width: 1600px) {
+  .page--dashboard {
+    padding: 0 20% 10%;
+  }
+  .page--dashboard footer {
+    bottom: 0;
+    right: 20%;
   }
 }
 /*# sourceMappingURL=main.css.map */

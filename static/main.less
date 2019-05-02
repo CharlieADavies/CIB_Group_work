@@ -130,6 +130,11 @@ menu a {
   border-bottom: 2px solid @darkWhite;
   display: inline-block;
   margin-bottom: 0.5em;
+
+  &:hover {
+    color: darken(white, 20%);
+    border-color: darken(white, 20%) !important
+  }
 }
 
 .site-strapline {
@@ -172,7 +177,7 @@ menu a {
   text-align: center;
 }
 
-.todays-booking {
+.next-booking {
   .border-style();
   background-color: @white;
   border-top: 12px solid #db2626;
@@ -200,7 +205,7 @@ menu a {
   }
 }
 
-.todays-booking header {
+.next-booking header {
   display: grid;
   grid-template-columns: 80px 1fr;
   grid-template-rows: 80px;
@@ -209,12 +214,12 @@ menu a {
   margin-bottom: 1em;
 }
 
-.todays-booking__photo {
+.next-booking__photo {
   display: block;
   background-color: darken(white, 20%)
 }
 
-.todays-booking__name {
+.next-booking__name {
   position: relative;
 
   h3 {
@@ -227,9 +232,42 @@ menu a {
 }
 
 @media only screen and (min-width: 1366px) {
+  
+  .site-header {
+    position: relative;
+  }
+
+  menu {
+    display: inline-block;
+    position: absolute;
+    right: 0;
+    top: 50%;
+    
+    li {
+      display: inline-block;
+      margin: 0 2em;
+    }
+  }
 
   .page--login {
     background: @lightBlack url("/static/img/bg--login.jpg") top left / cover no-repeat;
+  }
+
+  .page--dashboard {
+    padding: 0 @gutter @gutter
+  }
+
+  main {
+    min-height: 600px;
+    position: relative;
+    padding: 2.5em 3em;
+  }
+
+  .sidebar {
+    position: absolute;
+    right: 0;
+	max-width: 340px;
+	right: 3em;
   }
 
   .site-strapline {
@@ -238,6 +276,10 @@ menu a {
     width: 570px;
     top: 280px;
     left: 640px;
+  }
+
+  .panel {
+    max-width: 600px;
   }
 
   .panel--login {
@@ -252,6 +294,23 @@ menu a {
     position: absolute;
     bottom: @gutter;
     right: @gutter;
+  }
+
+  .page--dashboard footer {
+    bottom: -@gutter;
+  }
+
+}
+
+@media only screen and (min-width: 1600px) {
+
+  .page--dashboard {
+    padding: 0 (@gutter*2) @gutter
+  }
+
+  .page--dashboard footer {
+    bottom: 0;
+    right: (@gutter*2)
   }
 
 }

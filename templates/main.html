@@ -31,22 +31,22 @@
 
         <div class="sidebar">
 
-            <div class="panel panel--todays-booking">
+            <div class="panel panel--next-booking">
 
                 <div class="panel__title">
-                    <h2>Today's booking</h2>
+                    <h2>Your next booking</h2>
                 </div>
 
                 <div class="panel__content">
 
                     {# TODO needs an attr to output badge colour in css #}
-                    <article class="todays-booking">
+                    <article class="next-booking">
 
                         <header>
-                            <div class="todays-booking__photo">
+                            <div class="next-booking__photo">
                                 <img src="#" alt="Profile photo of Scott Cummins"/>
                             </div>
-                            <div class="todays-booking__name">
+                            <div class="next-booking__name">
                                 <h3>
                                     Scott<br />
                                     Cummins
@@ -100,11 +100,16 @@
             <div class="panel__title">
                 <h2>Bookings</h2>
             </div>
-            <!-- bookings calendar goes here -->
+            <div class="panel__content">
+                {# TODO add bookings calendar #}
+                <p>
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec molestie pharetra odio, eget iaculis ante laoreet et. Integer velit dui, vestibulum et nunc nec, mollis efficitur lectus. Fusce euismod eros eu erat interdum hendrerit. Suspendisse malesuada ultricies enim ut vehicula. Nullam varius pellentesque accumsan. Aenean ac eros consequat felis semper sagittis. Vestibulum luctus quam ac arcu ultrices, ac venenatis erat pharetra. Donec eget purus ipsum. Donec et odio sed felis tincidunt pretium. Fusce id ante ut sapien viverra eleifend. Maecenas neque felis, tristique non diam eget, porta posuere metus. Nullam arcu dui, cursus nec ante a, laoreet pulvinar neque. Aliquam in tempus tellus.
+                </p>
+            </div>
         </div>
         {% endif %}
 
-        {% if page == "licenses" %}
+        {% if page != "licenses" %}
         <div class="panel panel--licenses">
             <div class="panel__title">
                 <h2>Licenses</h2>
@@ -121,6 +126,12 @@
         {% endif %}
 
     </main>
+
+    <footer>
+        <p>
+            Made with ♥ by Team 6
+        </p>
+    </footer>
 
 </body>
 </html>

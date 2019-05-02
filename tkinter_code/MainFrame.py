@@ -148,13 +148,20 @@ class AccountDetails(tk.Frame):
         self.has_blue_badge_text.set("Blue Badge: ")
         has_blue_badge_Label = tk.Label(self, textvariable=self.has_blue_badge_text, font=controller.label_font).grid(
             column=1, row=11)
+
+        self.account_logic()
+
+
+        self.bind("<<ShowFrame>>", self.on_show_frame)
+
+    def on_show_frame(self, event):
+        dash_type = role()
         image = Image.open("Logo.png")
         image = image.resize((150, 75), Image.ANTIALIAS)
         image = ImageTk.PhotoImage(image)
-        artwork = tk.Button(self, command=lambda: controller.switch_frame("DashboardUser"), image=image)
+        artwork = tk.Button(self, command=lambda: self.controller.switch_frame(dash_type), image=image)
         artwork.photo = image
         artwork.grid(column=1, row=1)
-        self.account_logic()
 
     def account_logic(self):
         account_details = utils.account_details.AccountDetails("jacob.smith@gmail.com", file_path)
@@ -173,7 +180,6 @@ class AccountDetails(tk.Frame):
         self.has_blue_badge_text.set("Blue Badge: " + str(details[10]))
 
 
-
 def role():
     username_local = read_user_file(file_path, "user.txt")
     details = utils.account_details.AccountDetails(username_local, file_path)
@@ -183,8 +189,12 @@ def role():
     dash = ""
     if role == "Manager":
         dash = "DashboardManager"
-    else:
+    elif role == "Facilities":
+        dash = "DashboardFacilities"
+    elif role == "Employee":
         dash = "DashboardUser"
+    elif role == "System Administrator":
+        dash = "DashboardSysAdmin"
     return dash
 
 def read_user_file(self, file):
@@ -507,11 +517,6 @@ class DashboardManager(tk.Frame):
 
 
 
-
-
-
-        ttk.Label(controller, text="Hover over the events.").pack()
-
         subframe_2 = tk.Frame(self, height="275", width="500", relief="raised", pady=5, padx=5, borderwidth=2)
         subframe_2.place(x="520", y="160")
         line_2 = tk.Frame(self, height=30, width=500, bg="#16dace").place(x="520", y="160")
@@ -567,7 +572,7 @@ class DashboardManager(tk.Frame):
 
         cal.pack(fill="both", expand=True)
 
-        log_out_button = tk.Button(self, text="Log Out", command=lambda: controller.switch_frame("LoginScreen"), font=controller.title_font).place(x=100, y=450)
+        log_out_button = tk.Button(self, text="Log Out", command=lambda: self.controller.switch_frame("LoginScreen"), font=self.controller.title_font).place(x=100, y=450)
 
     def read_file(self, file):
         with open(file, "r+") as f:

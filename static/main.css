@@ -243,7 +243,7 @@ menu a:hover {
     bottom: -10%;
   }
 }
-@media only screen and (min-width: 1600px) {
+@media only screen and (min-width: 1800px) {
   .page--dashboard {
     padding: 0 20% 10%;
   }

@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Accounts</title>
+</head>
+<body class="page--{{ page }}">
+
+<div class="site-header">
+
+    <div class="logo">
+        <a href="/">
+            <img src="/static/img/logo-pure-white.png" alt="Project Herbie logo"/>
+        </a>
+    </div>
+
+    <menu>
+        <ul class="menu">
+            <li><a href="/account">Account</a></li>
+            <li><a href="/bookings">Bookings</a></li>
+        </ul>
+    </menu>
+
+</div>
+
+<main>
+
+    <div class="sidebar">
+
+        <div class="panel panel--next-booking">
+
+            <div class="panel__title">
+                <h2>Your next booking</h2>
+            </div>
+
+            <div class="panel__content">
+
+                {# TODO needs an attr to output badge colour in css #}
+                <article class="next-booking badge--{{ v['colour'] }}">
+
+                    <header>
+                        <div class="next-booking__photo">
+                            <img src="#" alt="Profile photo of Scott Cummins"/>
+                        </div>
+                        <div class="next-booking__name">
+                            <h3>
+                                {{ v['user']['first_name'] }}<br/>
+                                {{ v['user']['last_name'] }}
+                            </h3>
+                        </div>
+                    </header>
+
+                    <dl>
+                        <dt>Role</dt>
+                        <dd>Employee</dd>
+
+                        <dt>Employee</dt>
+                        <dd>05712857-85</dd>
+
+                        <dt>Date</dt>
+                        <dd>{{ v['first_booking']['date'] }}</dd>
+
+                        <dt>Time</dt>
+                        <dd>{{ v['first_booking']['start_time'] }}—{{ v['first_booking']['end_time'] }}</dd>
+
+                        <dt>Space No.</dt>
+                        <dd>368</dd>
+                        {# TODO add spaces to templatae #}
+                    </dl>
+
+                </article>
+
+            </div>
+
+        </div>
+
+        <div class="panel">
+
+            <div class="panel__title">
+                <h2>Update you're account</h2>
+            </div>
+
+            <div class="panel__content">
+                <form>
+              <div class="form-field form-field--password">
+                    <label for="form-field-password">Password</label>
+                    <input type="password" name="password" id="form-field-password" />
+                </div>
+                </form>
+            </div>
+        </div>
+
+    </div>
+
+
+
+
+
+</main>
+
+<footer>
+    <p>
+        Made with ♥ by Team 6
+    </p>
+</footer>
+
+</body>
+</html>

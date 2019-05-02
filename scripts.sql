@@ -7,11 +7,12 @@ CREATE TABLE users
     phone_no      VARCHAR(50),
     address       VARCHAR(250),
     post_code     VARCHAR(50),
-    role          VARCHAR(50),
+    role          VARCHAR(50) DEFAULT 'pending',
     employee_no   VARCHAR(50),
     badge         VARCHAR(50),
     is_blue_badge tinyint(1),
     salt          VARCHAR(45),
+    managed_by VARCHAR(50),
     PRIMARY KEY (username),
     FOREIGN KEY (badge) REFERENCES badge_colours (badge)
 );
@@ -34,6 +35,8 @@ create table bookings
     vehicle_registration VARCHAR(50),
     start_time           INTEGER default 8,
     end_time             INTEGER default 20,
+    parking_space       integer ,
+    unique( parking_space, booking_date),
     PRIMARY KEY (booking_ref),
     FOREIGN KEY (username) REFERENCES users (username),
     FOREIGN KEY (vehicle_registration) REFERENCES vehicles (vehicle_registration)
@@ -107,6 +110,7 @@ DROP TABLE vehicles;
 DROP TABLE bookings;
 DROP TABLE badge_colours;
 
+update users set role='pending' where username='jacob.smith@gmail.com'
 
 select *
-from bookings
+from users

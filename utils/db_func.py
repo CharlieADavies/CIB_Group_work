@@ -84,6 +84,24 @@ def _fetch_booking_info(username):
         return False
 
 
+def get_bookings_for(username):
+    creds = utils.db_init.load_credentials()
+    sql_insert_query = """
+        SELECT u.username, booking_date, b.badge, first_week,second_week,third_week,fourth_week,fifth_week FROM bookings
+        INNER JOIN users u on bookings.username = u.username
+        inner join badge_colours b on u.badge = b.badge
+        where u.username = '""" + username+"'"
+    try:
+        connection = utils.db_init.connect(creds['user'], creds['database'], creds['password'], creds['host'])
+        cursor = connection.cursor()
+        cursor.execute(sql_insert_query)
+        return cursor.fetchall()
+
+    except mysql.connector.Error as e:
+        print("Failed to select ", e)
+        return False
+
+
 def insert_booking(username, booking_date, vehicle_reg, start_time=8, end_time=8):
     creds = utils.db_init.load_credentials()
     sql_insert_query = """

@@ -3,17 +3,16 @@ import os
 from flask import Flask, request, redirect, url_for, render_template, session
 
 from utils.db_func import *
+from utils.general_utils import format_datetime_to_number_str
 from utils.passwords import check_user
 
 app = Flask(__name__)
 app.secret_key = "secret-key"
 
 
-
 @app.route("/login_action", methods=['POST'])
 def login():
     print("Logging user in")
-
     username = request.form['username']
     password = request.form['password']
 
@@ -46,13 +45,18 @@ def process_vehicle_form():
 
 @app.route('/')
 def dashboard():
-    if "username" in session.keys():
-        print(session)
-        return render_template("main.html",
-                               title="Dashboard",
-                               page="dashboard")
-    else:
+    if not "username" in session.keys():
         return redirect(url_for("login_page"))
+
+    bookings = get_bookings_for(session['username'],app.root_path+"\\secrets.json")
+    bookings = [format_datetime_to_number_str(booking[1]) for booking in bookings]
+    print(bookings)
+    park_and_ride = bookings[0]
+    return render_template("main.html",
+                           title="Dashboard",
+                           page="dashboard")
+
+
 
 
 @app.route("/licenses")

@@ -7,7 +7,6 @@ import mysql.connector
 
 
 def load_credentials(f="../secrets.json"):
-
     with open(f, "r+") as f:
         creds = json.load(f)
     return creds

@@ -105,8 +105,11 @@ def _fetch_booking_info(username):
         return False
 
 
-def get_bookings_for(username):
-    creds = utils.db_init.load_credentials()
+def get_bookings_for(username, file_p=None):
+    if file_p is None:
+        creds = utils.db_init.load_credentials()
+    else:
+        creds = utils.db_init.load_credentials(file_p)
     select_query = """
         SELECT u.username, booking_date, b.badge, first_week,second_week,third_week,fourth_week,fifth_week FROM bookings
         INNER JOIN users u on bookings.username = u.username

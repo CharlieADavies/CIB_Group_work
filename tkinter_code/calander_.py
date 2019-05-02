@@ -139,6 +139,7 @@ class Control:
         child = tk.Toplevel()
         cal = Calendar(child, self.data)
 
+
     # def print_selected_date(self):
     #     data_to_send = str(self.data['year_selected']) + "-" + str(self.data['month_selected']) + "-" + str(self.data['day_selected'])
     #     free_date = utils.date_select_logic.check_date(data_to_send, "H:\Applications of programming\CIB\secrets.json")

@@ -111,7 +111,7 @@ def get_bookings_for(username, file_p=None):
     else:
         creds = utils.db_init.load_credentials(file_p)
     select_query = """
-        SELECT u.username, booking_date, b.badge, first_week,second_week,third_week,fourth_week,fifth_week FROM bookings
+        SELECT u.username, booking_date,  b.badge, first_week,second_week,third_week,fourth_week,fifth_week, bookings.start_time, bookings.end_time FROM bookings
         INNER JOIN users u on bookings.username = u.username
         inner join badge_colours b on u.badge = b.badge
         where u.username = '""" + username + "'"

@@ -36,7 +36,7 @@ create table bookings
     start_time           INTEGER default 8,
     end_time             INTEGER default 20,
     parking_space       integer ,
-    unique( parking_space, booking_date),
+    unique(parking_space, booking_date),
     PRIMARY KEY (booking_ref),
     FOREIGN KEY (username) REFERENCES users (username),
     FOREIGN KEY (vehicle_registration) REFERENCES vehicles (vehicle_registration)
@@ -91,7 +91,8 @@ VALUES ("jacob.smith@gmail.com", "2018-06-25", "TIG 8184"),
        ("ardra.denford@yahoo.co.uk", "2018-09-09", "CSZ 2178"),
        ("merrile.fuster@gmail.co.uk", "2018-10-18", "JGZ 5677"),
        ("richard.chop@gmail.com", "2018-09-20", "WHZ 1558"),
-       ("al.n.murford@yahoo.co.uk", "2018-12-05", "DRS 318D");
+       ("al.n.murford@yahoo.co.uk", "2018-12-05", "DRS 318D"),
+("jacob.smith@gmail.com", "2018-06-25", "TIG 8184");
 
 INSERT INTO badge_colours(badge, first_week, second_week, third_week, fourth_week, fifth_week)
 VALUES ("RED", "2018-06-25", "2018-07-30", "2018-09-03", "2018-10-08", "2018-11-12"),

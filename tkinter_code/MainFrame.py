@@ -148,13 +148,20 @@ class AccountDetails(tk.Frame):
         self.has_blue_badge_text.set("Blue Badge: ")
         has_blue_badge_Label = tk.Label(self, textvariable=self.has_blue_badge_text, font=controller.label_font).grid(
             column=1, row=11)
+
+        self.account_logic()
+
+
+        self.bind("<<ShowFrame>>", self.on_show_frame)
+
+    def on_show_frame(self, event):
+        dash_type = role()
         image = Image.open("Logo.png")
         image = image.resize((150, 75), Image.ANTIALIAS)
         image = ImageTk.PhotoImage(image)
-        artwork = tk.Button(self, command=lambda: controller.switch_frame("DashboardUser"), image=image)
+        artwork = tk.Button(self, command=lambda: self.controller.switch_frame(dash_type), image=image)
         artwork.photo = image
         artwork.grid(column=1, row=1)
-        self.account_logic()
 
     def account_logic(self):
         account_details = utils.account_details.AccountDetails("jacob.smith@gmail.com", file_path)
@@ -173,7 +180,6 @@ class AccountDetails(tk.Frame):
         self.has_blue_badge_text.set("Blue Badge: " + str(details[10]))
 
 
-
 def role():
     username_local = read_user_file(file_path, "user.txt")
     details = utils.account_details.AccountDetails(username_local, file_path)
@@ -183,8 +189,12 @@ def role():
     dash = ""
     if role == "Manager":
         dash = "DashboardManager"
-    else:
+    elif role == "Facilities":
+        dash = "DashboardFacilities"
+    elif role == "Employee":
         dash = "DashboardUser"
+    elif role == "System Administrator":
+        dash = "DashboardSysAdmin"
     return dash
 
 def read_user_file(self, file):
@@ -322,8 +332,13 @@ class RegistrationForm(tk.Frame):
         blue_badge_label = tk.Label(self, text="Blue Badge Holder? ", font=controller.label_font).grid(column=3, row=8)
         blue_button_button = tk.Checkbutton(self, variable=self.check_badge).grid(column=4, row=8)
 
+        manager_label = tk.Label(self, text="Current Manager: ", font=controller.label_font).grid(column=1, row=8)
+        manager_entry = tk.Entry(self).grid(column=2, row=8)
+
         submit_button = tk.Button(self, text="Submit Form", command=self.check, font=controller.title_font).grid(
-            column=4, row=9)
+            column=3, row=9)
+
+        back_button = tk.Button(self, text="Return To Login", command=lambda: controller.switch_frame("LoginScreen"), font=controller.title_font). grid(column=4, row=9)
 
     def check(self):
         username = self.username_text.get()
@@ -448,6 +463,8 @@ class DashboardUser(tk.Frame):
         p_and_r_label = tk.Label(self, text="Your P&R Dates", font=controller.title_font).place(x="1065", y="175")
         pr_label_text = tk.Label(self, text="As a blue badge holder:", font=controller.label_font).place(x="1060",
                                                                                                          y="220")
+        log_out_button = tk.Button(self, text="Log Out", command=lambda: controller.switch_frame("LoginScreen"),
+                                  font=controller.title_font).place(x=100, y=450)
 
     def read_file(self, file):
         with open(file, "r+") as f:
@@ -499,11 +516,6 @@ class DashboardManager(tk.Frame):
         #            othermonthwebackground="#292d2f")
 
 
-
-
-
-
-        ttk.Label(controller, text="Hover over the events.").pack()
 
         subframe_2 = tk.Frame(self, height="275", width="500", relief="raised", pady=5, padx=5, borderwidth=2)
         subframe_2.place(x="520", y="160")
@@ -559,6 +571,8 @@ class DashboardManager(tk.Frame):
             cal.tag_config('booking', background='red', foreground='yellow')
 
         cal.pack(fill="both", expand=True)
+
+        log_out_button = tk.Button(self, text="Log Out", command=lambda: self.controller.switch_frame("LoginScreen"), font=self.controller.title_font).place(x=100, y=450)
 
     def read_file(self, file):
         with open(file, "r+") as f:
@@ -634,12 +648,95 @@ class DashboardFacilities(tk.Frame):
         p_and_r_label = tk.Label(self, text="Your P&R Dates", font=controller.title_font).place(x="1065", y="175")
         pr_label_text = tk.Label(self, text="As a blue badge holder:", font=controller.label_font).place(x="1060",
                                                                                                          y="220")
+        log_out_button = tk.Button(self, text="Log Out", command=lambda: controller.switch_frame("LoginScreen"),
+                                  font=controller.title_font).place(x=100, y=450)
 
     def read_file(self, file):
         with open(file, "r+") as f:
             username = f.read()
         return username
 
+
+class DashboardSysAdmin(tk.Frame):
+
+    def __init__(self, parent, controller):
+        tk.Frame.__init__(self, parent)
+        self.controller = controller
+
+        image = Image.open("herbie_logo.png")
+        image = image.resize((150, 75), Image.ANTIALIAS)
+        image = ImageTk.PhotoImage(image)
+        artwork = tk.Label(self, image=image)
+        artwork.photo = image
+        artwork.grid(column=1, row=1)
+
+        user = get_name("../secrets.json")
+        welcome_message = tk.Label(self, text="Welcome back " + user[0] + " " + user[1], font=controller.title_font,
+                                   pady=15, padx=200).grid(column=2, row=1)
+
+        account_button = tk.Button(self, text="Account", command=lambda: controller.switch_frame("AccountDetails"),
+                                   font=controller.label_font, pady=5, padx=10).grid(column=4, row=1)
+
+        bookings_button = tk.Button(self, text="Boookings",
+                                    command=lambda: controller.switch_frame("BookingScreen"),
+                                    font=controller.label_font, pady=5, padx=10).grid(column=5, row=1)
+
+        reports_button = tk.Button(self, text="Reports", command=lambda: controller.switch_frame("Reports"), font=controller.label_font, pady=5, padx=10).grid(column=6, row=1)
+
+        parking_dates_button = tk.Button(self, text="Parking Data", command=lambda: controller.switch_Frame("Parking Data"), font=controller.label_font, pady=5, padx=10).grid(column=7, row=1)
+
+        approve_accounts = tk.Button(self, text="Account Approval", command=lambda: controller.switch_Frame("User Accounts"), font=controller.label_font, pady=5, padx=10).grid(column=8, row=1)
+
+        line = tk.Frame(self, height=3, width=1200, bg="black").grid(column=1, columnspan=10, row=2)
+
+        subframe_1 = tk.Frame(self, relief="raised", pady=5, borderwidth=2)
+        subframe_1.place(x="75", y="150")
+
+        cal = Calendar(subframe_1, font="Arial 14", selectmode='day', locale='en_UK',
+                       cursor="hand2")
+
+        cal.config(background="#292d2f", foreground="#1586da", headersbackground="#292d2f",
+                   headersforeground="#1586da",
+                   selectbackground="#292d2f", selectforeground="#16dace", normalbackground="#292d2f",
+                   normalforeground="#1586da",
+                   weekendbackground="#292d2f", weekendforeground="#1586da", othermonthbackground="#292d2f",
+                   othermonthwebackground="#292d2f")
+
+        cal.pack(fill="both", expand=True)
+
+        subframe_2 = tk.Frame(self, height="275", width="500", relief="raised", pady=5, padx=5, borderwidth=2)
+        subframe_2.place(x="520", y="160")
+        line_2 = tk.Frame(self, height=30, width=500, bg="#16dace").place(x="520", y="160")
+
+        image_2 = Image.open("Default_picture.png")
+        image_2 = image_2.resize((150, 150), Image.ANTIALIAS)
+        image_2 = ImageTk.PhotoImage(image_2)
+        artwork_2 = tk.Label(self, image=image_2)
+        artwork_2.photo = image_2
+        artwork_2.place(x="840", y="265")
+
+        name_label = tk.Label(self, text=(self.read_file("user.txt")), font=controller.title_font).place(x="600",
+                                                                                                         y="210")
+        role_label = tk.Label(self, text="Role: ", font=controller.title_font).place(x="557", y="260")
+        role_2 = tk.Label(self, text="Employee", font=controller.label_font).place(x="637", y="265")
+        date_label = tk.Label(self, text="Date: ", font=controller.title_font).place(x="557", y="310")
+        date_2 = tk.Label(self, text="10/08/2019", font=controller.label_font).place(x="637", y="315")
+        time_label = tk.Label(self, text="Time: ", font=controller.title_font).place(x="557", y="350")
+        time_2 = tk.Label(self, text="10am - 3pm", font=controller.label_font).place(x="637", y="355")
+
+        subframe_3 = tk.Frame(self, height="275", width="250", relief="raised", pady=5, padx=5, borderwidth=2)
+        subframe_3.place(x="1050", y="160")
+
+        p_and_r_label = tk.Label(self, text="Your P&R Dates", font=controller.title_font).place(x="1065", y="175")
+        pr_label_text = tk.Label(self, text="As a blue badge holder:", font=controller.label_font).place(x="1060",
+                                                                                                         y="220")
+        log_out_button = tk.Button(self, text="Log Out", command=lambda: controller.switch_frame("LoginScreen"),
+                                  font=controller.title_font).place(x=100, y=450)
+
+    def read_file(self, file):
+        with open(file, "r+") as f:
+            username = f.read()
+        return username
 
 
 

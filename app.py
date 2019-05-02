@@ -1,5 +1,4 @@
 from flask import Flask, request, redirect, url_for, render_template, session
-
 from utils.db_func import *
 from utils.general_utils import *
 from utils.passwords import check_user
@@ -97,6 +96,16 @@ def license_page():
     return render_template("main.html",
                            title="Licenses",
                            page="licenses")
+
+
+@app.route("/manager_action")
+def set_manager_form():
+    try:
+        manager= request.form['manager']
+        set_manager(session['username'], manager)
+        return redirect(url_for("dashboard"))
+    except:
+        return redirect(url_for("dashboard"))
 
 
 @app.route('/login')

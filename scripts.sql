@@ -114,4 +114,4 @@ DROP TABLE badge_colours;
 update users set role='pending' where username='jacob.smith@gmail.com'
 
 select *
-from users
+from vehicles

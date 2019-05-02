@@ -26,7 +26,7 @@ def login():
 
 @app.route("/vehicle")
 def vehicle_form():
-    return render_template("vehicle.html", title="Vehicles",v={})
+    return render_template("vehicle.html", title="Vehicles", v={})
 
 
 @app.route("/vehicle_f", methods=['POST'])
@@ -47,24 +47,24 @@ def process_vehicle_form():
 
 @app.route('/')
 def dashboard():
-    if not "username" in session.keys():
+    if "username" not in session.keys():
         return redirect(url_for("login_page"))
     user_row = get_user_info(session['username'], app.root_path + "\\secrets.json")[0]
     user = {
-        'username' : user_row[0],
-        'first_name' : user_row[1],
-        'last_name' : user_row[2],
-        'phone_on' : user_row[3],
-        'manager' : user_row[4]
+        'username': user_row[0],
+        'first_name': user_row[1],
+        'last_name': user_row[2],
+        'phone_on': user_row[3],
+        'manager': user_row[4]
     }
-    template_vals = {"bookings": [], "user": user, 'park_and_ride_dates':[]}
+    template_vals = {"bookings": [], "user": user, 'park_and_ride_dates': []}
     bookings = get_bookings_for(session['username'], app.root_path + "\\secrets.json")
     if bookings:
         first_row = bookings[0]
         for p_r in first_row[3:7]:
             template_vals['park_and_ride_dates'].append(
-                {'start':formate_datetime_to_string_str( p_r),
-                 'end': formate_datetime_to_string_str(p_r +timedelta(days=7))}
+                {'start': formate_datetime_to_string_str(p_r),
+                 'end': formate_datetime_to_string_str(p_r + timedelta(days=7))}
             )
 
         template_vals['first_booking'] = {

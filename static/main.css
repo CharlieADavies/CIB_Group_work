@@ -186,7 +186,7 @@ menu a:hover {
   margin-left: 0.5em;
   font-size: 1.75em;
 }
-@media only screen and (min-width: 1366px) {
+@media (min-width: 1366px) {
   .site-header {
     position: relative;
   }
@@ -243,7 +243,7 @@ menu a:hover {
     bottom: -10%;
   }
 }
-@media only screen and (min-width: 1800px) {
+@media (min-width: 1800px) {
   .page--dashboard {
     padding: 0 20% 10%;
   }

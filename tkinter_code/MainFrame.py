@@ -176,7 +176,7 @@ class BookingScreen(tk.Frame):
 
         control = tkinter_code.calander_.Control(self)
         title = tk.Label(self, text="Bookings", font=controller.title_font).grid(column=2, row=1, padx=250)
-        dashboard_btn = tk.Button(self, text="Click here to go back", command=lambda: controller.switch_frame("Dashboard")).grid(column=3, row=1)
+        dashboard_btn = tk.Button(self, text="Click here to go back", command=lambda: controller.switch_frame("Dashboard", font=controller.title_font), width=20, height=2).grid(column=3, row=1)
         line = tk.Frame(self, height=3, width=1200, bg="black").place(x="0", y="80")
         self.bind("<<ShowFrame>>", self.on_show_frame)
 

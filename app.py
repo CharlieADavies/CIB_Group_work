@@ -45,8 +45,18 @@ def process_vehicle_form():
 def dashboard():
     if not "username" in session.keys():
         return redirect(url_for("login_page"))
-    template_vals = {"bookings": []}
+    user_row = get_user_info(session['username'], app.root_path + "\\secrets.json")[0]
+    print(user_row)
+    user = {
+        'username' : user_row[0],
+        'first_name' : user_row[1],
+        'last_name' : user_row[2],
+        'phone_on' : user_row[3],
+        'manager' : user_row[4]
+    }
+    template_vals = {"bookings": [], "user":user}
     bookings = get_bookings_for(session['username'], app.root_path + "\\secrets.json")
+    print(bookings)
     if bookings:
         first_row = bookings[0]
         template_vals['first_booking'] = {
@@ -66,7 +76,7 @@ def dashboard():
     return render_template("main.html",
                            title="Dashboard",
                            page="dashboard",
-                           vals=template_vals)
+                           v=template_vals)
 
 
 @app.route("/licenses")

@@ -1,9 +1,7 @@
-import os
-
 from flask import Flask, request, redirect, url_for, render_template, session
 
 from utils.db_func import *
-from utils.general_utils import format_datetime_to_number_str
+from utils.general_utils import format_datetime_to_number_str, format_int_to_time
 from utils.passwords import check_user
 
 app = Flask(__name__)
@@ -17,7 +15,7 @@ def login():
     password = request.form['password']
 
     print(username, password)
-    if not check_user(username, password, credential_file=app.root_path+"\\secrets.json"):
+    if not check_user(username, password, credential_file=app.root_path + "\\secrets.json"):
         print("Invalid login")
         return redirect(url_for("login_page"))
 
@@ -47,16 +45,28 @@ def process_vehicle_form():
 def dashboard():
     if not "username" in session.keys():
         return redirect(url_for("login_page"))
+    template_vals = {"bookings": []}
+    bookings = get_bookings_for(session['username'], app.root_path + "\\secrets.json")
+    if bookings:
+        first_row = bookings[0]
+        template_vals['first_booking'] = {
+            "date": format_datetime_to_number_str(first_row[1]),
+            "start_time": format_int_to_time(first_row[-2]),
+            "end_time": format_int_to_time(first_row[-1])
+        }
+        if len(bookings) > 1:
+            for row in bookings:
+                template_vals['bookings'].append({
+                    "date": format_datetime_to_number_str(row[1]),
+                    "start_time": format_int_to_time(row[-2]),
+                    "end_time": format_int_to_time(row[-1])
+                })
 
-    bookings = get_bookings_for(session['username'],app.root_path+"\\secrets.json")
-    bookings = [format_datetime_to_number_str(booking[1]) for booking in bookings]
-    print(bookings)
-    park_and_ride = bookings[0]
+    print(template_vals)
     return render_template("main.html",
                            title="Dashboard",
-                           page="dashboard")
-
-
+                           page="dashboard",
+                           vals=template_vals)
 
 
 @app.route("/licenses")
@@ -68,7 +78,7 @@ def license_page():
 
 @app.route('/login')
 def login_page():
-    if "username" in session.keys():    # if user is logged in, redirect to dashboard
+    if "username" in session.keys():  # if user is logged in, redirect to dashboard
         return redirect(url_for("dashboard"))
     else:
         return render_template("gate.html", page="login")
@@ -76,7 +86,7 @@ def login_page():
 
 @app.route("/register")
 def register_page():
-    if "username" in session.keys():    # if user is logged in, redirect to dashboard
+    if "username" in session.keys():  # if user is logged in, redirect to dashboard
         return redirect(url_for("dashboard"))
     else:
         return render_template("gate.html", page="register")
@@ -95,4 +105,3 @@ def number_plate_recognition():
 
 if __name__ == '__main__':
     app.run()
-

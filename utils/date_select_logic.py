@@ -87,4 +87,3 @@ def check_if_booked(user, credential_file):
             date = convert_to_string(record[2])
             dates_booked.append(date)
     return dates_booked
-

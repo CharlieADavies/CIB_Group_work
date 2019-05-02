@@ -212,6 +212,10 @@ menu a:hover {
   display: block;
   background-color: #cccccc;
 }
+.next-booking__photo img {
+  width: 80px;
+  height: auto
+}
 .next-booking__name {
   position: relative;
 }

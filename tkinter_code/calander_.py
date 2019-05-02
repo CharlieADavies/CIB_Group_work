@@ -91,8 +91,12 @@ class Calendar:
             for d, day in enumerate(week):
                 if day:
                     # print(calendar.day_name[day])
+                    #change colour based on if the day is booked.
+                    username = self.read_file("../tkinter_code/user.txt")
+                    booked_dates = utils.date_select_logic.check_if_booked(username, "H:\Applications of programming\CIB\secrets.json")
+                    # if booked_dates
                     b = tk.Button(self.parent, width=5, text=day,
-                                  command=lambda day=day: self.selection(day, calendar.day_name[(day - 1) % 7]))
+                                  command=lambda day=day: self.selection(day, calendar.day_name[(day - 1) % 7]), bg="red")
                     self.wid.append(b)
                     b.grid(row=w, column=d)
 

@@ -1,10 +1,7 @@
-import uuid
-
 from flask import Flask, request, redirect, url_for, render_template, session
 from utils.db_func import *
 from utils.general_utils import *
 from utils.passwords import check_user
-import utils.register as register
 
 app = Flask(__name__)
 app.secret_key = "secret-key"
@@ -29,19 +26,6 @@ def login():
 @app.route("/vehicle")
 def vehicle_form():
     return render_template("vehicle.html", title="Vehicles", v={})
-
-
-@app.route("/register_action")
-def register_handler():
-    password = request.form['password']
-    salt = "place_holder"
-    password = register.hash_password(password,salt)
-    username = request.form['username']
-    first_name = request.form['']
-    last_name =  request.form['']
-    phone_no = request.form['phone_no']
-
-
 
 
 @app.route("/vehicle_f", methods=['POST'])

@@ -1,5 +1,5 @@
 import tkinter as tk
-from datetime import time
+from datetime import time, datetime
 from tkinter import font as tkfont
 from tkinter import ttk, PhotoImage
 import utils.passwords
@@ -12,6 +12,7 @@ from tkcalendar import Calendar
 import utils.register
 import utils.db_func
 import utils.db_init
+import utils.date_select_logic
 
 file_path = "../secrets.json"
 
@@ -86,7 +87,7 @@ class LoginScreen(tk.Frame):
         # in empty "" enter your secretes.json file path.
         # eg. ardra.denford@yahoo.co.uk, VYq0X718mm for username and password
         can_login = utils.passwords.check_user(
-            self.username_text.get(), self.password_text.get(), "../secrets.json")
+            self.username_text.get(), self.password_text.get(), file_path)
         if can_login is True:
             self.write_username("user.txt", self.username_text.get())
             self.controller.switch_frame("DashboardManager")
@@ -533,28 +534,36 @@ class DashboardManager(tk.Frame):
 
         self.bind("<<ShowFrame>>", self.on_show_frame)
 
-        def on_show_frame(self, event):
-            subframe_1 = tk.Frame(self, relief="raised", pady=5, borderwidth=2)
-            subframe_1.place(x="75", y="150")
-            cal = Calendar(subframe_1, font="Arial 14", selectmode='day', locale='en_UK',
+    def on_show_frame(self, event):
+        subframe_1 = tk.Frame(self, relief="raised", pady=5, borderwidth=2)
+        subframe_1.place(x="75", y="150")
+        cal = Calendar(subframe_1, font="Arial 14", selectmode='day', locale='en_UK',
                            cursor="hand2")
 
-            cal.config(background="#292d2f", foreground="#1586da", headersbackground="#292d2f",
+        cal.config(background="#292d2f", foreground="#1586da", headersbackground="#292d2f",
                        headersforeground="#1586da",
                        selectbackground="#292d2f", selectforeground="#16dace", normalbackground="#292d2f",
                        normalforeground="#1586da",
                        weekendbackground="#292d2f", weekendforeground="#1586da", othermonthbackground="#292d2f",
                        othermonthwebackground="#292d2f")
-            cal.pack(fill="both", expand=True)
+        cal.pack(fill="both", expand=True)
 
-            username = read_user_file(file_path, "user.txt")
-            account_details = utils.date_select_logic.check_if_booked(username, file_path)
-            for booking_date in account_details:
-                booking_date = datetime.strptime(booking_date, "%Y-%m-%d")
-                cal.calevent_create(booking_date, "Booking")
-                cal.tag_config('reminder', background='red', foreground='yellow')
+        username = read_user_file(file_path, "user.txt")
+        account_details = utils.date_select_logic.get_date_time(username, file_path)
+        date = account_details[0]
+        start_time = account_details[1]
+        end_time = account_details[2]
+        for index in range(len(account_details[0])):
+            booking_date = datetime.strptime(date[index], "%Y-%m-%d")
+            cal.calevent_create(booking_date, "booking " + str(start_time[index]) + " - " + str(end_time[index]), "booking")
+            cal.tag_config('booking', background='red', foreground='yellow')
 
-            cal.pack(fill="both", expand=True)
+        cal.pack(fill="both", expand=True)
+
+    def read_file(self, file):
+        with open(file, "r+") as f:
+            username = f.read()
+        return username
 
 class DashboardFacilities(tk.Frame):
 
@@ -569,7 +578,7 @@ class DashboardFacilities(tk.Frame):
         artwork.photo = image
         artwork.grid(column=1, row=1)
 
-        user = get_name("../secrets.json")
+        user = get_name(file_path)
         welcome_message = tk.Label(self, text="Welcome back " + user[0] + " " + user[1], font=controller.title_font,
                                    pady=15, padx=200).grid(column=2, row=1)
 

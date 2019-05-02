@@ -88,6 +88,7 @@ def check_if_booked(user, credential_file):
             dates_booked.append(date)
     return dates_booked
 
+
 def get_date_time(user, credential_file):
     creds = utils.db_init.load_credentials(credential_file)
     connect_sql = utils.db_init.connect(creds['user'], creds['database'], creds['password'], creds['host'])

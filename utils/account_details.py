@@ -23,7 +23,7 @@ class AccountDetails:
 if __name__ == '__main__':
     username = "jacob.smith@gmail.com"
     # enter secretes.json in empty quotations
-    details = AccountDetails(username, "H:\\Applications of programming\\CIB\\secrets.json")
+    details = AccountDetails(username, "..\secrets.json")
     for detail in details.get_user_details():
         if detail[0] == username:
             print(detail)

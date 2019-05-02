@@ -15,8 +15,16 @@
         <tr>
             <td>
                 <div class="day-wrapper">
-                    <div class="booked-event" data-start-time="8" data-end-time="3">
+                    {# TODO output data start and end time #}
+                    <div class="booked-event" data-start-time="8" data-end-time="15">
                         8am – 3pm
+                    </div>
+                </div>
+            </td>
+            <td>
+                <div class="day-wrapper">
+                    <div class="booked-event" data-start-time="15" data-end-time="20">
+                        3pm – 8pm
                     </div>
                 </div>
             </td>
@@ -32,12 +40,9 @@
             </td>
             <td>
                 <div class="day-wrapper">
-
-                </div>
-            </td>
-            <td>
-                <div class="day-wrapper">
-
+                    <div class="booked-event" data-start-time="13" data-end-time="16">
+                        1pm – 4pm
+                    </div>
                 </div>
             </td>
         </tr>
@@ -48,6 +53,14 @@
 
 <script>
 
-    document.querySelector(".booked-event")
+    $(".booked-event").each(function() {
+
+        let startTime = $(this).attr("data-start-time");
+        let endTime = $(this).attr("data-end-time");
+
+        $(this).css("top", ((startTime - 8) * 15) + "px");
+        $(this).css("height", ((endTime - 8) * 15) + "px");
+
+    });
 
 </script>

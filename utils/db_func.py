@@ -8,6 +8,7 @@ import utils.db_init
 
 POSSIBLE_ROLES = ['user', 'facilities', 'sys_add', 'banned']
 
+
 def insert_vehicle(username, is_electric, vehicle_reg, vehicle_make):
     creds = utils.db_init.load_credentials()
 
@@ -27,7 +28,27 @@ def insert_vehicle(username, is_electric, vehicle_reg, vehicle_make):
         return False
 
 
+def get_pending_users():
+    creds = utils.db_init.load_credentials()
+    sql_insert_query = """
+    SELECT * FROM users
+    WHERE role='pending'
+    """
+    try:
+        connection = utils.db_init.connect(creds['user'], creds['database'], creds['password'], creds['host'])
+        cursor = connection.cursor()
+        cursor.execute(sql_insert_query, )
+        print("Fetching all pending users")
+        return cursor.fetchall()
+
+    except mysql.connector.Error as e:
+        print("Failed to select", e)
+        return False
+
+
+
 def set_user_role(username, role):
+    # TO let the sys ad approve a user they need to change their role to uer
     assert role in POSSIBLE_ROLES, "role is not a valid role"
     creds = utils.db_init.load_credentials()
     sql_insert_query = """
@@ -45,7 +66,6 @@ def set_user_role(username, role):
     except mysql.connector.Error as e:
         print("Failed to update", e)
         return False
-
 
 
 def validate_booking(username, booking_date: datetime.datetime):
@@ -146,4 +166,4 @@ def give_user_badge(username, badge_colour="RAND"):
 
 
 if __name__ == "__main__":
-    print(set_user_role("jacob.smith@gmail.com", "user"))
+    print(get_pending_users())

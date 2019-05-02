@@ -6,6 +6,7 @@ import random
 import mysql.connector
 import utils.db_init
 
+POSSIBLE_ROLES = ['user', 'facilities', 'sys_add', 'banned']
 
 def insert_vehicle(username, is_electric, vehicle_reg, vehicle_make):
     creds = utils.db_init.load_credentials()
@@ -26,6 +27,27 @@ def insert_vehicle(username, is_electric, vehicle_reg, vehicle_make):
         return False
 
 
+def set_user_role(username, role):
+    assert role in POSSIBLE_ROLES, "role is not a valid role"
+    creds = utils.db_init.load_credentials()
+    sql_insert_query = """
+    UPDATE users
+    SET role = %s
+    WHERE username = %s
+    """
+    try:
+        connection = utils.db_init.connect(creds['user'], creds['database'], creds['password'], creds['host'])
+        cursor = connection.cursor()
+        cursor.execute(sql_insert_query, (username, role))
+        print("Print badge colour for " + username + " set to " + role)
+        return True
+
+    except mysql.connector.Error as e:
+        print("Failed to update", e)
+        return False
+
+
+
 def validate_booking(username, booking_date: datetime.datetime):
     query = _fetch_booking_info(username)
     booking_date = booking_date.date()
@@ -44,7 +66,6 @@ def validate_booking(username, booking_date: datetime.datetime):
 
 
 def _fetch_booking_info(username):
-    print(username)
     creds = utils.db_init.load_credentials()
     sql_insert_query = """
         SELECT booking_date, first_week,second_week,third_week,fourth_week,fifth_week FROM bookings
@@ -107,4 +128,4 @@ def give_user_badge(username, badge_colour="RAND"):
 
 
 if __name__ == "__main__":
-    print(validate_booking("jacob.smith@gmail.com", datetime.datetime(2018, 7, 28)))
+    print(set_user_role("jacob.smith@gmail.com", "user"))

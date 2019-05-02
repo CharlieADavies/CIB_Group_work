@@ -131,7 +131,7 @@ class Control:
         parent = parent
         choose_btn = tk.Button(parent, text='Open Calendar', command=self.popup, width=20, height=5)
         # show_btn = tk.Button(parent, text='Show Selected', command=self.print_selected_date)
-        choose_btn.grid(column=1, row=2, pady=50)
+        choose_btn.place(x=1300, y=390)
         # show_btn.grid(column=1, row=3)
         self.data = {}
 

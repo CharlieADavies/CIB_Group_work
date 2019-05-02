@@ -29,6 +29,11 @@ def vehicle_form():
     return render_template("vehicle.html", title="Vehicles", v={})
 
 
+@app.route("/bookings")
+def booking_page():
+    return render_template("booking.html", v={})
+
+
 @app.route("/vehicle_f", methods=['POST'])
 def process_vehicle_form():
     print("New vehicle registered")

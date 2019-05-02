@@ -105,6 +105,42 @@ footer {
   color: @darkWhite;
 }
 
+table {
+  width: 600px;
+  background-color: @white;
+  box-shadow: 0 2px 3px rgba(0,0,0, 0.1);
+
+  th {
+    padding: 8px;
+    border-right: 1px solid rgba(0,0,0,0.1);
+    &:last-of-type {
+      border-right-width: 0;
+    }
+  }
+  td {
+    width: 20%;
+    vertical-align: top;
+    border-right: 1px solid rgba(0,0,0,0.1);
+    &:last-of-type {
+      border-right-width: 0;
+    }
+  }
+  tbody {
+    border-top: 1px solid rgba(0,0,0,0.1);
+  }
+  .day-wrapper {
+    height: 320px;
+    padding: 1em 0;
+  }
+  .booked-event {
+    width: 85%;
+    background-color: @blue;
+    color: @darkWhite;
+    font-weight: 600;
+    padding: 8px 4px;
+  }
+}
+
 input[type=password],
 input[type=email],
 input[type=text] {

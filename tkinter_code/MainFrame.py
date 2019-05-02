@@ -149,12 +149,31 @@ class AccountDetails(tk.Frame):
         has_blue_badge_Label = tk.Label(self, textvariable=self.has_blue_badge_text, font=controller.label_font).grid(
             column=1, row=11)
 
-        self.account_logic()
+        self.vehicle_reg_text = tk.StringVar()
+        vehicle_reg = tk.Label(self, textvariable=self.vehicle_reg_text, font=controller.label_font).grid(column=3, row=2)
 
+        self.vehicle_make_text = tk.StringVar()
+        vechicle_make = tk.Label(self, textvariable=self.vehicle_make_text, font=controller.label_font).grid(column=3, row=3)
 
         self.bind("<<ShowFrame>>", self.on_show_frame)
 
     def on_show_frame(self, event):
+        creds = utils.db_init.load_credentials(file_path)
+        connect_sql = utils.db_init.connect(creds['user'], creds['database'], creds['password'], creds['host'])
+        reg = ""
+        sql = "SELECT * FROM " + "vehicles"
+        cursor = connect_sql.cursor()
+        cursor.execute(sql)
+        reg_records = cursor.fetchall()
+        reg = []
+        car_make = []
+        for reg_record in reg_records:
+            if reg_record[0] == read_user_file("user.txt"):
+                reg.append(reg_record[2])
+                car_make.append(reg_record[3])
+        self.vehicle_make_text.set("Car make:" + str(car_make))
+        self.vehicle_reg_text.set("Car reg:" + str(reg))
+
         dash_type = role()
         image = Image.open("Logo.png")
         image = image.resize((150, 75), Image.ANTIALIAS)
@@ -162,9 +181,10 @@ class AccountDetails(tk.Frame):
         artwork = tk.Button(self, command=lambda: self.controller.switch_frame(dash_type), image=image)
         artwork.photo = image
         artwork.grid(column=1, row=1)
+        self.account_logic()
 
     def account_logic(self):
-        account_details = utils.account_details.AccountDetails("jacob.smith@gmail.com", file_path)
+        account_details = utils.account_details.AccountDetails(read_user_file("user.txt"), file_path)
 
         # jacob.smith@gmail.com, password
         details = account_details.get_user_details()
@@ -181,7 +201,7 @@ class AccountDetails(tk.Frame):
 
 
 def role():
-    username_local = read_user_file(file_path, "user.txt")
+    username_local = read_user_file("user.txt")
     details = utils.account_details.AccountDetails(username_local, file_path)
     user_details = details.get_user_details()
     role = user_details[7]
@@ -197,10 +217,12 @@ def role():
         dash = "DashboardSysAdmin"
     return dash
 
-def read_user_file(self, file):
+
+def read_user_file(file):
     with open(file, "r+") as f:
         username = f.read()
     return username
+
 
 class BookingScreen(tk.Frame):
     def __init__(self, parent, controller):
@@ -215,7 +237,7 @@ class BookingScreen(tk.Frame):
         artwork.grid(column=1, row=1)
 
         control = tkinter_code.calander_.Control(self)
-        title = tk.Label(self, text="Bookings", font=controller.title_font).grid(column=2, row=1, padx=250)
+        title = tk.Label(self, text="Bookings", font=controller.title_font).place(x="1300", y=350)
 
 
         line = tk.Frame(self, height=3, width=1200, bg="black").place(x="0", y="80")
@@ -228,33 +250,22 @@ class BookingScreen(tk.Frame):
         return username
 
     def on_show_frame(self, event):
-        username_text = tk.StringVar()
-        username = get_name(file_path)
-        username_text.set(username)
-        username_label = tk.Label(self, textvariable=username_text, font=self.controller.label_font).grid(column=1,
-                                                                                                          row=4,
-                                                                                                          pady=100)
 
         dash_type = role()
         dashboard_btn = tk.Button(self, text="Click here to go back",
                                   command=lambda: self.controller.switch_frame(dash_type), width=20, height=2).grid(column=3,
                                                                                                                row=1)
 
-        park_date_text = tk.StringVar()
-        park_date_text.set("16-09-2000 10am-3pm")
-        park_date_label = tk.Label(self, textvariable=park_date_text, font=self.controller.label_font).grid(column=1,
-                                                                                                            row=5)
-
         subframe_2 = tk.Frame(self, height="275", width="500", relief="raised", pady=5, borderwidth=2)
-        subframe_2.place(x="520", y="160")
-        line_2 = tk.Frame(self, height=30, width=500, bg="#16dace").place(x="520", y="160")
+        subframe_2.place(x="620", y="160")
+        line_2 = tk.Frame(self, height=30, width=500, bg="#16dace").place(x="620", y="160")
 
         image_2 = Image.open("Default_picture.png")
         image_2 = image_2.resize((150, 150), Image.ANTIALIAS)
         image_2 = ImageTk.PhotoImage(image_2)
         artwork_2 = tk.Label(self, image=image_2)
         artwork_2.photo = image_2
-        artwork_2.place(x="840", y="265")
+        artwork_2.place(x="940", y="265")
         ad = utils.account_details.AccountDetails(self.read_file("user.txt"),
                                                   file_path)
         user = ad.get_user_details()
@@ -262,14 +273,35 @@ class BookingScreen(tk.Frame):
         last_name = user[3]
         full_name = first_name + " " + last_name
 
-        name_label = tk.Label(self, text=(full_name), font=self.controller.title_font).place(x="600",
+        name_label = tk.Label(self, text=(full_name), font=self.controller.title_font).place(x="700",
                                                                                                          y="210")
-        role_label = tk.Label(self, text="Role: ", font=self.controller.title_font).place(x="557", y="260")
-        role_2 = tk.Label(self, text="Employee", font=self.controller.label_font).place(x="637", y="265")
-        date_label = tk.Label(self, text="Date: ", font=self.controller.title_font).place(x="557", y="310")
-        date_2 = tk.Label(self, text="10/08/2019", font=self.controller.label_font).place(x="637", y="315")
-        time_label = tk.Label(self, text="Time: ", font=self.controller.title_font).place(x="557", y="350")
-        time_2 = tk.Label(self, text="10am - 3pm", font=self.controller.label_font).place(x="637", y="355")
+        role_label = tk.Label(self, text="Role: ", font=self.controller.title_font).place(x="657", y="260")
+        role_2 = tk.Label(self, text="Employee", font=self.controller.label_font).place(x="737", y="265")
+        date_label = tk.Label(self, text="Date: ", font=self.controller.title_font).place(x="657", y="310")
+        date_2 = tk.Label(self, text="10/08/2019", font=self.controller.label_font).place(x="737", y="315")
+        time_label = tk.Label(self, text="Time: ", font=self.controller.title_font).place(x="657", y="350")
+        time_2 = tk.Label(self, text="10am - 3pm", font=self.controller.label_font).place(x="737", y="355")
+
+        username_label = tk.Label(self, text="Username: ", font=self.controller.label_font).grid(column=2, row=8)
+        username_entry = tk.Entry(self).grid(column=3, row=8)
+
+        booking_date = tk.Label(self, text="Booking Date(dd/mm/yyyy): ", font=self.controller.label_font).grid(column=2, row=9)
+        booking_entry = tk.Entry(self).grid(column=3, row=9)
+
+        vehicle_reg = tk.Label(self, text="Vehicle Reg: ", font=self.controller.label_font).grid(column=2, row=10)
+        vehicle_reg_entry = tk.Entry(self).grid(column=3, row=10)
+
+        start_time_label = tk.Label(self, text="Start Time: ", font=self.controller.label_font).grid(column=2, row=11)
+        start_time_entry = tk.Entry(self).grid(column=3, row=11)
+
+        end_time_label = tk.Label(self, text="End Time: ", font=self.controller.label_font).grid(column=2, row=12)
+        end_time_entry = tk.Entry(self).grid(column=3, row=12)
+
+        #submit_button = tk.Button(self, text="Submit", command) ---------------------------------------------------------------------------------------------------
+
+        #collision_detection = tk.Label(self, text=, font=self.controller.label_font).grid(column=3, row=13) ----------------------------------
+
+
 
 
 class RegistrationForm(tk.Frame):
@@ -463,8 +495,37 @@ class DashboardUser(tk.Frame):
         p_and_r_label = tk.Label(self, text="Your P&R Dates", font=controller.title_font).place(x="1065", y="175")
         pr_label_text = tk.Label(self, text="As a blue badge holder:", font=controller.label_font).place(x="1060",
                                                                                                          y="220")
-        log_out_button = tk.Button(self, text="Log Out", command=lambda: controller.switch_frame("LoginScreen"),
-                                  font=controller.title_font).place(x=100, y=450)
+
+    def on_show_frame(self, event):
+        subframe_1 = tk.Frame(self, relief="raised", pady=5, borderwidth=2)
+        subframe_1.place(x="75", y="150")
+        cal = Calendar(subframe_1, font="Arial 14", selectmode='day', locale='en_UK',
+                       cursor="hand2")
+
+        cal.config(background="#292d2f", foreground="#1586da", headersbackground="#292d2f",
+                   headersforeground="#1586da",
+                   selectbackground="#292d2f", selectforeground="#16dace", normalbackground="#292d2f",
+                   normalforeground="#1586da",
+                   weekendbackground="#292d2f", weekendforeground="#1586da", othermonthbackground="#292d2f",
+                   othermonthwebackground="#292d2f")
+        cal.pack(fill="both", expand=True)
+
+        username = read_user_file("user.txt")
+        account_details = utils.date_select_logic.get_date_time(username, file_path)
+        date = account_details[0]
+        start_time = account_details[1]
+        end_time = account_details[2]
+        for index in range(len(account_details[0])):
+            booking_date = datetime.strptime(date[index], "%Y-%m-%d")
+            cal.calevent_create(booking_date, "booking " + str(start_time[index]) + " - " + str(end_time[index]),
+                                "booking")
+            cal.tag_config('booking', background='red', foreground='yellow')
+
+        cal.pack(fill="both", expand=True)
+
+        log_out_button = tk.Button(self, text="Log Out",
+                                   command=lambda: self.controller.switch_frame("LoginScreen"),
+                                   font=self.controller.title_font).place(x=100, y=450)
 
     def read_file(self, file):
         with open(file, "r+") as f:
@@ -560,7 +621,7 @@ class DashboardManager(tk.Frame):
                        othermonthwebackground="#292d2f")
         cal.pack(fill="both", expand=True)
 
-        username = read_user_file(file_path, "user.txt")
+        username = read_user_file("user.txt")
         account_details = utils.date_select_logic.get_date_time(username, file_path)
         date = account_details[0]
         start_time = account_details[1]
@@ -648,8 +709,37 @@ class DashboardFacilities(tk.Frame):
         p_and_r_label = tk.Label(self, text="Your P&R Dates", font=controller.title_font).place(x="1065", y="175")
         pr_label_text = tk.Label(self, text="As a blue badge holder:", font=controller.label_font).place(x="1060",
                                                                                                          y="220")
-        log_out_button = tk.Button(self, text="Log Out", command=lambda: controller.switch_frame("LoginScreen"),
-                                  font=controller.title_font).place(x=100, y=450)
+
+    def on_show_frame(self, event):
+        subframe_1 = tk.Frame(self, relief="raised", pady=5, borderwidth=2)
+        subframe_1.place(x="75", y="150")
+        cal = Calendar(subframe_1, font="Arial 14", selectmode='day', locale='en_UK',
+                       cursor="hand2")
+
+        cal.config(background="#292d2f", foreground="#1586da", headersbackground="#292d2f",
+                   headersforeground="#1586da",
+                   selectbackground="#292d2f", selectforeground="#16dace", normalbackground="#292d2f",
+                   normalforeground="#1586da",
+                   weekendbackground="#292d2f", weekendforeground="#1586da", othermonthbackground="#292d2f",
+                   othermonthwebackground="#292d2f")
+        cal.pack(fill="both", expand=True)
+
+        username = read_user_file("user.txt")
+        account_details = utils.date_select_logic.get_date_time(username, file_path)
+        date = account_details[0]
+        start_time = account_details[1]
+        end_time = account_details[2]
+        for index in range(len(account_details[0])):
+            booking_date = datetime.strptime(date[index], "%Y-%m-%d")
+            cal.calevent_create(booking_date, "booking " + str(start_time[index]) + " - " + str(end_time[index]),
+                                "booking")
+            cal.tag_config('booking', background='red', foreground='yellow')
+
+        cal.pack(fill="both", expand=True)
+
+        log_out_button = tk.Button(self, text="Log Out",
+                                   command=lambda: self.controller.switch_frame("LoginScreen"),
+                                   font=self.controller.title_font).place(x=100, y=450)
 
     def read_file(self, file):
         with open(file, "r+") as f:
@@ -730,8 +820,37 @@ class DashboardSysAdmin(tk.Frame):
         p_and_r_label = tk.Label(self, text="Your P&R Dates", font=controller.title_font).place(x="1065", y="175")
         pr_label_text = tk.Label(self, text="As a blue badge holder:", font=controller.label_font).place(x="1060",
                                                                                                          y="220")
-        log_out_button = tk.Button(self, text="Log Out", command=lambda: controller.switch_frame("LoginScreen"),
-                                  font=controller.title_font).place(x=100, y=450)
+
+    def on_show_frame(self, event):
+        subframe_1 = tk.Frame(self, relief="raised", pady=5, borderwidth=2)
+        subframe_1.place(x="75", y="150")
+        cal = Calendar(subframe_1, font="Arial 14", selectmode='day', locale='en_UK',
+                       cursor="hand2")
+
+        cal.config(background="#292d2f", foreground="#1586da", headersbackground="#292d2f",
+                   headersforeground="#1586da",
+                   selectbackground="#292d2f", selectforeground="#16dace", normalbackground="#292d2f",
+                   normalforeground="#1586da",
+                   weekendbackground="#292d2f", weekendforeground="#1586da", othermonthbackground="#292d2f",
+                   othermonthwebackground="#292d2f")
+        cal.pack(fill="both", expand=True)
+
+        username = read_user_file("user.txt")
+        account_details = utils.date_select_logic.get_date_time(username, file_path)
+        date = account_details[0]
+        start_time = account_details[1]
+        end_time = account_details[2]
+        for index in range(len(account_details[0])):
+            booking_date = datetime.strptime(date[index], "%Y-%m-%d")
+            cal.calevent_create(booking_date, "booking " + str(start_time[index]) + " - " + str(end_time[index]),
+                                "booking")
+            cal.tag_config('booking', background='red', foreground='yellow')
+
+        cal.pack(fill="both", expand=True)
+
+        log_out_button = tk.Button(self, text="Log Out",
+                                   command=lambda: self.controller.switch_frame("LoginScreen"),
+                                   font=self.controller.title_font).place(x=100, y=450)
 
     def read_file(self, file):
         with open(file, "r+") as f:

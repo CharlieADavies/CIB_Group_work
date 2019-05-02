@@ -35,7 +35,7 @@ h2 {
   font-weight: 600;
   line-height: 1.25;
   font-size: 1.5em;
-  margin-bottom: 0.25em;
+  margin-bottom: 0.5em;
 }
 h3 {
   color: #1f2122;
@@ -248,7 +248,7 @@ menu a:hover {
     padding: 0 20% 10%;
   }
   .page--dashboard footer {
-    bottom: 0;
+    bottom: 10%;
     right: 20%;
   }
 }

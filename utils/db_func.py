@@ -28,9 +28,11 @@ def get_user_info(username, file_p=None):
         print("Failed to select ", e)
         return False
 
-def insert_vehicle(username, is_electric, vehicle_reg, vehicle_make):
-    creds = utils.db_init.load_credentials()
-
+def insert_vehicle(username, is_electric, vehicle_reg, vehicle_make,credential_file=None):
+    if credential_file is None:
+        creds = utils.db_init.load_credentials()
+    else:
+        creds = utils.db_init.load_credentials(credential_file)
     sql_insert_query = """ 
     INSERT INTO `vehicles`
     (`username`, `electric_vehicle`, `vehicle_registration`, `vehicle_make`) VALUES (%s,%s,%s,%s)

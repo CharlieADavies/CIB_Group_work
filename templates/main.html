@@ -87,9 +87,11 @@
                     <p>
                         As a <em>Red-Badge</em> holder, your Park & Ride dates are:
                     </p>
+                    {% for park_and_ride in v['park_and_ride_dates'] %}
                     <blockquote>
-                        16th—26th September, 2019
+                        {{ park_and_ride['start'] }} to {{ park_and_ride['end'] }}
                     </blockquote>
+                    {% endfor %}
                     <p>
                         You will not be able to book parking at our facilities on these dates.
                     </p>

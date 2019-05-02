@@ -2,16 +2,20 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>{% title %} · Project Herbie</title>
-    <link href="../static/main.css" rel="stylesheet" />
+    <meta name="viewport" content="width=device-width, user-scalable=no" />
+    <title>{{ title }} · Project Herbie</title>
     <link href="../static/reset.css" rel="stylesheet" />
+    <link href="../static/main.css" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,700" rel="stylesheet">
 </head>
-<body>
+<body class="page--{{ page }}">
 
     <div class="site-header">
 
         <div class="logo">
-            <img src="#" alt="Project Herbie logo" />
+            <a href="/">
+                <img src="/static/img/logo-pure-white.png" alt="Project Herbie logo" />
+            </a>
         </div>
 
         <menu>
@@ -25,39 +29,112 @@
 
     <main>
 
-        {% if type == "dashboard" OR type == "booking" %}
+        <div class="sidebar">
+
+            <div class="panel panel--next-booking">
+
+                <div class="panel__title">
+                    <h2>Your next booking</h2>
+                </div>
+
+                <div class="panel__content">
+
+                    {# TODO needs an attr to output badge colour in css #}
+                    <article class="next-booking">
+
+                        <header>
+                            <div class="next-booking__photo">
+                                <img src="#" alt="Profile photo of Scott Cummins"/>
+                            </div>
+                            <div class="next-booking__name">
+                                <h3>
+                                    Scott<br />
+                                    Cummins
+                                </h3>
+                            </div>
+                        </header>
+
+                        <dl>
+                            <dt>Role</dt>
+                            <dd>Employee</dd>
+
+                            <dt>Employee</dt>
+                            <dd>05712857-85</dd>
+
+                            <dt>Date</dt>
+                            <dd>16/09/2019</dd>
+
+                            <dt>Time</dt>
+                            <dd>10am—3pm</dd>
+
+                            <dt>Space No.</dt>
+                            <dd>368</dd>
+                        </dl>
+
+                    </article>
+
+                </div>
+
+            </div>
+
+            <div class="panel">
+
+                <div class="panel__title">
+                    <h2>Your Park & Ride dates</h2>
+                </div>
+
+                <div class="panel__content">
+                    <p>
+                        As a <em>Red-Badge</em> holder, your Park & Ride dates are:
+                    </p>
+                    <blockquote>
+                        16th—26th September, 2019
+                    </blockquote>
+                    <p>
+                        You will not be able to book parking at our facilities on these dates.
+                    </p>
+                </div>
+            </div>
+
+        </div>
+
+        {% if page == "dashboard" or page == "booking" %}
         <div class="panel panel--booking">
-            <h2>Bookings</h2>
-            <!-- bookings calendar goes here -->
+            <div class="panel__title">
+                <h2>Bookings</h2>
+            </div>
+            <div class="panel__content">
+                {# TODO add bookings calendar #}
+                <p>
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec molestie pharetra odio, eget iaculis ante laoreet et. Integer velit dui, vestibulum et nunc nec, mollis efficitur lectus. Fusce euismod eros eu erat interdum hendrerit. Suspendisse malesuada ultricies enim ut vehicula. Nullam varius pellentesque accumsan. Aenean ac eros consequat felis semper sagittis. Vestibulum luctus quam ac arcu ultrices, ac venenatis erat pharetra. Donec eget purus ipsum. Donec et odio sed felis tincidunt pretium. Fusce id ante ut sapien viverra eleifend. Maecenas neque felis, tristique non diam eget, porta posuere metus. Nullam arcu dui, cursus nec ante a, laoreet pulvinar neque. Aliquam in tempus tellus.
+                </p>
+            </div>
         </div>
         {% endif %}
 
-        {% if type == "licenses" %}
+        {% if page != "licenses" %}
         <div class="panel panel--licenses">
-            <h2>Licenses</h2>
-            <p>
-                All work that isn't in the public domain or free for personal use is credited here.
-            </p>
-            <ul>
-                <li><a href='https://www.flaticon.com/free-icon/volkswagen-beetle_83631'>Volkswagen Beetle</a></li>
-            </ul>
+            <div class="panel__title">
+                <h2>Licenses</h2>
+            </div>
+            <div class="panel__content">
+                <p>
+                    All work that isn't in the public domain or free for personal use is credited here.
+                </p>
+                <ul>
+                    <li><a href='https://www.flaticon.com/free-icon/volkswagen-beetle_83631'>Volkswagen Beetle</a></li>
+                </ul>
+            </div>
         </div>
         {% endif %}
-
-        {% main %}
 
     </main>
 
-    <div class="sidebar">
-
-        <div class="panel">
-            <h2>Park and Ride dates</h2>
-            <p>16th – 26th Sept</p>
-        </div>
-
-        {% sidebar %}
-
-    </div>
+    <footer>
+        <p>
+            Made with ♥ by Team 6
+        </p>
+    </footer>
 
 </body>
 </html>

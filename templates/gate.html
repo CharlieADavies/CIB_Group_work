@@ -2,26 +2,64 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <link href="../static/main.css" rel="stylesheet" />
+    <meta name="viewport" content="width=device-width, user-scalable=no" />
+    {% if page == "login" %}<title>Welcome · Project Herbie</title>{% endif %}
+    {% if page == "register" %}<title>Register · Project Herbie</title>{% endif %}
     <link href="../static/reset.css" rel="stylesheet" />
-    {% if type == "login" %}<title>Welcome · Project Herbie</title>{% endif %}
-    {% if type == "register" %}<title>Register · Project Herbie</title>{% endif %}
+    <link href="../static/main.css" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,700" rel="stylesheet">
 </head>
-<body>
+<body class="page--{{ page }}">
 
-{% if type == "login" %}
-    <form action="/login_action" method="post">
-        Username:<br>
-        <input type="email" name="username" value="">
-        <br>
-        password<br>
-        <input type="password" name="password" value="">
-        <br><br>
-        <input type="submit" value="Login">
-    </form>
+    <div class="site-header">
+
+        <div class="logo">
+            <a href="/">
+                <img src="/static/img/logo-pure-white.png" alt="Project Herbie logo" />
+            </a>
+        </div>
+
+    </div>
+
+{% if page == "login" %}
+    <div class="site-strapline">
+        <h1>
+            Book your parking on the go
+        </h1>
+    </div>
+
+    <div class="panel panel--login">
+
+        <h2>
+            Login to Herbie
+        </h2>
+
+        <form action="/login_action" method="post">
+
+            <div class="form-field form-field--email">
+                <label for="form-field-email">Email</label>
+                <input type="email" name="username" id="form-field-email" placeholder="john.doe@gmail.com" />
+            </div>
+
+            <div class="form-field form-field--password">
+                <label id="form-field-password">Password</label>
+                <input type="password" name="password" id="form-field-password" placeholder="" />
+            </div>
+
+            <div class="form-field form-field--submit">
+                <input type="submit" value="Login" />
+            </div>
+
+            <div class="form-field form-field--text">
+                <a href="/register">Not registered?</a>
+            </div>
+
+        </form>
+
+    </div>
 {% endif %}
 
-{% if type == "register" %}
+{% if page == "register" %}
     <form action="/register_action" method="post">
         Email address:<br />
         <input type="email" name="username" />
@@ -43,8 +81,6 @@
         <input type="text" name="address-three" />
         Postcode:<br />
         <input type="text" name="postcode" />
-        Role:<br />
-        <input type="text" name="role" />
         Employee number:<br />
         <input type="text" name="employee-number" />
         Blue badge holder?:<br />
@@ -53,6 +89,12 @@
         <input type="submit" value="Register" />
     </form>
 {% endif %}
+
+    <footer>
+        <p>
+            Made with ♥ by Team 6
+        </p>
+    </footer>
 
 </body>
 </html>

@@ -1,0 +1,316 @@
+@blue: #1686da;
+@turquoise: #16dace;
+@white: #ffffff;
+@darkWhite: #ebebeb;
+@lightBlack: #1f2122;
+@blueBlack: #282d2f;
+
+@gutter: 10%;
+
+.header-font() {
+  font-family: "Arial", sans-serif;
+  font-weight: 600;
+  line-height: 1.25;
+}
+.body-font() {
+  font-family: "Open Sans", sans-serif;
+  font-weight: 400;
+}
+
+.border-style() {
+  border-top: 0.375rem solid @blue;
+  border-radius: 0.1875rem 0.1875rem 0.625rem 0.625rem; // 3 3 10 10
+}
+
+body {
+  .body-font();
+  color: @lightBlack;
+  background-color: @blueBlack;
+  padding: 0 @gutter @gutter
+}
+
+*:focus {
+  outline: 1px dotted @turquoise !important;
+}
+
+a {
+  color: @blue;
+  font-weight: 600;
+  text-decoration: none;
+
+  &:hover {
+    color: darken(@blue, 20%);
+    border-color: darken(@blue, 20%) !important
+  }
+  &:active {
+    color: @turquoise;
+    border-color: @turquoise !important
+  }
+}
+
+h1 {
+  font-size: 64px;
+  color: @white;
+  .header-font();
+  text-shadow: 0 0 5px rgba(0,0,0, 0.2)
+}
+
+h2 {
+  color: @blue;
+  .header-font();
+  font-size: 1.5em;
+  margin-bottom: 0.5em;
+}
+
+h3 {
+  color: @lightBlack;
+  .header-font();
+  font-size: 1.25em;
+}
+
+p {
+  margin-bottom: 0.5em;
+  line-height: 1.3;
+}
+
+em {
+  font-weight: 600;
+}
+
+label {
+  font-weight: 600;
+  display: block;
+
+  &:after {
+    content: ":";
+  }
+}
+
+blockquote {
+  padding: 10px 0 10px 6px;
+  border-left: 3px solid @turquoise;
+  font-size: 20px;
+  font-weight: 600;
+  margin-bottom: 0.5em;
+}
+
+main {
+  .border-style();
+  background-color: @darkWhite;
+  padding: 1em;
+}
+
+footer {
+  margin-top: 2em;
+  color: @darkWhite;
+}
+
+input[type=password],
+input[type=email],
+input[type=text] {
+  border: 1px solid grey;
+  border-radius: 3px;
+  margin: 0.25em 0;
+  width: 100%;
+  padding: 6px;
+}
+
+.logo {
+  margin: 1em 0;
+}
+
+menu {
+  margin-bottom: 1em;
+}
+
+menu a {
+  color: @darkWhite;
+  font-size: 18px;
+  padding-bottom: 2px;
+  border-bottom: 2px solid @darkWhite;
+  display: inline-block;
+  margin-bottom: 0.5em;
+
+  &:hover {
+    color: darken(white, 20%);
+    border-color: darken(white, 20%) !important
+  }
+}
+
+.site-strapline {
+  display: none;
+}
+
+.panel {
+  margin-bottom: 1.5em;
+}
+
+.panel a {
+  border-bottom: 3px solid @blue;
+}
+
+.form-field {
+  margin-bottom: 1em;
+}
+
+.page--login {
+  background-color: @blueBlack
+}
+.page--dashboard {
+  padding: 0 (@gutter/4) @gutter;
+}
+
+.panel--login {
+  background-color: @white;
+  padding: 20px 42px 110px;
+  margin: auto;
+  .border-style();
+}
+
+.panel--login h2 {
+  margin-bottom: 1em;
+  text-align: center;
+}
+
+.panel--login .form-field--submit,
+.panel--login .form-field--text {
+  text-align: center;
+}
+
+.next-booking {
+  .border-style();
+  background-color: @white;
+  border-top: 12px solid #db2626;
+  padding: 16px 16px 32px;
+  box-shadow: 0 2px 3px rgba(0,0,0,0.1);
+
+  dl {
+    display: grid;
+    grid-template-columns: 30% 1fr;
+    grid-column-gap: 1em;
+    grid-row-gap: 0.5em;
+    justify-items: stretch;
+    align-items: stretch;
+    width: 280px;
+  }
+  dt {
+    display: inline-block;
+    text-align: right;
+    .header-font();
+    line-height: 1;
+  }
+  dd {
+    display: inline-block;
+    letter-spacing: .75px;
+  }
+}
+
+.next-booking header {
+  display: grid;
+  grid-template-columns: 80px 1fr;
+  grid-template-rows: 80px;
+  justify-items: stretch;
+  align-items: stretch;
+  margin-bottom: 1em;
+}
+
+.next-booking__photo {
+  display: block;
+  background-color: darken(white, 20%)
+}
+
+.next-booking__name {
+  position: relative;
+
+  h3 {
+	position: absolute;
+	top: 50%;
+	transform: translateY(-50%);
+	margin-left: 0.5em;
+	font-size: 1.75em;
+  }
+}
+
+@media only screen and (min-width: 1366px) {
+  
+  .site-header {
+    position: relative;
+  }
+
+  menu {
+    display: inline-block;
+    position: absolute;
+    right: 0;
+    top: 50%;
+    
+    li {
+      display: inline-block;
+      margin: 0 2em;
+    }
+  }
+
+  .page--login {
+    background: @lightBlack url("/static/img/bg--login.jpg") top left / cover no-repeat;
+  }
+
+  .page--dashboard {
+    padding: 0 @gutter @gutter
+  }
+
+  main {
+    min-height: 600px;
+    position: relative;
+    padding: 2.5em 3em;
+  }
+
+  .sidebar {
+    position: absolute;
+    right: 0;
+	max-width: 340px;
+	right: 3em;
+  }
+
+  .site-strapline {
+    display: block;
+    position: absolute;
+    width: 570px;
+    top: 280px;
+    left: 640px;
+  }
+
+  .panel {
+    max-width: 600px;
+  }
+
+  .panel--login {
+    max-width: 298px;
+    position: relative;
+    top: 110px;
+    margin: 0;
+  }
+
+  footer {
+    margin: 0;
+    position: absolute;
+    bottom: @gutter;
+    right: @gutter;
+  }
+
+  .page--dashboard footer {
+    bottom: -@gutter;
+  }
+
+}
+
+@media only screen and (min-width: 1800px) {
+
+  .page--dashboard {
+    padding: 0 (@gutter*2) @gutter
+  }
+
+  .page--dashboard footer {
+    bottom: @gutter;
+    right: (@gutter*2)
+  }
+
+}

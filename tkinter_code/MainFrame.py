@@ -549,11 +549,14 @@ class DashboardManager(tk.Frame):
         cal.pack(fill="both", expand=True)
 
         username = read_user_file(file_path, "user.txt")
-        account_details = utils.date_select_logic.check_if_booked(username, file_path)
-        for booking_date in account_details:
-            booking_date = datetime.strptime(booking_date, "%Y-%m-%d")
-            cal.calevent_create(booking_date, "Booking")
-            cal.tag_config('reminder', background='red', foreground='yellow')
+        account_details = utils.date_select_logic.get_date_time(username, file_path)
+        dates = account_details[0]
+        time = account_details[1]
+        end_time = account_details[2]
+        for index in range(len(dates)):
+            date = datetime.strptime(str(dates[index]), "%Y-%m-%d")
+            cal.calevent_create(date, "Booking: " + str(time[index]) + " - " + str(end_time[index]), "booking")
+            cal.tag_config('booking', background='red', foreground='yellow')
 
         cal.pack(fill="both", expand=True)
 

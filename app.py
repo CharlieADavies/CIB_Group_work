@@ -1,7 +1,9 @@
+from datetime import timedelta
+
 from flask import Flask, request, redirect, url_for, render_template, session
 
 from utils.db_func import *
-from utils.general_utils import format_datetime_to_number_str, format_int_to_time
+from utils.general_utils import *
 from utils.passwords import check_user
 
 app = Flask(__name__)
@@ -46,7 +48,6 @@ def dashboard():
     if not "username" in session.keys():
         return redirect(url_for("login_page"))
     user_row = get_user_info(session['username'], app.root_path + "\\secrets.json")[0]
-    print(user_row)
     user = {
         'username' : user_row[0],
         'first_name' : user_row[1],
@@ -54,16 +55,22 @@ def dashboard():
         'phone_on' : user_row[3],
         'manager' : user_row[4]
     }
-    template_vals = {"bookings": [], "user":user}
+    template_vals = {"bookings": [], "user": user, 'park_and_ride_dates':[]}
     bookings = get_bookings_for(session['username'], app.root_path + "\\secrets.json")
-    print(bookings)
     if bookings:
         first_row = bookings[0]
+        for p_r in first_row[3:7]:
+            template_vals['park_and_ride_dates'].append(
+                {'start':formate_datetime_to_string_str( p_r),
+                 'end': formate_datetime_to_string_str(p_r +timedelta(days=7))}
+            )
+
         template_vals['first_booking'] = {
             "date": format_datetime_to_number_str(first_row[1]),
             "start_time": format_int_to_time(first_row[-2]),
             "end_time": format_int_to_time(first_row[-1])
         }
+        template_vals['colour'] = first_row[2]
         if len(bookings) > 1:
             for row in bookings:
                 template_vals['bookings'].append({
@@ -71,7 +78,6 @@ def dashboard():
                     "start_time": format_int_to_time(row[-2]),
                     "end_time": format_int_to_time(row[-1])
                 })
-
     print(template_vals)
     return render_template("main.html",
                            title="Dashboard",

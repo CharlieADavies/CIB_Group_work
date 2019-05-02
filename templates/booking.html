@@ -32,27 +32,6 @@
 
         <div class="sidebar">
 
-            <div class="panel">
-
-                <div class="panel__title">
-                    <h2>Your Park & Ride dates</h2>
-                </div>
-
-                <div class="panel__content">
-                    <p>
-                        As a <em>Red-Badge</em> holder, your Park & Ride dates are:
-                    </p>
-                    {% for park_and_ride in v['park_and_ride_dates'] %}
-                    <blockquote>
-                        {{ park_and_ride['start'] }} to {{ park_and_ride['end'] }}
-                    </blockquote>
-                    {% endfor %}
-                    <p>
-                        You will not be able to book parking at our facilities on these dates.
-                    </p>
-                </div>
-            </div>
-
         </div>
 
         <div class="panel panel--booking">

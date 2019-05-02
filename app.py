@@ -1,5 +1,3 @@
-from datetime import timedelta
-
 from flask import Flask, request, redirect, url_for, render_template, session
 
 from utils.db_func import *
@@ -28,41 +26,45 @@ def login():
 
 @app.route("/vehicle")
 def vehicle_form():
-    return render_template("main.html", title="Vehicles")
+    return render_template("vehicle.html", title="Vehicles", v={})
 
 
 @app.route("/vehicle_f", methods=['POST'])
 def process_vehicle_form():
+    print("New vehicle registered")
     username = session['username']
-    is_electric = request.form['electric']
+    print(request.form)
+    is_electric = False
     reg = request.form['reg']
-    badge = request.form['blue_badge']
-    if insert_vehicle(username, is_electric, reg, badge):
-        return redirect(url_for("dashboard_page"))
+    make = request.form['make']
+    if insert_vehicle(username, is_electric, reg, make, credential_file=app.root_path + "\\secrets.json"):
+        print("FFF")
+        return redirect(url_for("dashboard"))
     else:
+        print("AAA")
         return redirect(url_for("vehicle_form"))
 
 
 @app.route('/')
 def dashboard():
-    if not "username" in session.keys():
+    if "username" not in session.keys():
         return redirect(url_for("login_page"))
     user_row = get_user_info(session['username'], app.root_path + "\\secrets.json")[0]
     user = {
-        'username' : user_row[0],
-        'first_name' : user_row[1],
-        'last_name' : user_row[2],
-        'phone_on' : user_row[3],
-        'manager' : user_row[4]
+        'username': user_row[0],
+        'first_name': user_row[1],
+        'last_name': user_row[2],
+        'phone_on': user_row[3],
+        'manager': user_row[4]
     }
-    template_vals = {"bookings": [], "user": user, 'park_and_ride_dates':[]}
+    template_vals = {"bookings": [], "user": user, 'park_and_ride_dates': []}
     bookings = get_bookings_for(session['username'], app.root_path + "\\secrets.json")
     if bookings:
         first_row = bookings[0]
         for p_r in first_row[3:7]:
             template_vals['park_and_ride_dates'].append(
-                {'start':formate_datetime_to_string_str( p_r),
-                 'end': formate_datetime_to_string_str(p_r +timedelta(days=7))}
+                {'start': formate_datetime_to_string_str(p_r),
+                 'end': formate_datetime_to_string_str(p_r + timedelta(days=7))}
             )
 
         template_vals['first_booking'] = {
@@ -78,7 +80,7 @@ def dashboard():
                     "start_time": format_int_to_time(row[-2]),
                     "end_time": format_int_to_time(row[-1])
                 })
-    print(template_vals)
+
     return render_template("main.html",
                            title="Dashboard",
                            page="dashboard",

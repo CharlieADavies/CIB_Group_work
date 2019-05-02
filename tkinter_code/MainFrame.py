@@ -1,5 +1,5 @@
 import tkinter as tk
-from datetime import time
+from datetime import time, datetime
 from tkinter import font as tkfont
 from tkinter import ttk, PhotoImage
 import utils.passwords
@@ -12,7 +12,9 @@ from tkcalendar import Calendar
 import utils.register
 import utils.db_func
 import utils.db_init
+import utils.date_select_logic
 
+file_path = "../secrets.json"
 
 class Application(tk.Tk):
 
@@ -85,7 +87,7 @@ class LoginScreen(tk.Frame):
         # in empty "" enter your secretes.json file path.
         # eg. ardra.denford@yahoo.co.uk, VYq0X718mm for username and password
         can_login = utils.passwords.check_user(
-            self.username_text.get(), self.password_text.get(), "../secrets.json")
+            self.username_text.get(), self.password_text.get(), file_path)
         if can_login is True:
             self.write_username("user.txt", self.username_text.get())
             self.controller.switch_frame("DashboardManager")
@@ -155,7 +157,7 @@ class AccountDetails(tk.Frame):
         self.account_logic()
 
     def account_logic(self):
-        account_details = utils.account_details.AccountDetails("jacob.smith@gmail.com", "../secrets.json")
+        account_details = utils.account_details.AccountDetails("jacob.smith@gmail.com", file_path)
 
         # jacob.smith@gmail.com, password
         details = account_details.get_user_details()
@@ -173,8 +175,8 @@ class AccountDetails(tk.Frame):
 
 
 def role():
-    username_local = read_user_file("../secrets.json", "user.txt")
-    details = utils.account_details.AccountDetails(username_local, "../secrets.json")
+    username_local = read_user_file(file_path, "user.txt")
+    details = utils.account_details.AccountDetails(username_local, file_path)
     user_details = details.get_user_details()
     role = user_details[7]
     print(role)
@@ -217,7 +219,7 @@ class BookingScreen(tk.Frame):
 
     def on_show_frame(self, event):
         username_text = tk.StringVar()
-        username = get_name("../secrets.json")
+        username = get_name(file_path)
         username_text.set(username)
         username_label = tk.Label(self, textvariable=username_text, font=self.controller.label_font).grid(column=1,
                                                                                                           row=4,
@@ -244,7 +246,7 @@ class BookingScreen(tk.Frame):
         artwork_2.photo = image_2
         artwork_2.place(x="840", y="265")
         ad = utils.account_details.AccountDetails(self.read_file("user.txt"),
-                                                  "../secrets.json")
+                                                  file_path)
         user = ad.get_user_details()
         first_name = user[2]
         last_name = user[3]
@@ -330,7 +332,7 @@ class RegistrationForm(tk.Frame):
 
     def check(self):
         username = self.username_text.get()
-        check = utils.register.check_all(username, "../secrets.json")
+        check = utils.register.check_all(username, file_path)
         if check is True:
             address = self.address_text.get() + " : " + self.address_second_line_text.get() + " : " + self.city_text.get()
             # username, password, firstname, lastname, phone_no, location, postcode, role, employee_no, badge, is_blue
@@ -338,7 +340,7 @@ class RegistrationForm(tk.Frame):
                       self.last_name_text.get(), self.phone_number_text.get(), address, self.post_code.get(),
                       "PENDING", self.employee_number.get(), None, self.check_badge.get()
                       ]
-            utils.register.insert_into_database("users", "../secrets.json", values)
+            utils.register.insert_into_database("users", file_path, values)
         # lambda: controller.switch_frame("SubmissionPage")
 
 
@@ -356,7 +358,7 @@ class SubmissionPage(tk.Frame):
                                 font=controller.title_font).pack()
 
 
-def get_name(credential_file="../secrets.json"):
+def get_name(credential_file=file_path):
     username = read_file("user.txt")
     creds = utils.db_init.load_credentials(credential_file)
     connect_sql = utils.db_init.connect(creds['user'], creds['database'], creds['password'], creds['host'])
@@ -396,7 +398,7 @@ class DashboardUser(tk.Frame):
         artwork.photo = image
         artwork.grid(column=1, row=1)
 
-        user = get_name("../secrets.json")
+        user = get_name(file_path)
         welcome_message = tk.Label(self, text="Welcome back " + user[0] + " " + user[1], font=controller.title_font,
                                    pady=15, padx=200).grid(column=3, row=1)
 
@@ -432,7 +434,7 @@ class DashboardUser(tk.Frame):
         artwork_2 = tk.Label(self, image=image_2)
         artwork_2.photo = image_2
         artwork_2.place(x="840", y="265")
-        ad = utils.account_details.AccountDetails(self.read_file("user.txt"), "../secrets.json")
+        ad = utils.account_details.AccountDetails(self.read_file("user.txt"), file_path)
         user = ad.get_user_details()
         first_name = user[2]
         last_name = user[3]
@@ -473,7 +475,7 @@ class DashboardManager(tk.Frame):
         artwork.photo = image
         artwork.grid(column=1, row=1)
 
-        user = get_name("../secrets.json")
+        user = get_name(file_path)
         welcome_message = tk.Label(self, text="Welcome back " + user[0] + " " + user[1], font=controller.title_font,
                                    pady=15, padx=200).grid(column=2, row=1)
 
@@ -493,17 +495,22 @@ class DashboardManager(tk.Frame):
         subframe_1 = tk.Frame(self, relief="raised", pady=5, borderwidth=2)
         subframe_1.place(x="75", y="150")
 
-        cal = Calendar(subframe_1, font="Arial 14", selectmode='day', locale='en_UK',
-                       cursor="hand2")
+        # cal = Calendar(subframe_1, font="Arial 14", selectmode='day', locale='en_UK',
+        #                cursor="hand2")
+        #
+        # cal.config(background="#292d2f", foreground="#1586da", headersbackground="#292d2f",
+        #            headersforeground="#1586da",
+        #            selectbackground="#292d2f", selectforeground="#16dace", normalbackground="#292d2f",
+        #            normalforeground="#1586da",
+        #            weekendbackground="#292d2f", weekendforeground="#1586da", othermonthbackground="#292d2f",
+        #            othermonthwebackground="#292d2f")
 
-        cal.config(background="#292d2f", foreground="#1586da", headersbackground="#292d2f",
-                   headersforeground="#1586da",
-                   selectbackground="#292d2f", selectforeground="#16dace", normalbackground="#292d2f",
-                   normalforeground="#1586da",
-                   weekendbackground="#292d2f", weekendforeground="#1586da", othermonthbackground="#292d2f",
-                   othermonthwebackground="#292d2f")
 
-        cal.pack(fill="both", expand=True)
+
+
+
+
+        ttk.Label(controller, text="Hover over the events.").pack()
 
         subframe_2 = tk.Frame(self, height="275", width="500", relief="raised", pady=5, padx=5, borderwidth=2)
         subframe_2.place(x="520", y="160")
@@ -532,13 +539,40 @@ class DashboardManager(tk.Frame):
         pr_label_text = tk.Label(self, text="As a blue badge holder:", font=controller.label_font).place(x="1060",
                                                                                                          y="220")
 
+        self.bind("<<ShowFrame>>", self.on_show_frame)
+
+    def on_show_frame(self, event):
+        subframe_1 = tk.Frame(self, relief="raised", pady=5, borderwidth=2)
+        subframe_1.place(x="75", y="150")
+        cal = Calendar(subframe_1, font="Arial 14", selectmode='day', locale='en_UK',
+                           cursor="hand2")
+
+        cal.config(background="#292d2f", foreground="#1586da", headersbackground="#292d2f",
+                       headersforeground="#1586da",
+                       selectbackground="#292d2f", selectforeground="#16dace", normalbackground="#292d2f",
+                       normalforeground="#1586da",
+                       weekendbackground="#292d2f", weekendforeground="#1586da", othermonthbackground="#292d2f",
+                       othermonthwebackground="#292d2f")
+        cal.pack(fill="both", expand=True)
+
+        username = read_user_file(file_path, "user.txt")
+        account_details = utils.date_select_logic.get_date_time(username, file_path)
+        date = account_details[0]
+        start_time = account_details[1]
+        end_time = account_details[2]
+        for index in range(len(account_details[0])):
+            booking_date = datetime.strptime(date[index], "%Y-%m-%d")
+            cal.calevent_create(booking_date, "booking " + str(start_time[index]) + " - " + str(end_time[index]), "booking")
+            cal.tag_config('booking', background='red', foreground='yellow')
+
+        cal.pack(fill="both", expand=True)
+
         log_out_button = tk.Button(self, text="Log Out", command=lambda: controller.switch_frame("LoginScreen"), font=controller.title_font).place(x=100, y=450)
 
     def read_file(self, file):
         with open(file, "r+") as f:
             username = f.read()
         return username
-
 
 class DashboardFacilities(tk.Frame):
 
@@ -553,7 +587,7 @@ class DashboardFacilities(tk.Frame):
         artwork.photo = image
         artwork.grid(column=1, row=1)
 
-        user = get_name("../secrets.json")
+        user = get_name(file_path)
         welcome_message = tk.Label(self, text="Welcome back " + user[0] + " " + user[1], font=controller.title_font,
                                    pady=15, padx=200).grid(column=2, row=1)
 

@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no"/>
+    <title>{{ title }} · Project Herbie</title>
+    <link href="../static/reset.css" rel="stylesheet"/>
+    <link href="../static/main.css" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,700" rel="stylesheet">
+</head>
+<body class="page--{{ page }}">
+
+<div class="site-header">
+
+    <div class="logo">
+        <a href="/">
+            <img src="/static/img/logo-pure-white.png" alt="Project Herbie logo"/>
+        </a>
+    </div>
+
+    <menu>
+        <ul class="menu">
+            <li><a href="/account">Account</a></li>
+            <li><a href="/bookings">Bookings</a></li>
+        </ul>
+    </menu>
+
+</div>
+
+<main>
+    <form action="/vehicle_f" method="post">
+        Car registration<br>
+        <input type="text" name="reg"/>
+                Car make<br>
+        <input type="text" name="make"/>
+        Car is electric? :<br/>
+        <input type="text" name="electric" value="False"/>
+        <br/><br/>
+        <input type="submit" value="Register"/>
+    </form>
+
+</main>
+
+<footer>
+    <p>
+        Made with ♥ by Team 6
+    </p>
+</footer>
+
+</body>
+</html>

@@ -1,5 +1,3 @@
-from datetime import timedelta
-
 from flask import Flask, request, redirect, url_for, render_template, session
 
 from utils.db_func import *
@@ -28,18 +26,22 @@ def login():
 
 @app.route("/vehicle")
 def vehicle_form():
-    return render_template("main.html", title="Vehicles")
+    return render_template("vehicle.html", title="Vehicles",v={})
 
 
 @app.route("/vehicle_f", methods=['POST'])
 def process_vehicle_form():
+    print("New vehicle registered")
     username = session['username']
-    is_electric = request.form['electric']
+    print(request.form)
+    is_electric = False
     reg = request.form['reg']
-    badge = request.form['blue_badge']
-    if insert_vehicle(username, is_electric, reg, badge):
-        return redirect(url_for("dashboard_page"))
+    make = request.form['make']
+    if insert_vehicle(username, is_electric, reg, make, credential_file=app.root_path + "\\secrets.json"):
+        print("FFF")
+        return redirect(url_for("dashboard"))
     else:
+        print("AAA")
         return redirect(url_for("vehicle_form"))
 
 
@@ -78,7 +80,7 @@ def dashboard():
                     "start_time": format_int_to_time(row[-2]),
                     "end_time": format_int_to_time(row[-1])
                 })
-    print(template_vals)
+
     return render_template("main.html",
                            title="Dashboard",
                            page="dashboard",

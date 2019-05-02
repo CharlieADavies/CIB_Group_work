@@ -40,7 +40,7 @@
                 <div class="panel__content">
 
                     {# TODO needs an attr to output badge colour in css #}
-                    <article class="next-booking">
+                    <article class="next-booking badge--{{ v['colour'] }}">
 
                         <header>
                             <div class="next-booking__photo">
@@ -48,8 +48,8 @@
                             </div>
                             <div class="next-booking__name">
                                 <h3>
-                                    Scott<br />
-                                    Cummins
+                                    {{ v['user']['first_name'] }}<br />
+                                    {{ v['user']['last_name'] }}
                                 </h3>
                             </div>
                         </header>
@@ -62,13 +62,13 @@
                             <dd>05712857-85</dd>
 
                             <dt>Date</dt>
-                            <dd>16/09/2019</dd>
+                            <dd>{{ v['first_booking']['date'] }}</dd>
 
                             <dt>Time</dt>
-                            <dd>10am—3pm</dd>
+                            <dd>{{ v['first_booking']['start_time'] }}—{{ v['first_booking']['end_time'] }}</dd>
 
                             <dt>Space No.</dt>
-                            <dd>368</dd>
+                            <dd>368</dd>  {# TODO add spaces to templatae #}
                         </dl>
 
                     </article>

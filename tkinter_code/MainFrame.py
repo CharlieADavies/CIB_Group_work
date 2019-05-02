@@ -85,7 +85,7 @@ class LoginScreen(tk.Frame):
         # in empty "" enter your secretes.json file path.
         # eg. ardra.denford@yahoo.co.uk, VYq0X718mm for username and password
         can_login = utils.passwords.check_user(
-            self.username_text.get(), self.password_text.get(), "../secrets.json")
+            self.username_text.get(), self.password_text.get(), "H:\Applications of programming\CIB/secrets.json")
         if can_login is True:
             self.write_username("user.txt", self.username_text.get())
             self.controller.switch_frame("DashboardManager")
@@ -155,7 +155,7 @@ class AccountDetails(tk.Frame):
         self.account_logic()
 
     def account_logic(self):
-        account_details = utils.account_details.AccountDetails("jacob.smith@gmail.com", "../secrets.json")
+        account_details = utils.account_details.AccountDetails("jacob.smith@gmail.com", "H:\Applications of programming\CIB/secrets.json")
 
         # jacob.smith@gmail.com, password
         details = account_details.get_user_details()
@@ -171,6 +171,25 @@ class AccountDetails(tk.Frame):
         self.has_blue_badge_text.set("Blue Badge: " + str(details[10]))
 
 
+
+def role():
+    username_local = read_user_file("H:\Applications of programming\CIB/secrets.json", "user.txt")
+    details = utils.account_details.AccountDetails(username_local, "H:\Applications of programming\CIB/secrets.json")
+    user_details = details.get_user_details()
+    role = user_details[7]
+    print(role)
+    dash = ""
+    if role == "Manager":
+        dash = "DashboardManager"
+    else:
+        dash = "DashboardUser"
+    return dash
+
+def read_user_file(self, file):
+    with open(file, "r+") as f:
+        username = f.read()
+    return username
+
 class BookingScreen(tk.Frame):
     def __init__(self, parent, controller):
         tk.Frame.__init__(self, parent)
@@ -185,7 +204,8 @@ class BookingScreen(tk.Frame):
 
         control = tkinter_code.calander_.Control(self)
         title = tk.Label(self, text="Bookings", font=controller.title_font).grid(column=2, row=1, padx=250)
-        dashboard_btn = tk.Button(self, text="Click here to go back", command=lambda: controller.switch_frame("Dashboard"), width=20, height=2).grid(column=3, row=1)
+
+
         line = tk.Frame(self, height=3, width=1200, bg="black").place(x="0", y="80")
         self.bind("<<ShowFrame>>", self.on_show_frame)
 
@@ -197,11 +217,17 @@ class BookingScreen(tk.Frame):
 
     def on_show_frame(self, event):
         username_text = tk.StringVar()
-        username = get_name("../secrets.json")
+        username = get_name("H:\Applications of programming\CIB/secrets.json")
         username_text.set(username)
         username_label = tk.Label(self, textvariable=username_text, font=self.controller.label_font).grid(column=1,
                                                                                                           row=4,
                                                                                                           pady=100)
+
+        dash_type = role()
+        dashboard_btn = tk.Button(self, text="Click here to go back",
+                                  command=lambda: self.controller.switch_frame(dash_type), width=20, height=2).grid(column=3,
+                                                                                                               row=1)
+
         park_date_text = tk.StringVar()
         park_date_text.set("16-09-2000 10am-3pm")
         park_date_label = tk.Label(self, textvariable=park_date_text, font=self.controller.label_font).grid(column=1,
@@ -218,7 +244,7 @@ class BookingScreen(tk.Frame):
         artwork_2.photo = image_2
         artwork_2.place(x="840", y="265")
         ad = utils.account_details.AccountDetails(self.read_file("user.txt"),
-                                                  "../secrets.json")
+                                                  "H:\Applications of programming\CIB/secrets.json")
         user = ad.get_user_details()
         first_name = user[2]
         last_name = user[3]
@@ -299,13 +325,13 @@ class RegistrationForm(tk.Frame):
 
     def check(self):
         username = self.username_text.get()
-        check = utils.register.check_all(username, "../secrets.json")
+        check = utils.register.check_all(username, "H:\Applications of programming\CIB/secrets.json")
         if check is True:
             address = self.address_text.get() + " : " + self.address_second_line_text.get() + " : " + self.city_text.get()
             # username, password, firstname, lastname, phone_no, location, postcode, role, employee_no, badge, is_blue
             values = [self.username_text.get(), self.password_text.get(), self.first_name_text.get(),
-                      self.last_name_text.get(), self.phone_number_text, address, self.post_code,
-                      self.role_text.get(), self.employee_number.get(), None, self.check_badge.get()
+                      self.last_name_text.get(), self.phone_number_text.get(), address, self.post_code.get(),
+                      "PENDING", self.employee_number.get(), None, self.check_badge.get()
                       ]
             utils.register.insert_into_database("users", "../secrets.json", values)
         # lambda: controller.switch_frame("SubmissionPage")
@@ -325,7 +351,7 @@ class SubmissionPage(tk.Frame):
                                 font=controller.title_font).pack()
 
 
-def get_name(credential_file="../secrets.json"):
+def get_name(credential_file="H:\Applications of programming\CIB/secrets.json"):
     username = read_file("user.txt")
     creds = utils.db_init.load_credentials(credential_file)
     connect_sql = utils.db_init.connect(creds['user'], creds['database'], creds['password'], creds['host'])
@@ -365,7 +391,7 @@ class DashboardUser(tk.Frame):
         artwork.photo = image
         artwork.grid(column=1, row=1)
 
-        user = get_name("../secrets.json")
+        user = get_name("H:\Applications of programming\CIB/secrets.json")
         welcome_message = tk.Label(self, text="Welcome back " + user[0] + " " + user[1], font=controller.title_font,
                                    pady=15, padx=200).grid(column=3, row=1)
 
@@ -440,7 +466,7 @@ class DashboardManager(tk.Frame):
         artwork.photo = image
         artwork.grid(column=1, row=1)
 
-        user = get_name("../secrets.json")
+        user = get_name("H:\Applications of programming\CIB/secrets.json")
         welcome_message = tk.Label(self, text="Welcome back " + user[0] + " " + user[1], font=controller.title_font,
                                    pady=15, padx=200).grid(column=2, row=1)
 

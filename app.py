@@ -1,3 +1,5 @@
+import os
+
 from flask import Flask, request, redirect, url_for, render_template, session
 
 from utils.db_func import *
@@ -5,6 +7,7 @@ from utils.passwords import check_user
 
 app = Flask(__name__)
 app.secret_key = "secret-key"
+
 
 
 @app.route("/login_action", methods=['POST'])
@@ -15,7 +18,7 @@ def login():
     password = request.form['password']
 
     print(username, password)
-    if not check_user(username, password, credential_file="D:/Documents/GitHub Workspace/CIB_Group_work/secrets.json"):
+    if not check_user(username, password, credential_file=app.root_path+"\\secrets.json"):
         print("Invalid login")
         return redirect(url_for("login_page"))
 

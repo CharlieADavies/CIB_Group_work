@@ -11,6 +11,23 @@ import utils.db_init
 POSSIBLE_ROLES = ['user', 'facilities', 'sys_add', 'banned']
 
 
+def get_user_info(username, file_p=None):
+    if file_p is None:
+        creds = utils.db_init.load_credentials()
+    else:
+        creds = utils.db_init.load_credentials(file_p)
+    select_query = """
+        SELECT username, first_name, last_name, phone_no, managed_by FROM users where username='""" + username + "'"
+    try:
+        connection = utils.db_init.connect(creds['user'], creds['database'], creds['password'], creds['host'])
+        cursor = connection.cursor()
+        cursor.execute(select_query)
+        return cursor.fetchall()
+
+    except mysql.connector.Error as e:
+        print("Failed to select ", e)
+        return False
+
 def insert_vehicle(username, is_electric, vehicle_reg, vehicle_make):
     creds = utils.db_init.load_credentials()
 

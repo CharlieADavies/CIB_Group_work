@@ -59,7 +59,16 @@ h2 {
   color: @blue;
   .header-font();
   font-size: 1.5em;
-  letter-spacing: 0.5px;
+  margin-bottom: 0.25em;
+}
+
+p {
+  margin-bottom: 0.5em;
+  line-height: 1.3;
+}
+
+em {
+  font-weight: 600;
 }
 
 label {
@@ -69,6 +78,25 @@ label {
   &:after {
     content: ":";
   }
+}
+
+blockquote {
+  padding: 10px 0 10px 6px;
+  border-left: 3px solid @turquoise;
+  font-size: 20px;
+  font-weight: 600;
+  margin-bottom: 0.5em;
+}
+
+main {
+  .border-style();
+  background-color: @darkWhite;
+  padding: 1em;
+}
+
+footer {
+  margin-top: 2em;
+  color: @darkWhite;
 }
 
 input[type=password],
@@ -85,8 +113,25 @@ input[type=text] {
   margin: 1em 0;
 }
 
+menu {
+  margin-bottom: 1em;
+}
+
+menu a {
+  color: @darkWhite;
+  font-size: 18px;
+  padding-bottom: 2px;
+  border-bottom: 2px solid @darkWhite;
+  display: inline-block;
+  margin-bottom: 0.5em;
+}
+
 .site-strapline {
   display: none;
+}
+
+.panel {
+  margin-bottom: 1.5em;
 }
 
 .panel a {
@@ -127,7 +172,7 @@ input[type=text] {
   .site-strapline {
     display: block;
     position: absolute;
-    width: 40%;
+    width: 570px;
     top: 280px;
     left: 640px;
   }
@@ -137,6 +182,13 @@ input[type=text] {
     position: relative;
     top: 110px;
     margin: 0;
+  }
+
+  footer {
+    margin: 0;
+    position: absolute;
+    bottom: @gutter;
+    right: @gutter;
   }
 
 }

@@ -14,7 +14,7 @@
 
         <div class="logo">
             <a href="/">
-                <img src="/static/img/logo-white.png" alt="Project Herbie logo" />
+                <img src="/static/img/logo-pure-white.png" alt="Project Herbie logo" />
             </a>
         </div>
 
@@ -31,33 +31,51 @@
 
         {% if page == "dashboard" or page == "booking" %}
         <div class="panel panel--booking">
-            <h2>Bookings</h2>
+            <div class="panel__title">
+                <h2>Bookings</h2>
+            </div>
             <!-- bookings calendar goes here -->
         </div>
         {% endif %}
 
         {% if page == "licenses" %}
         <div class="panel panel--licenses">
-            <h2>Licenses</h2>
-            <p>
-                All work that isn't in the public domain or free for personal use is credited here.
-            </p>
-            <ul>
-                <li><a href='https://www.flaticon.com/free-icon/volkswagen-beetle_83631'>Volkswagen Beetle</a></li>
-            </ul>
+            <div class="panel__title">
+                <h2>Licenses</h2>
+            </div>
+            <div class="panel__content">
+                <p>
+                    All work that isn't in the public domain or free for personal use is credited here.
+                </p>
+                <ul>
+                    <li><a href='https://www.flaticon.com/free-icon/volkswagen-beetle_83631'>Volkswagen Beetle</a></li>
+                </ul>
+            </div>
         </div>
         {% endif %}
 
-    </main>
+        <div class="sidebar">
 
-    <div class="sidebar">
+            <div class="panel">
+                <div class="panel__title">
+                  <h2>Your Park & Ride dates</h2>
+                </div>
+                <div class="panel__content">
+                    <p>
+                        As a <em>Red-Badge</em> holder, your Park & Ride dates are:
+                    </p>
+                    <blockquote>
+                        16th—26th September, 2019
+                    </blockquote>
+                    <p>
+                        You will not be able to book parking at our facilities on these dates.
+                    </p>
+                </div>
+            </div>
 
-        <div class="panel">
-            <h2>Park and Ride dates</h2>
-            <p>16th – 26th Sept</p>
         </div>
 
-    </div>
+    </main>
 
 </body>
 </html>

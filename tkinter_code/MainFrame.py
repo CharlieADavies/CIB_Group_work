@@ -165,7 +165,7 @@ class AccountDetails(tk.Frame):
         self.phone_number_text.set("Phone Number: " + str(details[4]))
         self.address_text.set("Address: " + str(details[5]))
         self.postcode_text.set("Post Code: " + str(details[6]))
-        self.role_text.set("Role: " + str(details[7]))
+        self.role_text.set("Roles: " + str(details[7]))
         self.employee_number_text.set("Employee Number: " + str(details[8]))
         self.badge_text.set("Badge: " + str(details[9]))
         self.has_blue_badge_text.set("Blue Badge: " + str(details[10]))
@@ -175,20 +175,18 @@ class BookingScreen(tk.Frame):
     def __init__(self, parent, controller):
         tk.Frame.__init__(self, parent)
         self.controller = controller
-        image = Image.open("Logo.png")
+        image = Image.open("herbie_logo.png")
         image = image.resize((150, 75), Image.ANTIALIAS)
         image = ImageTk.PhotoImage(image)
-        artwork = tk.Button(self, command=lambda: controller.switch_frame("Dashboard"), image=image)
+        #command=lambda: controller.switch_frame("Dashboard")
+        artwork = tk.Label(self, image=image)
         artwork.photo = image
         artwork.grid(column=1, row=1)
 
-        title = tk.Label(self, text="Bookings", font=controller.title_font).grid(column=2, row=1, padx=250)
-        photo_label = tk.Label(self)
-        photo_label.image = image
-        photo_label.grid(column=1, row=1)
-        # YYYY-MM-DD
         control = tkinter_code.calander_.Control(self)
-
+        title = tk.Label(self, text="Bookings", font=controller.title_font).grid(column=2, row=1, padx=250)
+        dashboard_btn = tk.Button(self, text="Click here to go back", command=lambda: controller.switch_frame("Dashboard"), width=20, height=2).grid(column=3, row=1)
+        line = tk.Frame(self, height=3, width=1200, bg="black").place(x="0", y="80")
         self.bind("<<ShowFrame>>", self.on_show_frame)
 
     @staticmethod

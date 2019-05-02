@@ -38,6 +38,7 @@ def get_as_csv_count(which_table, query):
 
 def select_all(which_table):
     sql_query = "SELECT * from " + which_table
+    print("This is a report of all the data from a table.")
     find_rows(which_table, sql_query)
 
 
@@ -50,6 +51,7 @@ def total_parking_all():
     else:
         sql_query = "SELECT COUNT(*) FROM bookings WHERE booking_date BETWEEN " + "'" + result[0] + "'" + "AND" + "'" \
                     + result[1] + "'"
+    print("This report shows how many bookings have been made within a set date.")
     get_as_csv_count("bookings", sql_query)
 
 
@@ -60,6 +62,7 @@ def total_parking_specific():
     result_date = [x.strip() for x in dates.split(',')]
     sql_query = "SELECT COUNT(*) FROM bookings WHERE booking_date BETWEEN " + "'" + result_date[0] + "'" + \
                 "AND" + "'" + result_date[1] + "'" + "AND username = " + "'" + employee + "'"
+    print("This report shows how many bookings for a specific employee within a set date.")
     get_as_csv_count("bookings", sql_query)
 
 
@@ -74,12 +77,14 @@ def total_parking_multiple():
     sql_query += "AND username = " + "'" + result_emp[1] + "'"
     for i in range(len(result_emp)):
         sql_query += "OR username = " + "'" + result_emp[i] + "'"
+    print("This report shows the amount of bookings for specified employees within a set date.")
     get_as_csv_count("bookings", sql_query)
 
 
 def all_badge_colours():
     sql_query = "SELECT bookings.*, users.badge FROM bookings INNER JOIN users ON bookings.username = users.username" \
                 " GROUP BY users.badge"
+    print("This report shows all the bookings with their corresponding badge colours.")
     find_rows("bookings", sql_query)
 
 
@@ -87,6 +92,7 @@ def one_badge_colour():
     colour = input("Enter the colour badge you wish to view.")
     sql_query = "SELECT bookings.*, users.badge FROM bookings INNER JOIN users ON bookings.username = users.username" \
                 " WHERE badge = " + "'" + colour.upper() + "'" + "GROUP BY users.badge"
+    print("This report shows the bookings for a specified badge colour.")
     find_rows("users WHERE badge = " + "'" + colour + "'", sql_query)
 
 
@@ -98,7 +104,8 @@ def multiple_badge_colours():
     sql_query += "=" + "'" + result_colours[1] + "'"
     for i in range(len(result_colours)):
         sql_query += "OR badge = " + "'" + result_colours[i] + "'"
-        find_rows("bookings", sql_query)
+    print("This report shows the bookings for a set of badge colours")
+    find_rows("bookings", sql_query)
 
 
 select_all("users")

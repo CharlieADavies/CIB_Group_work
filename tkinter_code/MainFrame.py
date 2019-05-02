@@ -285,8 +285,10 @@ class BookingScreen(tk.Frame):
         username_label = tk.Label(self, text="Username: ", font=self.controller.label_font).grid(column=2, row=8)
         username_entry = tk.Entry(self).grid(column=3, row=8)
 
-        booking_date = tk.Label(self, text="Booking Date(dd/mm/yyyy): ", font=self.controller.label_font).grid(column=2, row=9)
-        booking_entry = tk.Entry(self).grid(column=3, row=9)
+        self.booking_date_text = tk.StringVar()
+        self.booking_date_text.set("")
+        booking_date = tk.Label(self, text="Booking Date(YYYY/MM/DD): ", font=self.controller.label_font).grid(column=2, row=9)
+        booking_entry = tk.Entry(self, textvariable=self.booking_date_text).grid(column=3, row=9)
 
         vehicle_reg = tk.Label(self, text="Vehicle Reg: ", font=self.controller.label_font).grid(column=2, row=10)
         vehicle_reg_entry = tk.Entry(self).grid(column=3, row=10)
@@ -297,12 +299,30 @@ class BookingScreen(tk.Frame):
         end_time_label = tk.Label(self, text="End Time: ", font=self.controller.label_font).grid(column=2, row=12)
         end_time_entry = tk.Entry(self).grid(column=3, row=12)
 
-        #submit_button = tk.Button(self, text="Submit", command) ---------------------------------------------------------------------------------------------------
 
-        #collision_detection = tk.Label(self, text=, font=self.controller.label_font).grid(column=3, row=13) ----------------------------------
+        submit_button = tk.Button(self, text="Submit", command=self.submit).grid(column=3, row=14)
+
+        self.collision_text = tk.StringVar()
+        self.collision_text.set("")
+        collision_detection = tk.Label(self, textvariable=self.collision_text, font=self.controller.label_font).grid(column=3, row=13)
 
 
+    def submit(self):
+        booking_date = datetime.strptime(self.booking_date_text.get(), "%Y-%m-%d")
+        check = get_date(booking_date, read_user_file("user.txt"))
+        if(check is True):
+            self.collision_text.set("Success")
+            utils.db_func.insert_booking(read_user_file("user.txt"), booking_date, )
+        else:
+            self.collision_text.set("Failed")
 
+def get_date(date_text, user_local):
+    x, y = utils.db_func.validate_booking(user_local, date_text)
+    check = False
+    if x is True:
+        check = True
+
+    return check
 
 class RegistrationForm(tk.Frame):
     def __init__(self, parent, controller):

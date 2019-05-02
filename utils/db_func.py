@@ -92,7 +92,7 @@ def validate_booking(username, booking_date: datetime.datetime):
     query = _fetch_booking_info(username)
     booking_date = booking_date.date()
     if not query:
-        return False
+        return False, "Server error"
     for row in query:
         dates = list(row)
         first_date = dates[0]
@@ -102,7 +102,7 @@ def validate_booking(username, booking_date: datetime.datetime):
         for p_r_date in dates[1:]:
             if p_r_date <= booking_date <= p_r_date + datetime.timedelta(days=7):
                 return False, "This collides with your park and ride dates"
-        return True
+        return True, None
 
 
 def _fetch_booking_info(username):

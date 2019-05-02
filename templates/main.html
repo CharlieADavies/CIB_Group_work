@@ -7,6 +7,7 @@
     <link href="../static/reset.css" rel="stylesheet" />
     <link href="../static/main.css" rel="stylesheet" />
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,700" rel="stylesheet">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
 </head>
 <body class="page--{{ page }}">
 
@@ -106,10 +107,7 @@
                 <h2>Bookings</h2>
             </div>
             <div class="panel__content">
-                {# TODO add bookings calendar #}
-                <p>
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec molestie pharetra odio, eget iaculis ante laoreet et. Integer velit dui, vestibulum et nunc nec, mollis efficitur lectus. Fusce euismod eros eu erat interdum hendrerit. Suspendisse malesuada ultricies enim ut vehicula. Nullam varius pellentesque accumsan. Aenean ac eros consequat felis semper sagittis. Vestibulum luctus quam ac arcu ultrices, ac venenatis erat pharetra. Donec eget purus ipsum. Donec et odio sed felis tincidunt pretium. Fusce id ante ut sapien viverra eleifend. Maecenas neque felis, tristique non diam eget, porta posuere metus. Nullam arcu dui, cursus nec ante a, laoreet pulvinar neque. Aliquam in tempus tellus.
-                </p>
+                {% include "./components/calendar.cmp.html" %}
             </div>
         </div>
         {% endif %}

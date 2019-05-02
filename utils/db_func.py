@@ -3,7 +3,9 @@ database functionality common to both flask and tkinter
 """
 import datetime
 import random
+
 import mysql.connector
+
 import utils.db_init
 
 POSSIBLE_ROLES = ['user', 'facilities', 'sys_add', 'banned']
@@ -46,7 +48,6 @@ def get_pending_users():
         return False
 
 
-
 def set_user_role(username, role):
     # TO let the sys ad approve a user they need to change their role to uer
     assert role in POSSIBLE_ROLES, "role is not a valid role"
@@ -60,7 +61,7 @@ def set_user_role(username, role):
         connection = utils.db_init.connect(creds['user'], creds['database'], creds['password'], creds['host'])
         cursor = connection.cursor()
         cursor.execute(sql_insert_query, (username, role))
-        print("Print badge colour for " + username + " set to " + role)
+        print("Print role for " + username + " set to " + role)
         return True
 
     except mysql.connector.Error as e:
@@ -91,7 +92,7 @@ def _fetch_booking_info(username):
         SELECT booking_date, first_week,second_week,third_week,fourth_week,fifth_week FROM bookings
         INNER JOIN users u on bookings.username = u.username
         inner join badge_colours b on u.badge = b.badge
-        where u.username = '""" + username+"'"
+        where u.username = '""" + username + "'"
     try:
         connection = utils.db_init.connect(creds['user'], creds['database'], creds['password'], creds['host'])
         cursor = connection.cursor()
@@ -106,15 +107,50 @@ def _fetch_booking_info(username):
 
 def get_bookings_for(username):
     creds = utils.db_init.load_credentials()
-    sql_insert_query = """
+    select_query = """
         SELECT u.username, booking_date, b.badge, first_week,second_week,third_week,fourth_week,fifth_week FROM bookings
         INNER JOIN users u on bookings.username = u.username
         inner join badge_colours b on u.badge = b.badge
-        where u.username = '""" + username+"'"
+        where u.username = '""" + username + "'"
     try:
         connection = utils.db_init.connect(creds['user'], creds['database'], creds['password'], creds['host'])
         cursor = connection.cursor()
-        cursor.execute(sql_insert_query)
+        cursor.execute(select_query)
+        return cursor.fetchall()
+
+    except mysql.connector.Error as e:
+        print("Failed to select ", e)
+        return False
+
+
+def set_manager(username, manager_username):
+    creds = utils.db_init.load_credentials()
+    sql_insert_query = """
+    UPDATE users
+    SET managed_by = %s
+    WHERE username = %s
+    """
+    try:
+        connection = utils.db_init.connect(creds['user'], creds['database'], creds['password'], creds['host'])
+        cursor = connection.cursor()
+        cursor.execute(sql_insert_query, (manager_username, username ))
+        print("manager for " + username + " set to " + manager_username)
+        return True
+
+    except mysql.connector.Error as e:
+        print("Failed to update", e)
+        return False
+
+
+def get_managed_users(username):
+    """Gets the users for whom this person manages"""
+    creds = utils.db_init.load_credentials()
+    select_query = """
+        SELECT * FROM users WHERE managed_by = '""" + username + "'"
+    try:
+        connection = utils.db_init.connect(creds['user'], creds['database'], creds['password'], creds['host'])
+        cursor = connection.cursor()
+        cursor.execute(select_query)
         return cursor.fetchall()
 
     except mysql.connector.Error as e:
@@ -166,4 +202,4 @@ def give_user_badge(username, badge_colour="RAND"):
 
 
 if __name__ == "__main__":
-    print(get_pending_users())
+    print(set_manager("merrile.fuster@gmail.co.uk", "jacob.smith@gmail.com"))

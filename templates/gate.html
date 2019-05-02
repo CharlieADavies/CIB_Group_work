@@ -10,7 +10,6 @@
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,700" rel="stylesheet">
     <link rel="stylesheet" href="/flask_code/libraries/driver.js/driver.min.css">
     <script src="/flask_code/libraries/driver.js/driver.min.js"></script>
-
 </head>
 <body class="page--{{ page }}">
 
@@ -63,34 +62,63 @@
 {% endif %}
 
 {% if page == "register" %}
-    <form action="/register_action" method="post">
-        Email address:<br />
-        <input type="email" name="username" />
-        Password:<br />
-        <input type="password" name="password" />
-        Confirm password:<br />
-        <input type="password" name="confirm-password" />
-        First name:<br />
-        <input type="text" name="first-name" />
-        Surname:<br />
-        <input type="text" name="last-name" />
-        Phone number:<br />
-        <input type="text" name="telephone" />
-        Address Line 1:<br />
-        <input type="text" name="address-first" />
-        Address line 2:<br />
-        <input type="text" name="address-second" />
-        City:<br />
-        <input type="text" name="address-three" />
-        Postcode:<br />
-        <input type="text" name="postcode" />
-        Employee number:<br />
-        <input type="text" name="employee-number" />
-        Blue badge holder?:<br />
-        <input type="checkbox" name="blue-badge" value="I am a blue badge holder" />
-        <br /><br />
-        <input type="submit" value="Register" />
-    </form>
+    <main>
+        <div class="panel panel--registration">
+            <form action="/register_action" method="post">
+                <div class="form-field form-field--email">
+                    <label for="form-field-email">Email</label>
+                    <input type="email" name="username" id="form-field-email" placeholder="john.doe@gmail.com" />
+                </div>
+                <div class="form-field form-field--password">
+                    <label for="form-field-password">Password</label>
+                    <input type="password" name="password" id="form-field-password" />
+                </div>
+                <div class="form-field form-field--confirm-password">
+                    <label for="form-field-confirm-password">Confirm password</label>
+                    <input type="password" name="confirm-password" id="form-field-confirm-password" />
+                </div>
+                <div class="form-field form-field--first-name">
+                    <label for="form-field-first-name">First name</label>
+                    <input type="text" placeholder="John" name="first-name" id="form-field-first-name"/>
+                </div>
+                <div class="form-field form-field--surname">
+                    <label for="form-field-surname">Surname</label>
+                    <input type="text" placeholder="Doe" name="last-name" placeholder="Doe" />
+                </div>
+                <div class="form-field form-field--telephone">
+                    <label for="form-field-telephone">Phone number</label>
+                    <input type="text" id="form-field-telephone" name="telephone" />
+                </div>
+                <div class="form-field form-field--address-first">
+                    <label for="form-field-address-first">Address line 1</label>
+                    <input type="text" name="address-first" />
+                </div>
+                <div class="form-field form-field--address-second">
+                    <label for="form-field-address-second">Address line 2</label>
+                    <input type="text" name="address-second" />
+                </div>
+                <div class="form-field form-field--address-three">
+                    <label for="form-field-address-three">City</label>
+                    <input type="text" id="form-field-address-three" />
+                </div>
+                <div class="form-field form-field--postcode">
+                    <label for="form-field-postcode">Postcode</label>
+                    <input type="text" id="form-field-postcode" />
+                </div>
+                <div class="form-field form-field-employee-number">
+                    <label for="form-field-employee-number">Employee number</label>
+                    <input type="text" id="form-field-employee-number" />
+                </div>
+                <div class="form-field form-field--blue-badge">
+                    <label for="form-field-blue-badge">Blue badge holder?</label>
+                    <input type="checkbox" name="blue-badge" value="I am a blue badge holder" />
+                </div>
+                <div class="form-field form-field--submit">
+                    <input type="submit" value="Register" />
+                </div>
+            </form>
+        </div>
+    </main>
 {% endif %}
 
     <footer>

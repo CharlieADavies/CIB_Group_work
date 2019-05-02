@@ -9,6 +9,8 @@ if sys.version[0] == '2':
 else:
     import tkinter as tk
 
+file_path = "..\secrets.json"
+
 
 class Calendar:
     def __init__(self, parent, values):
@@ -112,11 +114,11 @@ class Calendar:
     def kill_and_save(self):
         date = str(self.values['year_selected']) + "-" + str(self.values['month_selected']) + "-" + str(
             self.values['day_selected'])
-        free_date = utils.date_select_logic.check_date(date, "H:\Applications of programming\CIB\secrets.json")
+        free_date = utils.date_select_logic.check_date(date, file_path)
         if free_date is True:
             username = self.read_file("../tkinter_code/user.txt")
 
-            utils.date_select_logic.insert_into_database("H:\Applications of programming\CIB/secrets.json", date, username)
+            utils.date_select_logic.insert_into_database(file_path, date, username)
             self.parent.destroy()
 
     def read_file(self, file):
